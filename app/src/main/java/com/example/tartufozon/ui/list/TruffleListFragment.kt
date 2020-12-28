@@ -1,7 +1,6 @@
-package com.example.tartufozon.ui
+package com.example.tartufozon.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +16,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.tartufozon.R
 import com.example.tartufozon.network.ServiceBuilder
 import com.example.tartufozon.network.TartufoService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class TruffleListFragment : Fragment() {
 
+    private val truffleListViewModel: TruffleListViewModel by viewModels()
     val service = ServiceBuilder.buildService(TartufoService::class.java)
 
     override fun onCreateView(
@@ -49,7 +51,7 @@ class TruffleListFragment : Fragment() {
                     }
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(onClick = {
-                        getTartufo()
+                        truffleListViewModel.getTartufo()
                     }) {
                         Text("Get Tartufo")
                     }
@@ -64,21 +66,15 @@ class TruffleListFragment : Fragment() {
         }
     }
 
-    fun getTartufo() {
-        GlobalScope.launch {
-            val response = service.getTartufo()
-            Log.d(TAG, "getTartufo: ${response.body()}")
-        }
-    }
 
     fun getTartufi() {
         GlobalScope.launch {
             val response = service.getTartufi()
-            Log.d(TAG, "getTartufi: ${response.body()}")
+            Timber.d( "getTartufi: ${response.body()}")
         }
     }
-
-    companion object {
+    
+    companion object{
         private const val TAG = "TruffleListFragment"
     }
 }

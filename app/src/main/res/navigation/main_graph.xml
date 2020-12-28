@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/truffleListFragment"
-        android:name="com.example.tartufozon.ui.TruffleListFragment"
+        android:name="com.example.tartufozon.ui.list.TruffleListFragment"
         android:label="TruffleListFragment" >
         <action
             android:id="@+id/action_truffleListFragment_to_truffleFragment"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/truffleFragment"
-        android:name="com.example.tartufozon.ui.TruffleFragment"
+        android:name="com.example.tartufozon.ui.detail.TruffleFragment"
         android:label="TruffleFragment" />
 
 </navigation>

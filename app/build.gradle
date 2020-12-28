@@ -1,12 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    //id 'kotlin-android-extensions'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    //buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.tartufozon"
@@ -41,8 +43,15 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion '1.4.20'
-        kotlinCompilerExtensionVersion '1.0.0-alpha08'
+        def kotlin_compiler_version = "1.4.0"
+        kotlinCompilerVersion kotlin_compiler_version
+
+        def kotlin_compiler_extension_version = "1.0.0-alpha05"
+        kotlinCompilerExtensionVersion kotlin_compiler_extension_version
+    }
+
+    kapt{
+        correctErrorTypes = true
     }
 
 }
@@ -86,5 +95,21 @@ dependencies {
     def retrofit2_version = "2.6.3"
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Dagger Core
+    implementation "com.google.dagger:dagger:2.28"
+    kapt "com.google.dagger:dagger-compiler:2.28"
+
+    // Dagger Android
+    api 'com.google.dagger:dagger-android:2.27'
+    api 'com.google.dagger:dagger-android-support:2.27'
+    kapt 'com.google.dagger:dagger-android-processor:2.27'
+
+    //Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:2.28-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 
 }
