@@ -54,6 +54,9 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
     }
+    companion object{
+        private const val TAG = "MainActivity"
+    }
 
     @Composable
     fun myText(text: String, fontSize: Int) {
