@@ -5,6 +5,7 @@ data class TartufoApiResponse(
 )
 
 data class Tartufo (
-    val tartufoTitle : String,
-    val tartufoDescription : String
+    val id : Int,
+    val title : String?,
+    val description : String?
 )

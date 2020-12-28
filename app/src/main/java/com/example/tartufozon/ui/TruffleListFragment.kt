@@ -1,4 +1,4 @@
-package com.example.tartufozon
+package com.example.tartufozon.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -18,14 +18,15 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.tartufozon.R
 import com.example.tartufozon.network.ServiceBuilder
 import com.example.tartufozon.network.TartufoService
-import com.example.tartufozon.network.models.TartufoApiResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TruffleListFragment : Fragment() {
+
+    val service = ServiceBuilder.buildService(TartufoService::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,30 +49,32 @@ class TruffleListFragment : Fragment() {
                     }
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(onClick = {
-                        Log.d(TAG, "onCreateView 2: pressed")
-                        val request = ServiceBuilder.buildService(TartufoService::class.java)
-                        val call = request.getTartufi()
-
-                        call.enqueue(object : Callback<TartufoApiResponse> {
-
-                            override fun onResponse(
-                                call: Call<TartufoApiResponse>,
-                                response: Response<TartufoApiResponse>
-                            ) {
-                                Toast.makeText(requireContext(), "SUCCESS ${response.body()}", Toast.LENGTH_SHORT).show()
-                                Log.d(TAG, "onResponse: succesful")
-                            }
-
-                            override fun onFailure(call: Call<TartufoApiResponse>, t: Throwable) {
-                                Toast.makeText(requireContext(), "FAIL ${t.message}", Toast.LENGTH_SHORT).show()
-                                Log.d(TAG, "onFailure: ")
-                            }
-                        })
+                        getTartufo()
                     }) {
-                        Text("chiama tartufi")
+                        Text("Get Tartufo")
+                    }
+                    Spacer(modifier = Modifier.padding(10.dp))
+                    Button(onClick = {
+                        getTartufi()
+                    }) {
+                        Text("Get Tartufi")
                     }
                 }
             }
+        }
+    }
+
+    fun getTartufo() {
+        GlobalScope.launch {
+            val response = service.getTartufo()
+            Log.d(TAG, "getTartufo: ${response.body()}")
+        }
+    }
+
+    fun getTartufi() {
+        GlobalScope.launch {
+            val response = service.getTartufi()
+            Log.d(TAG, "getTartufi: ${response.body()}")
         }
     }
 
