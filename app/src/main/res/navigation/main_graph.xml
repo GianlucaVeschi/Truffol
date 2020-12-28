@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/truffleListFragment">
+
+    <fragment
+        android:id="@+id/truffleListFragment"
+        android:name="com.example.tartufozon.TruffleListFragment"
+        android:label="TruffleListFragment" >
+        <action
+            android:id="@+id/action_truffleListFragment_to_truffleFragment"
+            app:destination="@id/truffleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/truffleFragment"
+        android:name="com.example.tartufozon.TruffleFragment"
+        android:label="TruffleFragment" />
+
+</navigation>
