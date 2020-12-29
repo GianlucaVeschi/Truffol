@@ -2,6 +2,7 @@ package com.example.tartufozon.di
 
 import android.content.Context
 import com.example.tartufozon.MyApplication
+import com.example.tartufozon.network.TruffleService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -32,6 +33,9 @@ class AppModule {
 
     @Provides
     fun provideGson(): Gson = GsonBuilder().create()
+
+    @Provides
+    fun provideTruffleService(retrofit: Retrofit): TruffleService = retrofit.create(TruffleService::class.java)
 
     @Singleton
     @Provides

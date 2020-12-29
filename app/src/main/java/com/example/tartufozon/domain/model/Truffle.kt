@@ -1,4 +1,4 @@
-package com.example.tartufozon.network.models
+package com.example.tartufozon.domain.model
 
 import com.google.gson.annotations.SerializedName
 

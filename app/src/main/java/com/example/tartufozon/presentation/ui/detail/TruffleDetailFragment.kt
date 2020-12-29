@@ -1,4 +1,4 @@
-package com.example.tartufozon.ui.detail
+package com.example.tartufozon.presentation.ui.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,14 +17,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.tartufozon.R
+import dagger.hilt.android.AndroidEntryPoint
 
-class TruffleFragment : Fragment() {
+@AndroidEntryPoint
+class TruffleDetailFragment : Fragment() {
+
+    private val truffleDetailViewModel: TruffleDetailViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        truffleDetailViewModel.getTartufo()
+
         return ComposeView(requireContext()).apply {
             setContent {
                 Column(modifier = Modifier.padding(10.dp)) {

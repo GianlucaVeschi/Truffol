@@ -1,4 +1,4 @@
-package com.example.tartufozon.ui.list
+package com.example.tartufozon.presentation.ui.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,16 +19,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.tartufozon.R
-import com.example.tartufozon.network.ServiceBuilder
-import com.example.tartufozon.network.TartufoService
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TruffleListFragment : Fragment() {
 
     private val truffleListViewModel: TruffleListViewModel by viewModels()
-    val service = ServiceBuilder.buildService(TartufoService::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,17 +43,11 @@ class TruffleListFragment : Fragment() {
                         Toast.makeText(requireContext(), "NI HAO", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_truffleListFragment_to_truffleFragment)
                     }) {
-                        Text(text = "Vedi Tartufo")
+                        Text(text = "Get Tartufo")
                     }
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(onClick = {
-                        truffleListViewModel.getTartufo()
-                    }) {
-                        Text("Get Tartufo")
-                    }
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Button(onClick = {
-                        getTartufi()
+                        truffleListViewModel.getTartufi()
                     }) {
                         Text("Get Tartufi")
                     }
@@ -66,15 +56,7 @@ class TruffleListFragment : Fragment() {
         }
     }
 
-
-    fun getTartufi() {
-        GlobalScope.launch {
-            val response = service.getTartufi()
-            Timber.d( "getTartufi: ${response.body()}")
-        }
-    }
-    
-    companion object{
+    companion object {
         private const val TAG = "TruffleListFragment"
     }
 }
