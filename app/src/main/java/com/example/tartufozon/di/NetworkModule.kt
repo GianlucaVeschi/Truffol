@@ -1,5 +1,6 @@
 package com.example.tartufozon.di
 
+import com.example.tartufozon.network.RemoteDataSource
 import com.example.tartufozon.network.TruffleService
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -22,6 +23,12 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(TruffleService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNetworkDataSource(truffleService: TruffleService) : RemoteDataSource {
+        return RemoteDataSource(truffleService)
     }
 
 }

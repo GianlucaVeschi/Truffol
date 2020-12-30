@@ -1,18 +1,19 @@
 package com.example.tartufozon.presentation.ui.repo
 
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.network.TruffleService
+import com.example.tartufozon.network.RemoteDataSource
 import com.example.tartufozon.network.model.TruffleDto
+import javax.inject.Inject
 
-//class TruffleRepositoryImpl(
-//    private val truffleService: TruffleService
-//) : TruffleRepository {
-//
-//    override suspend fun getTruffle(): Truffle {
-//       return truffleService.getTartufo().body()!!
-//    }
-//
-//    override suspend fun getTruffles(): TruffleDto{
-//        return truffleService.getTartufi().body()!!
-//    }
-//}
+class TruffleRepositoryImpl @Inject constructor(
+    private val remoteDataSource: RemoteDataSource
+) : TruffleRepository {
+
+    override suspend fun getTruffleDetail(): Truffle {
+        return remoteDataSource.getTruffleDetail()
+    }
+
+    override suspend fun getTruffleList(): TruffleDto{
+        return remoteDataSource.getTruffleList()
+    }
+}

@@ -43,13 +43,13 @@ class TruffleListFragment : Fragment() {
                         Toast.makeText(requireContext(), "NI HAO", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_truffleListFragment_to_truffleFragment)
                     }) {
-                        Text(text = "Get Tartufo")
+                        Text(text = "Get Truffle")
                     }
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(onClick = {
-                        truffleListViewModel.getTartufi()
+                        truffleListViewModel.getTruffleList()
                     }) {
-                        Text("Get Tartufi")
+                        Text("Get Truffles")
                     }
                 }
             }

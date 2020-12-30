@@ -3,19 +3,19 @@ package com.example.tartufozon.presentation.ui.list
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tartufozon.network.TruffleService
+import com.example.tartufozon.presentation.ui.repo.TruffleRepositoryImpl
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class TruffleListViewModel @ViewModelInject
 constructor(
-    private val service: TruffleService
+    private val truffleRepositoryImpl: TruffleRepositoryImpl
 ) : ViewModel() {
 
-    fun getTartufi() {
+    fun getTruffleList() {
         viewModelScope.launch {
-            val response = service.getTartufi()
-            Timber.d("getTartufi: ${response.body()}")
+            val trufflesList = truffleRepositoryImpl.getTruffleList()
+            Timber.d("getTruffles from Repository: ${trufflesList}")
         }
     }
 }

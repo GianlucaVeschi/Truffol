@@ -32,7 +32,7 @@ class TruffleDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        truffleDetailViewModel.getTartufo()
+        truffleDetailViewModel.getTruffleDetail()
 
         return ComposeView(requireContext()).apply {
             setContent {

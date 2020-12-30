@@ -9,8 +9,8 @@ import retrofit2.http.GET
 interface TruffleService {
 
     @GET("single_tartufo")
-    suspend fun getTartufo(): Response<Truffle>
+    suspend fun getTruffleDetail(): Response<Truffle>
 
     @GET("list_of_tartufi")
-    suspend fun getTartufi(): Response<TruffleDto>
+    suspend fun getTruffleList(): Response<TruffleDto>
 }

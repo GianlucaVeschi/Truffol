@@ -1,5 +1,6 @@
 package com.example.tartufozon.network
 
+import com.example.tartufozon.network.util.Resource
 import retrofit2.Response
 
 abstract class BaseDataSource {
@@ -18,7 +19,7 @@ abstract class BaseDataSource {
     }
 
     private fun <T> error(message: String): Resource<T> {
-        return Resource.error("Network call has failed for a following reason: $message")
+        return Resource.error("Network call has failed for the following reason: $message")
     }
 
 }
