@@ -1,6 +1,7 @@
 package com.example.tartufozon.presentation.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,13 @@ class TruffleListFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
+
+                //Observe MutableState
+                val trufflesList = truffleListViewModel.trufflesList.value
+                for(truffle in trufflesList){
+                    Log.d(TAG, "onCreateView: $truffle" )
+                }
+
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(
                         text = "Hello from $TAG",

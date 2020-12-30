@@ -11,6 +11,8 @@ class TruffleDetailViewModel @ViewModelInject constructor(
     private val truffleRepositoryImpl: TruffleRepositoryImpl
 ) : ViewModel() {
 
+    //val truffleDetail: MutableState<Truffle> = remember { mutableStateOf(default) }
+
     fun getTruffleDetail() {
         viewModelScope.launch {
             val truffle = truffleRepositoryImpl.getTruffleDetail()
