@@ -17,11 +17,15 @@ constructor(
 
     val trufflesList: MutableState<List<Truffle>> = mutableStateOf(ArrayList())
 
+    init {
+        getTruffleList()
+    }
+
     fun getTruffleList() {
         viewModelScope.launch {
             val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
             trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
-            Timber.d("getTruffles ${trufflesList}")
+            Timber.d("getTruffles ${trufflesList.value}")
         }
     }
 }

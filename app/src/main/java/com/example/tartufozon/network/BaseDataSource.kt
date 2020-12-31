@@ -2,6 +2,7 @@ package com.example.tartufozon.network
 
 import com.example.tartufozon.network.util.Resource
 import retrofit2.Response
+import timber.log.Timber
 
 abstract class BaseDataSource {
 
@@ -11,6 +12,7 @@ abstract class BaseDataSource {
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
+                    Timber.d("Body not null")
                     return Resource.success(body)
                 }
             }
