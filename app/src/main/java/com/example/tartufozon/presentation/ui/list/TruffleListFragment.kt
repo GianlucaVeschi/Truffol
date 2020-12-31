@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -48,7 +49,9 @@ class TruffleListFragment : Fragment() {
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(
                         text = "Hello from ListFragment",
-                        style = TextStyle(fontSize = TextUnit.Companion.Sp(21))
+                        style = TextStyle(
+                            fontSize = TextUnit.Companion.Sp(21)),
+                            textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(onClick = {
@@ -57,13 +60,7 @@ class TruffleListFragment : Fragment() {
                         Text(text = "Get Truffle")
                     }
                     Spacer(modifier = Modifier.padding(10.dp))
-                    Button(onClick = {
-                        truffleListViewModel.getTruffleList()
-                    }) {
-                        Text("Get Truffles")
-                    }
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    //buildRecyclerView(truffles = trufflesList)
+                    buildRecyclerView(truffles = trufflesList)
                 }
             }
         }

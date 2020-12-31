@@ -49,15 +49,11 @@ class TruffleDetailFragment : Fragment() {
                         contentScale = ContentScale.Crop,
                     )
                     Text(
-                        text = "Hello from $TAG",
+                        text = "Hello from TruffleDetailFragment",
                         style = TextStyle(fontSize = TextUnit.Sp(21))
                     )
                 }
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "TruffleFragment"
     }
 }
