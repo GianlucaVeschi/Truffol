@@ -10,6 +10,8 @@ data class Truffle(
     val tartufoName: String?,
     @SerializedName("description")
     val description: String?,
+    @SerializedName("image_url")
+    val image_url: String?,
     @SerializedName("rating")
     val rating: Long?
 )

@@ -1,7 +1,6 @@
 package com.example.tartufozon.presentation.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +24,7 @@ import com.example.tartufozon.R
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.TruffleCard
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class TruffleListFragment : Fragment() {
@@ -42,12 +42,12 @@ class TruffleListFragment : Fragment() {
                 //Observe MutableState
                 val trufflesList = truffleListViewModel.trufflesList.value
                 for(truffle in trufflesList){
-                    Log.d(TAG, "onCreateView: $truffle" )
+                    Timber.d( "onCreateView: ${truffle.image_url}" )
                 }
 
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(
-                        text = "Hello from $TAG",
+                        text = "Hello from ListFragment",
                         style = TextStyle(fontSize = TextUnit.Companion.Sp(21))
                     )
                     Spacer(modifier = Modifier.padding(10.dp))
@@ -63,7 +63,7 @@ class TruffleListFragment : Fragment() {
                         Text("Get Truffles")
                     }
                     Spacer(modifier = Modifier.padding(10.dp))
-                    buildRecyclerView(truffles = trufflesList)
+                    //buildRecyclerView(truffles = trufflesList)
                 }
             }
         }
@@ -80,9 +80,5 @@ class TruffleListFragment : Fragment() {
                 })
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "TruffleListFragment"
     }
 }

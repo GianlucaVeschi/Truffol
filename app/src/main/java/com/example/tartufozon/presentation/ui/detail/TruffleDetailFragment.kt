@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tartufozon.R
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class TruffleDetailFragment : Fragment() {
@@ -32,7 +33,9 @@ class TruffleDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        truffleDetailViewModel.getTruffleDetail()
+        truffleDetailViewModel.truffeDetail.observe(viewLifecycleOwner, {
+            Timber.d("observe truffle $it.image_url")
+        })
 
         return ComposeView(requireContext()).apply {
             setContent {
