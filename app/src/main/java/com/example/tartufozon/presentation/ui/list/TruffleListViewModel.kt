@@ -16,16 +16,21 @@ constructor(
 ) : ViewModel() {
 
     val trufflesList: MutableState<List<Truffle>> = mutableStateOf(ArrayList())
+    val query = mutableStateOf("White Truffle")
 
     init {
         getTruffleList()
     }
 
-    fun getTruffleList() {
+    private fun getTruffleList() {
         viewModelScope.launch {
             val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
             trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
             Timber.d("getTruffles ${trufflesList.value}")
         }
+    }
+
+    fun onQueryChanged(query: String){
+        this.query.value = query
     }
 }
