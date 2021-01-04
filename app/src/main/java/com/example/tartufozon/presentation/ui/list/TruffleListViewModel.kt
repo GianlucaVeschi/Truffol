@@ -16,7 +16,9 @@ constructor(
 ) : ViewModel() {
 
     val trufflesList: MutableState<List<Truffle>> = mutableStateOf(ArrayList())
-    val query = mutableStateOf("White Truffle")
+    val query = mutableStateOf("")
+    val selectedCategory: MutableState<TruffleCategory?> = mutableStateOf(null)
+    var categoryScrollPosition: Float = 0f
 
     init {
         getTruffleList()
@@ -39,5 +41,15 @@ constructor(
 
     fun onQueryChanged(query: String){
         this.query.value = query
+    }
+
+    fun onSelectedCategoryChanged(category: String){
+        val newCategory = getTruffleCategory(category)
+        selectedCategory.value = newCategory
+        onQueryChanged(category)
+    }
+
+    fun onChangeCategoryScrollPosition(position: Float){
+        categoryScrollPosition = position
     }
 }
