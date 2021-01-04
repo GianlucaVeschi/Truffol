@@ -15,9 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.util.DEFAULT_RECIPE_IMAGE
 import com.example.tartufozon.util.loadPicture
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun TruffleCard(
     truffle: Truffle,

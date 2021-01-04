@@ -22,11 +22,18 @@ constructor(
         getTruffleList()
     }
 
-    private fun getTruffleList() {
+    fun getTruffleList() {
         viewModelScope.launch {
             val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
             trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
             Timber.d("getTruffles ${trufflesList.value}")
+        }
+    }
+
+    fun getReversedTruffleList() {
+        viewModelScope.launch {
+            trufflesList.value = trufflesList.value.asReversed()
+            Timber.d("getTruffles reversed ${trufflesList.value}")
         }
     }
 
