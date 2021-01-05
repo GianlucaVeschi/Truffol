@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.ui.repo.TruffleRepositoryImpl
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -19,6 +20,7 @@ constructor(
     val query = mutableStateOf("")
     val selectedCategory: MutableState<TruffleCategory?> = mutableStateOf(null)
     var categoryScrollPosition: Float = 0f
+    val loading = mutableStateOf(false)
 
     init {
         getTruffleList()
@@ -26,16 +28,23 @@ constructor(
 
     fun getTruffleList() {
         viewModelScope.launch {
+            loading.value = true
+            delay(2000) //Fake Delay
+
             val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
             trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
             Timber.d("getTruffles ${trufflesList.value}")
+            loading.value = false
         }
     }
 
     fun getReversedTruffleList() {
         viewModelScope.launch {
+            loading.value = true
+            delay(2000) //Fake Delay
             trufflesList.value = trufflesList.value.asReversed()
             Timber.d("getTruffles reversed ${trufflesList.value}")
+            loading.value = false
         }
     }
 
@@ -51,5 +60,17 @@ constructor(
 
     fun onChangeCategoryScrollPosition(position: Float){
         categoryScrollPosition = position
+    }
+
+    /**
+     * Called when a new search is executed.
+     */
+    private fun resetSearchState(){
+        trufflesList.value = listOf()
+        if(selectedCategory.value?.value != query.value) clearSelectedCategory()
+    }
+
+    private fun clearSelectedCategory(){
+        selectedCategory.value = null
     }
 }

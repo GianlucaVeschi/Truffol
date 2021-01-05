@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.ScrollableRow
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tartufozon.domain.model.Truffle
+import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.SearchAppBar
 import com.example.tartufozon.presentation.components.TruffleCard
 import com.example.tartufozon.presentation.components.TruffleCategoryChip
@@ -39,11 +42,12 @@ class TruffleListFragment : Fragment() {
                 val trufflesList = truffleListViewModel.trufflesList.value
                 val query: String = truffleListViewModel.query.value
                 val selectedCategory = truffleListViewModel.selectedCategory.value
+                val loading = truffleListViewModel.loading.value
 
                 Column(modifier = Modifier.padding(10.dp)) {
                     val scrollState = rememberScrollState()
                     BuildSearchBar(query, selectedCategory, scrollState.value)
-                    BuildRecyclerView(truffles = trufflesList)
+                    BuildRecyclerView(truffles = trufflesList,loading)
                 }
             }
         }
@@ -91,19 +95,23 @@ class TruffleListFragment : Fragment() {
     }
 
     @Composable
-    fun BuildRecyclerView(truffles: List<Truffle>) {
-        LazyColumn {
-            itemsIndexed(
-                items = truffles
-            ) { index, truffle ->
-                TruffleCard(truffle, onClick = {
-                    Toast.makeText(
-                        requireContext(),
-                        "You just bought ${truffle.tartufoName} at $index!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
+    fun BuildRecyclerView(truffles: List<Truffle>, isLoading : Boolean) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            LazyColumn {
+                itemsIndexed(
+                    items = truffles
+                ) { index, truffle ->
+
+                    TruffleCard(truffle, onClick = {
+                        Toast.makeText(
+                            requireContext(),
+                            "You just bought ${truffle.tartufoName} at $index!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    })
+                }
             }
+            CircularIndeterminateProgressBar(isDisplayed = isLoading)
         }
     }
 }
