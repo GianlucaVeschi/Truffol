@@ -9,7 +9,6 @@ import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.ui.repo.TruffleRepositoryImpl
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class TruffleListViewModel @ViewModelInject
 constructor(
@@ -33,17 +32,18 @@ constructor(
 
             val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
             trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
-            Timber.d("getTruffles ${trufflesList.value}")
             loading.value = false
         }
     }
 
     fun getReversedTruffleList() {
         viewModelScope.launch {
+            resetSearchState()
             loading.value = true
             delay(2000) //Fake Delay
-            trufflesList.value = trufflesList.value.asReversed()
-            Timber.d("getTruffles reversed ${trufflesList.value}")
+
+            val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
+            trufflesList.value = tmpTrufflesList.tartufi.asReversed()
             loading.value = false
         }
     }

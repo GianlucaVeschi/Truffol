@@ -111,7 +111,7 @@ class TruffleListFragment : Fragment() {
                     })
                 }
             }
-            CircularIndeterminateProgressBar(isDisplayed = isLoading)
+            CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
         }
     }
 }
