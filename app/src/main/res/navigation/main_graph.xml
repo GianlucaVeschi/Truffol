@@ -18,4 +18,11 @@
         android:name="com.example.tartufozon.presentation.ui.detail.TruffleDetailFragment"
         android:label="TruffleFragment" />
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.tartufozon.presentation.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+
+
+
 </navigation>
