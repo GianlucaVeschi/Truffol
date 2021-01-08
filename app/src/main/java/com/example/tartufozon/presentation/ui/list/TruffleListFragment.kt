@@ -44,10 +44,14 @@ class TruffleListFragment : Fragment() {
                 val selectedCategory = truffleListViewModel.selectedCategory.value
                 val loading = truffleListViewModel.loading.value
 
+                //BottomNav
+                //val navController = rememberNavController()
+                //val title = remember { mutableStateOf("Account") }
+
                 Column(modifier = Modifier.padding(10.dp)) {
                     val scrollState = rememberScrollState()
                     BuildSearchBar(query, selectedCategory, scrollState.value)
-                    BuildRecyclerView(truffles = trufflesList,loading)
+                    BuildRecyclerView(truffles = trufflesList, loading)
                 }
             }
         }
@@ -95,7 +99,7 @@ class TruffleListFragment : Fragment() {
     }
 
     @Composable
-    fun BuildRecyclerView(truffles: List<Truffle>, isLoading : Boolean) {
+    fun BuildRecyclerView(truffles: List<Truffle>, isLoading: Boolean) {
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn {
                 itemsIndexed(
@@ -114,4 +118,5 @@ class TruffleListFragment : Fragment() {
             CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
         }
     }
+
 }
