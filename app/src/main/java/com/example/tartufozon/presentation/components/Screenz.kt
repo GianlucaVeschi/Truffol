@@ -24,11 +24,6 @@ sealed class Screen(val route: String, val label: String, val icon: ImageVector)
     object Profile: Screen("profile", "Profile", Icons.Default.DateRange)
 }
 
-sealed class Fragment(val route: String, val label: String, val icon: ImageVector) {
-    class TruffleListFragment: Fragment("TruffleListFragment", "truffleListFragment", Icons.Default.AccountBox)
-    class TruffleDetailFragment: Fragment("TruffleDetailFragment", "truffleDetailFragment", Icons.Default.ThumbUp)
-}
-
 @Composable
 fun ShopsList() {
     Text(text = "ShopsList",

@@ -1,7 +1,6 @@
 package com.example.tartufozon.presentation
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,19 +10,18 @@ import androidx.compose.ui.platform.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.R
+import com.example.tartufozon.presentation.components.Fragmentz
 import com.example.tartufozon.presentation.components.Profile
-import com.example.tartufozon.presentation.components.Screen
 import com.example.tartufozon.presentation.components.ShopsList
 import com.example.tartufozon.presentation.components.TrufflesList
-import com.example.tartufozon.presentation.ui.list.TruffleListViewModel
+import com.example.tartufozon.presentation.ui.detail.TruffleDetailFragment
+import com.example.tartufozon.presentation.ui.list.TruffleListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private val truffleListViewModel: TruffleListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             //BottomNav
             val navController : NavHostController = rememberNavController()
-            val title = remember { mutableStateOf("Account") }
+            val title = remember { mutableStateOf("TruffleListFragment") }
             buildScaffold(navController = navController, title = title)
         }
     }
@@ -58,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
                 bottomBar = {
 
-                    val items = listOf(Screen.ShopsList, Screen.TrufflesList, Screen.Profile)
+                    val items = listOf(Fragmentz.TruffleListFragment, Fragmentz.TruffleDetailFragment)
                     BottomNavigation {
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
@@ -72,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                                     navController.popBackStack(
                                         navController.graph.startDestination, false
                                     )
-                                    if (currentRoute != it.route) {
+                                    if (currentRoute  != it.route) {
                                         navController.navigate(it.route)
                                     }
                                 })
@@ -80,7 +78,22 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             ) {
-                ScreenController(navController, title)
+                FragmentzController(navController = navController, topBarTitle = title)
+            }
+        }
+    }
+
+    @Composable
+    fun FragmentzController(navController: NavHostController, topBarTitle: MutableState<String>) {
+        NavHost(navController = navController, startDestination = "truffleListFragment") {
+            composable("truffleListFragment") {
+                TruffleListFragment()
+                topBarTitle.value = "TruffleListFragment"
+            }
+
+            composable("truffleDetailFragment") {
+                TruffleDetailFragment()
+                topBarTitle.value = "TruffleDetailFragment"
             }
         }
     }
