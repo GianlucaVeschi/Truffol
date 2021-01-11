@@ -5,21 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.tartufozon.MyApplication
+import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
+import com.example.tartufozon.presentation.components.Fragmentz
 import com.example.tartufozon.presentation.components.SearchAppBar
 import com.example.tartufozon.presentation.components.TruffleCard
 import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
@@ -31,9 +32,14 @@ import javax.inject.Inject
 class TruffleListFragment : Fragment() {
 
     @Inject
-    lateinit var application: MyApplication
+    lateinit var application: BaseApplication
 
     private val truffleListViewModel: TruffleListViewModel by viewModels()
+    val screens = listOf(
+        Fragmentz.TruffleListFragment,
+        Fragmentz.TruffleDetailFragment,
+        Fragmentz.ProfileFragment
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,11 +55,14 @@ class TruffleListFragment : Fragment() {
                     val query: String = truffleListViewModel.query.value
                     val selectedCategory = truffleListViewModel.selectedCategory.value
                     val loading = truffleListViewModel.loading.value
+                    val scrollState = rememberScrollState()
 
-                    Column(modifier = Modifier.padding(10.dp)) {
-                        val scrollState = rememberScrollState()
-                        BuildSearchBar(query, selectedCategory, scrollState.value)
-                        BuildRecyclerView(truffles = trufflesList, loading)
+                    Scaffold(
+                        topBar = { BuildSearchBar(query, selectedCategory, scrollState.value) },
+                        bottomBar = { BuildBottomBar() },
+                        drawerContent = { BuildDrawerContent() }
+                    ) {
+                        BuildTrufflesList(truffles = trufflesList, loading)
                     }
                 }
             }
@@ -82,8 +91,10 @@ class TruffleListFragment : Fragment() {
     }
 
     @Composable
-    fun BuildRecyclerView(truffles: List<Truffle>, isLoading: Boolean) {
-        Box(modifier = Modifier.fillMaxSize()) {
+    fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean) {
+        Box(
+            modifier = Modifier.background(color = MaterialTheme.colors.surface)
+        ) {
             if (isLoading) {
                 LoadingTruffleListShimmer(imageHeight = 250.dp)
             } else {
@@ -91,7 +102,6 @@ class TruffleListFragment : Fragment() {
                     itemsIndexed(
                         items = truffles
                     ) { index, truffle ->
-
                         TruffleCard(truffle, onClick = {
                             Toast.makeText(
                                 requireContext(),
@@ -103,6 +113,32 @@ class TruffleListFragment : Fragment() {
                 }
             }
             CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
+        }
+    }
+
+    @Composable
+    fun BuildBottomBar() {
+        BottomNavigation(
+            elevation = 12.dp
+        ) {
+            screens.forEach {
+                BottomNavigationItem(
+                    icon = { Icon(it.icon) },
+                    selected = false,
+                    label = { Text(text = it.label) },
+                    onClick = {})
+            }
+        }
+    }
+
+    @Composable
+    fun BuildDrawerContent() {
+        Column() {
+            Text(text = "Item1")
+            Text(text = "Item2")
+            Text(text = "Item3")
+            Text(text = "Item4")
+            Text(text = "Item5")
         }
     }
 

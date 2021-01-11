@@ -7,7 +7,7 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 @HiltAndroidApp
-class MyApplication : Application() {
+class BaseApplication : Application() {
 
     // should be saved in data store
     val isDark = mutableStateOf(false)

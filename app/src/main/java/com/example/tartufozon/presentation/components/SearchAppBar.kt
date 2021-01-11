@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -32,7 +31,7 @@ fun SearchAppBar(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.White,
+        color = MaterialTheme.colors.secondary,
         elevation = 8.dp,
     ) {
         Column {
@@ -82,8 +81,7 @@ fun SearchAppBar(
             }
             val scrollState = rememberScrollState()
             ScrollableRow(
-                modifier = Modifier
-                    .padding(start = 8.dp, bottom = 8.dp),
+                modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
                 scrollState = scrollState,
             ) {
 

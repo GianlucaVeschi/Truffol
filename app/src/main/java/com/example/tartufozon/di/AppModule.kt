@@ -1,7 +1,7 @@
 package com.example.tartufozon.di
 
 import android.content.Context
-import com.example.tartufozon.MyApplication
+import com.example.tartufozon.BaseApplication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +15,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApplication(@ApplicationContext app: Context): MyApplication{
-        return app as MyApplication
+    fun provideApplication(@ApplicationContext app: Context): BaseApplication{
+        return app as BaseApplication
     }
 
 }

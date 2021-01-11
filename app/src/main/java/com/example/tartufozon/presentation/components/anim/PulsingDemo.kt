@@ -1,4 +1,4 @@
-package com.example.tartufozon.presentation.components
+package com.example.tartufozon.presentation.components.anim
 
 import androidx.compose.animation.core.*
 import androidx.compose.animation.transition
@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
-import com.example.tartufozon.presentation.components.PulseAnimationDefinitions.pulseDefinition
-import com.example.tartufozon.presentation.components.PulseAnimationDefinitions.pulsePropKey
+import com.example.tartufozon.presentation.components.anim.PulseAnimationDefinitions.pulseDefinition
+import com.example.tartufozon.presentation.components.anim.PulseAnimationDefinitions.pulsePropKey
 
 @Composable
 fun PulsingDemo(){
