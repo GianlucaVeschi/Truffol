@@ -19,16 +19,22 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.tartufozon.MyApplication
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.SearchAppBar
 import com.example.tartufozon.presentation.components.TruffleCard
 import com.example.tartufozon.presentation.components.TruffleCategoryChip
 import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
+import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TruffleListFragment : Fragment() {
+
+    @Inject
+    lateinit var application: MyApplication
 
     private val truffleListViewModel: TruffleListViewModel by viewModels()
 
@@ -39,16 +45,19 @@ class TruffleListFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
+                AppTheme(
+                    darkTheme = application.isDark.value
+                ) {
+                    val trufflesList = truffleListViewModel.trufflesList.value
+                    val query: String = truffleListViewModel.query.value
+                    val selectedCategory = truffleListViewModel.selectedCategory.value
+                    val loading = truffleListViewModel.loading.value
 
-                val trufflesList = truffleListViewModel.trufflesList.value
-                val query: String = truffleListViewModel.query.value
-                val selectedCategory = truffleListViewModel.selectedCategory.value
-                val loading = truffleListViewModel.loading.value
-
-                Column(modifier = Modifier.padding(10.dp)) {
-                    val scrollState = rememberScrollState()
-                    BuildSearchBar(query, selectedCategory, scrollState.value)
-                    BuildRecyclerView(truffles = trufflesList, loading)
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        val scrollState = rememberScrollState()
+                        BuildSearchBar(query, selectedCategory, scrollState.value)
+                        BuildRecyclerView(truffles = trufflesList, loading)
+                    }
                 }
             }
         }
@@ -63,12 +72,15 @@ class TruffleListFragment : Fragment() {
         SearchAppBar(
             query = query,
             onQueryChanged = truffleListViewModel::onQueryChanged,
-            onExecuteSearch = truffleListViewModel::getReversedTruffleList,
+            onExecuteSearch = truffleListViewModel::getShuffledTruffleList,
             categories = getAllTruffleCategories(),
             selectedCategory = selectedCategory,
             onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged,
             scrollPosition = scrollState,
             onChangeScrollPosition = truffleListViewModel::onChangeCategoryScrollPosition,
+            onToggleTheme = {
+                Toast.makeText(context,"allahu akhbar",Toast.LENGTH_SHORT).show()
+            }
         )
     }
 
@@ -89,7 +101,7 @@ class TruffleListFragment : Fragment() {
                         truffleListViewModel.onChangeCategoryScrollPosition(scrollState.value)
                         truffleListViewModel.onSelectedCategoryChanged(it)
                     },
-                    onExecuteSearch = truffleListViewModel::getReversedTruffleList,
+                    onExecuteSearch = truffleListViewModel::getShuffledTruffleList,
                 )
             }
         }

@@ -36,14 +36,14 @@ constructor(
         }
     }
 
-    fun getReversedTruffleList() {
+    fun getShuffledTruffleList() {
         viewModelScope.launch {
             resetSearchState()
             loading.value = true
             delay(2000) //Fake Delay
 
             val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-            trufflesList.value = tmpTrufflesList.tartufi.asReversed()
+            trufflesList.value = tmpTrufflesList.tartufi.shuffled()
             loading.value = false
         }
     }

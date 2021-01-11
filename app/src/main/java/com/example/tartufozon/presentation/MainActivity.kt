@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun buildScaffold(navController : NavHostController, title : MutableState<String>){
+    fun buildScaffold(navController: NavHostController, title: MutableState<String>) {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
 
@@ -57,30 +57,7 @@ class MainActivity : AppCompatActivity() {
                 },
 
                 bottomBar = {
-
-                    val items = listOf(
-                        Fragmentz.TruffleListFragment,
-                        Fragmentz.TruffleDetailFragment,
-                        Fragmentz.ProfileFragment)
-                    BottomNavigation {
-                        val navBackStackEntry by navController.currentBackStackEntryAsState()
-                        val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
-
-                        items.forEach {
-                            BottomNavigationItem(
-                                icon = { Icon(it.icon) },
-                                selected = currentRoute == it.route,
-                                label = { Text(text = it.label) },
-                                onClick = {
-                                    navController.popBackStack(
-                                        navController.graph.startDestination, false
-                                    )
-                                    if (currentRoute  != it.route) {
-                                        navController.navigate(it.route)
-                                    }
-                                })
-                        }
-                    }
+                    BuildBottomBar(navController = navController)
                 }
             ) {
                 FragmentzController(navController = navController, topBarTitle = title)
@@ -89,44 +66,73 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun FragmentzController(navController: NavHostController, topBarTitle: MutableState<String>) {
-        NavHost(navController = navController, startDestination = "truffleListFragment") {
+    fun BuildBottomBar(navController: NavHostController) {
+        val items = listOf(
+            Fragmentz.TruffleListFragment,
+            Fragmentz.TruffleDetailFragment,
+            Fragmentz.ProfileFragment
+        )
+        BottomNavigation {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
 
-            composable("truffleListFragment") {
-                TruffleListFragment()
-                topBarTitle.value = "TruffleListFragment"
-            }
-
-            composable("truffleDetailFragment") {
-                TruffleDetailFragment()
-                topBarTitle.value = "TruffleDetailFragment"
-            }
-
-            composable("profileFragment") {
-                ProfileFragment()
-                topBarTitle.value = "ProfileFragment"
-            }
-        }
-    }
-
-    @Composable
-    fun ScreenController(navController: NavHostController, topBarTitle: MutableState<String>) {
-        NavHost(navController = navController, startDestination = "shopslist") {
-            composable("shopslist") {
-                ShopsList()
-                topBarTitle.value = "ShopsList"
-            }
-
-            composable("truffleslist") {
-                TrufflesList()
-                topBarTitle.value = "TrufflesList"
-            }
-
-            composable("profile") {
-                Profile()
-                topBarTitle.value = "Profile"
+            items.forEach {
+                BottomNavigationItem(
+                    icon = { Icon(it.icon) },
+                    selected = currentRoute == it.route,
+                    label = { Text(text = it.label) },
+                    onClick = {
+                        navController.popBackStack(
+                            navController.graph.startDestination, false
+                        )
+                        if (currentRoute != it.route) {
+                            navController.navigate(it.route)
+                        }
+                    })
             }
         }
     }
 }
+
+@Composable
+fun FragmentzController(navController: NavHostController, topBarTitle: MutableState<String>) {
+    NavHost(navController = navController, startDestination = "truffleListFragment") {
+
+        composable("truffleListFragment") {
+            TruffleListFragment()
+            topBarTitle.value = "TruffleListFragment"
+        }
+
+        composable("truffleDetailFragment") {
+            TruffleDetailFragment()
+            topBarTitle.value = "TruffleDetailFragment"
+        }
+
+        composable("profileFragment") {
+            ProfileFragment()
+            topBarTitle.value = "ProfileFragment"
+        }
+    }
+}
+
+@Composable
+fun ScreenController(navController: NavHostController, topBarTitle: MutableState<String>) {
+    NavHost(navController = navController, startDestination = "shopslist") {
+        composable("shopslist") {
+            ShopsList()
+            topBarTitle.value = "ShopsList"
+        }
+
+        composable("truffleslist") {
+            TrufflesList()
+            topBarTitle.value = "TrufflesList"
+        }
+
+        composable("profile") {
+            Profile()
+            topBarTitle.value = "Profile"
+        }
+    }
+}
+
 
