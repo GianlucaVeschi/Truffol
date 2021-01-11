@@ -24,6 +24,7 @@ import com.example.tartufozon.presentation.components.CircularIndeterminateProgr
 import com.example.tartufozon.presentation.components.SearchAppBar
 import com.example.tartufozon.presentation.components.TruffleCard
 import com.example.tartufozon.presentation.components.TruffleCategoryChip
+import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -97,20 +98,25 @@ class TruffleListFragment : Fragment() {
     @Composable
     fun BuildRecyclerView(truffles: List<Truffle>, isLoading: Boolean) {
         Box(modifier = Modifier.fillMaxSize()) {
-            LazyColumn {
-                itemsIndexed(
-                    items = truffles
-                ) { index, truffle ->
+            if (isLoading) {
+                LoadingTruffleListShimmer(imageHeight = 250.dp)
+            } else {
+                LazyColumn {
+                    itemsIndexed(
+                        items = truffles
+                    ) { index, truffle ->
 
-                    TruffleCard(truffle, onClick = {
-                        Toast.makeText(
-                            requireContext(),
-                            "You just bought ${truffle.tartufoName} at $index!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    })
+                        TruffleCard(truffle, onClick = {
+                            Toast.makeText(
+                                requireContext(),
+                                "You just bought ${truffle.tartufoName} at $index!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        })
+                    }
                 }
             }
+
             CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
         }
     }
