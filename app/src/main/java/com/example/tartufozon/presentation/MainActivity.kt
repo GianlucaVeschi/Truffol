@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.runtime.*
-import androidx.compose.ui.platform.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.R
@@ -16,6 +17,7 @@ import com.example.tartufozon.presentation.components.ShopsList
 import com.example.tartufozon.presentation.components.TrufflesList
 import com.example.tartufozon.presentation.ui.detail.TruffleDetailFragment
 import com.example.tartufozon.presentation.ui.list.TruffleListFragment
+import com.example.tartufozon.presentation.ui.profile.ProfileFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -28,12 +30,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //Bottom Nav Works but still don't understand how to use use my fragments
-        setContent {
-            //BottomNav
-            val navController : NavHostController = rememberNavController()
-            val title = remember { mutableStateOf("TruffleListFragment") }
-            buildScaffold(navController = navController, title = title)
-        }
+//        setContent {
+//            //BottomNav
+//            val navController : NavHostController = rememberNavController()
+//            val title = remember { mutableStateOf("TruffleListFragment") }
+//            buildScaffold(navController = navController, title = title)
+//        }
     }
 
     @Composable
@@ -56,7 +58,10 @@ class MainActivity : AppCompatActivity() {
 
                 bottomBar = {
 
-                    val items = listOf(Fragmentz.TruffleListFragment, Fragmentz.TruffleDetailFragment)
+                    val items = listOf(
+                        Fragmentz.TruffleListFragment,
+                        Fragmentz.TruffleDetailFragment,
+                        Fragmentz.ProfileFragment)
                     BottomNavigation {
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
@@ -86,6 +91,7 @@ class MainActivity : AppCompatActivity() {
     @Composable
     fun FragmentzController(navController: NavHostController, topBarTitle: MutableState<String>) {
         NavHost(navController = navController, startDestination = "truffleListFragment") {
+
             composable("truffleListFragment") {
                 TruffleListFragment()
                 topBarTitle.value = "TruffleListFragment"
@@ -94,6 +100,11 @@ class MainActivity : AppCompatActivity() {
             composable("truffleDetailFragment") {
                 TruffleDetailFragment()
                 topBarTitle.value = "TruffleDetailFragment"
+            }
+
+            composable("profileFragment") {
+                ProfileFragment()
+                topBarTitle.value = "ProfileFragment"
             }
         }
     }
