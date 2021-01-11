@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +22,6 @@ import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.SearchAppBar
 import com.example.tartufozon.presentation.components.TruffleCard
-import com.example.tartufozon.presentation.components.TruffleCategoryChip
 import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,32 +76,9 @@ class TruffleListFragment : Fragment() {
             scrollPosition = scrollState,
             onChangeScrollPosition = truffleListViewModel::onChangeCategoryScrollPosition,
             onToggleTheme = {
-                Toast.makeText(context,"allahu akhbar",Toast.LENGTH_SHORT).show()
+                application.toggleLightTheme()
             }
         )
-    }
-
-
-    @Composable
-    fun BuildChipsBar(selectedCategory: TruffleCategory?, scrollState: ScrollState) {
-        ScrollableRow(
-            modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
-            scrollState = scrollState
-        ) {
-            // restore scroll position after rotation
-            scrollState.scrollTo(truffleListViewModel.categoryScrollPosition)
-            for (category in getAllTruffleCategories()) {
-                TruffleCategoryChip(
-                    category = category.value,
-                    isSelected = selectedCategory == category,
-                    onSelectedCategoryChanged = {
-                        truffleListViewModel.onChangeCategoryScrollPosition(scrollState.value)
-                        truffleListViewModel.onSelectedCategoryChanged(it)
-                    },
-                    onExecuteSearch = truffleListViewModel::getShuffledTruffleList,
-                )
-            }
-        }
     }
 
     @Composable
@@ -128,7 +102,6 @@ class TruffleListFragment : Fragment() {
                     }
                 }
             }
-
             CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
         }
     }
