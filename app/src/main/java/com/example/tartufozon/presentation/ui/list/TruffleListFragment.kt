@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -19,10 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
-import com.example.tartufozon.presentation.components.Fragmentz
-import com.example.tartufozon.presentation.components.SearchAppBar
-import com.example.tartufozon.presentation.components.TruffleCard
+import com.example.tartufozon.presentation.components.*
 import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +56,7 @@ class TruffleListFragment : Fragment() {
 
                     Scaffold(
                         topBar = { BuildSearchBar(query, selectedCategory, scrollState.value) },
-                        bottomBar = { BuildBottomBar() },
+                        bottomBar = { BuildBottomNavBar(screens) },
                         drawerContent = { BuildDrawerContent() }
                     ) {
                         BuildTrufflesList(truffles = trufflesList, loading)
@@ -113,32 +110,6 @@ class TruffleListFragment : Fragment() {
                 }
             }
             CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
-        }
-    }
-
-    @Composable
-    fun BuildBottomBar() {
-        BottomNavigation(
-            elevation = 12.dp
-        ) {
-            screens.forEach {
-                BottomNavigationItem(
-                    icon = { Icon(it.icon) },
-                    selected = false,
-                    label = { Text(text = it.label) },
-                    onClick = {})
-            }
-        }
-    }
-
-    @Composable
-    fun BuildDrawerContent() {
-        Column() {
-            Text(text = "Item1")
-            Text(text = "Item2")
-            Text(text = "Item3")
-            Text(text = "Item4")
-            Text(text = "Item5")
         }
     }
 
