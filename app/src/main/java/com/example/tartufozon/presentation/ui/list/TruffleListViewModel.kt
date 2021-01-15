@@ -9,6 +9,8 @@ import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.ui.repo.TruffleRepositoryImpl
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
+
 
 class TruffleListViewModel @ViewModelInject
 constructor(
@@ -22,55 +24,77 @@ constructor(
     val loading = mutableStateOf(false)
 
     init {
-        getTruffleList()
+        onTriggerEvent(TruffleListEvent.GetTruffleListEvent)
     }
 
-    fun getTruffleList() {
+    fun onTriggerEvent(event: TruffleListEvent) {
         viewModelScope.launch {
-            loading.value = true
-            delay(2000) //Fake Delay
-
-            val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-            trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
-            loading.value = false
+            try {
+                when (event) {
+                    is TruffleListEvent.GetTruffleListEvent -> {
+                        getTruffleList()
+                    }
+                    //Additional pseudo use cases go here...
+                    is TruffleListEvent.GetShuffledTruffleList -> {
+                        getShuffledTruffleList()
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e("launchJob: Exception: ${e}, ${e.cause}")
+                e.printStackTrace()
+            } finally {
+                Timber.d("launchJob: finally called.")
+            }
         }
     }
 
-    fun getShuffledTruffleList() {
-        viewModelScope.launch {
-            resetSearchState()
-            loading.value = true
-            delay(2000) //Fake Delay
+    //Pseudo Use Case #1
+    private suspend fun getTruffleList() {
+        loading.value = true
+        delay(2000) //Fake Delay
 
-            val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-            trufflesList.value = tmpTrufflesList.tartufi.shuffled()
-            loading.value = false
-        }
+        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
+        trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
+        loading.value = false
+
     }
 
-    fun onQueryChanged(query: String){
+    //Pseudo Use Case #2
+    private suspend fun getShuffledTruffleList() {
+        resetSearchState()
+        loading.value = true
+        delay(2000) //Fake Delay
+
+        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
+        trufflesList.value = tmpTrufflesList.tartufi.shuffled()
+        loading.value = false
+
+    }
+
+    fun onQueryChanged(query: String) {
         this.query.value = query
     }
 
-    fun onSelectedCategoryChanged(category: String){
+    fun onSelectedCategoryChanged(category: String) {
         val newCategory = getTruffleCategory(category)
         selectedCategory.value = newCategory
         onQueryChanged(category)
     }
 
-    fun onChangeCategoryScrollPosition(position: Float){
+    fun onChangeCategoryScrollPosition(position: Float) {
         categoryScrollPosition = position
     }
 
     /**
      * Called when a new search is executed.
      */
-    private fun resetSearchState(){
+    private fun resetSearchState() {
         trufflesList.value = listOf()
-        if(selectedCategory.value?.value != query.value) clearSelectedCategory()
+        if (selectedCategory.value?.value != query.value) clearSelectedCategory()
     }
 
-    private fun clearSelectedCategory(){
+    private fun clearSelectedCategory() {
         selectedCategory.value = null
     }
+
 }

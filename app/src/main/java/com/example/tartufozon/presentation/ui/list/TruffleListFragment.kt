@@ -75,7 +75,8 @@ class TruffleListFragment : Fragment() {
         SearchAppBar(
             query = query,
             onQueryChanged = truffleListViewModel::onQueryChanged,
-            onExecuteSearch = truffleListViewModel::getShuffledTruffleList,
+            onExecuteSearch = {truffleListViewModel
+                .onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)    },
             categories = getAllTruffleCategories(),
             selectedCategory = selectedCategory,
             onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged,
