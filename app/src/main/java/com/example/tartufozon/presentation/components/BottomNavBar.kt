@@ -6,9 +6,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import timber.log.Timber
 
 @Composable
 fun BuildBottomNavBar(screens : List<Fragmentz>) {
+
     BottomNavigation(
         elevation = 12.dp
     ) {
@@ -17,7 +19,11 @@ fun BuildBottomNavBar(screens : List<Fragmentz>) {
                 icon = { Icon(it.icon) },
                 selected = false,
                 label = { Text(text = it.label) },
-                onClick = {})
+                onClick = {
+                    Timber.d("BuildBottomNavBar: ") //NOT WORKING
+                })
         }
     }
 }
+
+

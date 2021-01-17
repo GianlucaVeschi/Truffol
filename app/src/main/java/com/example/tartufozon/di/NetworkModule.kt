@@ -11,6 +11,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+const val LOCAL_DB = "http://localhost:3000/"
+const val POSTMAN_DB = "https://761b9ae7-1a9c-4756-ace0-1bae12bfbead.mock.pstmn.io/"
+
 @Module
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
@@ -19,7 +22,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofitService(): TruffleService {
         return Retrofit.Builder()
-            .baseUrl("https://761b9ae7-1a9c-4756-ace0-1bae12bfbead.mock.pstmn.io/")
+            .baseUrl(POSTMAN_DB)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(TruffleService::class.java)

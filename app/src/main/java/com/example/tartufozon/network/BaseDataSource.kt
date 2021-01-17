@@ -12,7 +12,7 @@ abstract class BaseDataSource {
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    Timber.d("Body not null")
+                    Timber.d("Body not null ${body}")
                     return Resource.success(body)
                 }
             }

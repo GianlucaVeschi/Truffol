@@ -9,6 +9,7 @@ class TruffleRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : TruffleRepository {
 
+    // TODO: 17.01.21 : Pass specific ID
     override suspend fun getTruffleDetail(): Truffle {
         return remoteDataSource.getTruffleDetail()
     }

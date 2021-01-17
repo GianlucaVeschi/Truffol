@@ -1,9 +1,7 @@
 package com.example.tartufozon.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -16,7 +14,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.example.tartufozon.domain.model.Truffle
 
 sealed class Screen(val route: String, val label: String, val icon: ImageVector) {
     object ShopsList: Screen("shopslist", "ShopsList", Icons.Default.AccountBox)
@@ -47,18 +44,3 @@ fun Profile() {
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxSize().background(Color.LightGray))
 }
-
-@Composable
-fun BuildRecyclerView(truffles: List<Truffle>, isLoading: Boolean) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn {
-            itemsIndexed(
-                items = truffles
-            ) { index, truffle ->
-                TruffleCard(truffle, onClick = {})
-            }
-        }
-        CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
-    }
-}
-

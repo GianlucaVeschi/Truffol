@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.util.DEFAULT_RECIPE_IMAGE
+import com.example.tartufozon.util.DEFAULT_FOOD_IMAGE
 import com.example.tartufozon.util.loadPicture
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,7 +35,7 @@ fun TruffleCard(
     ) {
         Column() {
             truffle.image_url?.let { url ->
-                val image = loadPicture(url = url, defaultImage = DEFAULT_RECIPE_IMAGE).value
+                val image = loadPicture(url = url, defaultImage = DEFAULT_FOOD_IMAGE).value
                 image?.let { img ->
                     Image(
                         bitmap = img.asImageBitmap(),

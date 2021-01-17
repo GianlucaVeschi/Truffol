@@ -4,21 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.tartufozon.BaseApplication
+import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
+import com.example.tartufozon.presentation.components.TruffleDetailView
+import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TruffleDetailFragment : Fragment() {
+
+    @Inject
+    lateinit var application: BaseApplication
 
     private val truffleDetailViewModel: TruffleDetailViewModel by viewModels()
 
@@ -27,29 +34,46 @@ class TruffleDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.getInt("truffleId")?.let { truffleId ->
-            this.truffleId = truffleId
+            truffleDetailViewModel.onTriggerEvent(TruffleEvent.GetTruffleEvent(truffleId))
         }
     }
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        truffleDetailViewModel.truffeDetail.observe(viewLifecycleOwner, {
-            Timber.d("observe truffle $it.image_url")
-        })
-
-        return ComposeView(requireContext()).apply{
+        return ComposeView(requireContext()).apply {
             setContent {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Selected truffleId: ${truffleId}",
-                        style = TextStyle(
-                            fontSize = TextUnit.Sp(21)
-                        )
-                    )
+
+                val loading = truffleDetailViewModel.loading.value
+                val truffle = truffleDetailViewModel.truffle.value
+                val scaffoldState = rememberScaffoldState()
+
+                AppTheme(
+                    darkTheme = application.isDark.value,
+                ) {
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        snackbarHost = {
+                            scaffoldState.snackbarHostState
+                        }
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            if (loading && truffle == null)
+                                Text(text = "LOADING...")
+                            else truffle?.let {
+                                TruffleDetailView(truffle = it)
+                            }
+                            CircularIndeterminateProgressBar(
+                                isDisplayed = loading,
+                                verticalBias = 0.3f
+                            )
+                        }
+                    }
                 }
             }
         }

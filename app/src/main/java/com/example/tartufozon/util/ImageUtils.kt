@@ -13,7 +13,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.tartufozon.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-const val DEFAULT_RECIPE_IMAGE = R.drawable.empty_plate
+const val DEFAULT_FOOD_IMAGE = R.drawable.empty_plate
 
 @ExperimentalCoroutinesApi
 @Composable
