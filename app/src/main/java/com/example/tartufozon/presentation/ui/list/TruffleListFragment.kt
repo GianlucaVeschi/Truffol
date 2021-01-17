@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,12 +16,15 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.tartufozon.BaseApplication
+import com.example.tartufozon.R
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.*
 import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,6 +34,7 @@ class TruffleListFragment : Fragment() {
     lateinit var application: BaseApplication
 
     private val truffleListViewModel: TruffleListViewModel by viewModels()
+
     val screens = listOf(
         Fragmentz.TruffleListFragment,
         Fragmentz.TruffleDetailFragment,
@@ -42,7 +45,7 @@ class TruffleListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(
@@ -75,8 +78,10 @@ class TruffleListFragment : Fragment() {
         SearchAppBar(
             query = query,
             onQueryChanged = truffleListViewModel::onQueryChanged,
-            onExecuteSearch = {truffleListViewModel
-                .onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)    },
+            onExecuteSearch = {
+                truffleListViewModel
+                    .onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
+            },
             categories = getAllTruffleCategories(),
             selectedCategory = selectedCategory,
             onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged,
@@ -90,6 +95,7 @@ class TruffleListFragment : Fragment() {
 
     @Composable
     fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean) {
+        var click = 0
         Box(
             modifier = Modifier.background(color = MaterialTheme.colors.surface)
         ) {
@@ -101,11 +107,10 @@ class TruffleListFragment : Fragment() {
                         items = truffles
                     ) { index, truffle ->
                         TruffleCard(truffle, onClick = {
-                            Toast.makeText(
-                                requireContext(),
-                                "You just bought ${truffle.tartufoName} at $index!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Timber.d("just clicked ${click++}")
+                            val bundle = Bundle()
+                            bundle.putInt("truffleId", truffle.id)
+                            findNavController().navigate(R.id.action_truffleListFragment_to_truffleFragment, bundle)
                         })
                     }
                 }
@@ -113,5 +118,4 @@ class TruffleListFragment : Fragment() {
             CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
         }
     }
-
 }
