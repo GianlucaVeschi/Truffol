@@ -55,6 +55,7 @@ constructor(
 
         val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
         trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
+
         loading.value = false
 
     }

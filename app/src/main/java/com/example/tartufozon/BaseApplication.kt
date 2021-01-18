@@ -2,6 +2,7 @@ package com.example.tartufozon
 
 import android.app.Application
 import androidx.compose.runtime.mutableStateOf
+import com.facebook.stetho.Stetho
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -20,6 +21,7 @@ class BaseApplication : Application() {
         super.onCreate()
         // This will initialise Timber
         if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
             Timber.plant(DebugTree())
         }
     }
