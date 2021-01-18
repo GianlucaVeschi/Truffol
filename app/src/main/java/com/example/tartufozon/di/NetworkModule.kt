@@ -23,20 +23,28 @@ const val POSTMAN_DB = "https://761b9ae7-1a9c-4756-ace0-1bae12bfbead.mock.pstmn.
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
 
-    val interceptor = HttpLoggingInterceptor()
-        .setLevel(HttpLoggingInterceptor.Level.BODY);
-
-    val okHttpClient = OkHttpClient.Builder()
-        .addNetworkInterceptor(interceptor) // same for .addInterceptor(...)
-        .addNetworkInterceptor(StethoInterceptor())
-        .connectTimeout(30, TimeUnit.SECONDS) //Backend is really slow
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .build()
+    @Singleton
+    @Provides
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY);
+    }
 
     @Singleton
     @Provides
-    fun provideRetrofitService(): TruffleService {
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addNetworkInterceptor(loggingInterceptor)
+            .addNetworkInterceptor(StethoInterceptor())
+            .connectTimeout(30, TimeUnit.SECONDS) //Backend is really slow
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitService(okHttpClient: OkHttpClient): TruffleService {
         return Retrofit.Builder()
             .baseUrl(POSTMAN_DB)
             .client(okHttpClient)
@@ -47,7 +55,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideNetworkDataSource(truffleService: TruffleService) : RemoteDataSource {
+    fun provideNetworkDataSource(truffleService: TruffleService): RemoteDataSource {
         return RemoteDataSource(truffleService)
     }
 
