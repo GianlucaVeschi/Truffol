@@ -73,7 +73,7 @@ class TruffleDetailFragment : Fragment() {
                             }
                             CircularIndeterminateProgressBar(
                                 isDisplayed = loading,
-                                verticalBias = 0.3f
+                                verticalBias = 0.6f
                             )
                         }
                     }

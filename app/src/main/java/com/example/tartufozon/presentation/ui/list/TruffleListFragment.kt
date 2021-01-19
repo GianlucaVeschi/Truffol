@@ -48,15 +48,16 @@ class TruffleListFragment : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
+
+                val trufflesList = truffleListViewModel.trufflesList.value
+                val query: String = truffleListViewModel.query.value
+                val selectedCategory = truffleListViewModel.selectedCategory.value
+                val loading = truffleListViewModel.loading.value
+                val scrollState = rememberScrollState()
+
                 AppTheme(
                     darkTheme = application.isDark.value
                 ) {
-                    val trufflesList = truffleListViewModel.trufflesList.value
-                    val query: String = truffleListViewModel.query.value
-                    val selectedCategory = truffleListViewModel.selectedCategory.value
-                    val loading = truffleListViewModel.loading.value
-                    val scrollState = rememberScrollState()
-
                     Scaffold(
                         topBar = { BuildSearchBar(query, selectedCategory, scrollState.value) },
                         bottomBar = { BuildBottomNavBar(screens) },
