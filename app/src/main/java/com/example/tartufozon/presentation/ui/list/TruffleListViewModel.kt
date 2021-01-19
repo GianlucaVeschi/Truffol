@@ -25,6 +25,9 @@ constructor(
 
     init {
         onTriggerEvent(TruffleListEvent.GetTruffleListEvent)
+
+        //DEBUG LOCAL DB
+        onTriggerEvent(TruffleListEvent.GetLocalTruffleList)
     }
 
     fun onTriggerEvent(event: TruffleListEvent) {
@@ -37,6 +40,9 @@ constructor(
                     //Additional pseudo use cases go here...
                     is TruffleListEvent.GetShuffledTruffleList -> {
                         getShuffledTruffleList()
+                    }
+                    is TruffleListEvent.GetLocalTruffleList -> {
+                        getLocalTruffleList()
                     }
                 }
             } catch (e: Exception) {
@@ -70,6 +76,13 @@ constructor(
         trufflesList.value = tmpTrufflesList.tartufi.shuffled()
         loading.value = false
 
+    }
+
+    //Pseudo Use Case #3
+    private suspend fun getLocalTruffleList() {
+
+        val tmpTrufflesList = truffleRepositoryImpl.getLocalTruffleList()
+        Timber.d("Gianluca $tmpTrufflesList")
     }
 
     fun onQueryChanged(query: String) {

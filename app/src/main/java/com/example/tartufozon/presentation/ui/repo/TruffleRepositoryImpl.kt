@@ -17,4 +17,13 @@ class TruffleRepositoryImpl @Inject constructor(
     override suspend fun getTruffleList(): TruffleListDto {
         return remoteDataSource.getTruffleList()
     }
+
+    override suspend fun getLocalTruffleList(): List<Truffle> {
+        return remoteDataSource.getLocalTruffleList()
+    }
+
+    override suspend fun getLocalTruffleDetail(truffleId : Int): Truffle {
+        return remoteDataSource.getLocalTruffleDetail(truffleId)
+    }
+
 }

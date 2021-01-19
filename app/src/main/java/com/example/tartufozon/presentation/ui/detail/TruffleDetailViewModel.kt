@@ -26,7 +26,7 @@ class TruffleDetailViewModel @ViewModelInject constructor(
     init {
         // restore if process dies
         state.get<Int>(STATE_KEY_TRUFFLE)?.let{ truffleId ->
-            onTriggerEvent(TruffleEvent.GetTruffleEvent(truffleId))
+            onTriggerEvent(TruffleEvent.GetLocalTruffleEvent(truffleId))
         }
     }
 
@@ -34,11 +34,13 @@ class TruffleDetailViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             try {
                 when(event){
-                    is TruffleEvent.GetTruffleEvent -> {
-                        if(truffle.value == null){
-                            getTruffleDetail(event.id)
-                        }
+                    //UseCase #1
+                    is TruffleEvent.GetLocalTruffleEvent -> {
+                        //if(truffle.value == null){
+                            getLocalTruffleDetail(event.id)
+                        //}
                     }
+
                 }
             }catch (e: Exception){
                 Timber.e("launchJob: Exception: ${e}, ${e.cause}")
@@ -47,13 +49,14 @@ class TruffleDetailViewModel @ViewModelInject constructor(
         }
     }
 
-    private suspend fun getTruffleDetail(id: Int){
+    private suspend fun getLocalTruffleDetail(truffleId : Int){
         loading.value = true
 
         // simulate a delay to show loading
         delay(1000)
 
-        val truffle = truffleRepositoryImpl.getTruffleDetail()
+        val truffle = truffleRepositoryImpl.getLocalTruffleDetail(truffleId)
+        Timber.d("Gianluca $truffle")
         this.truffle.value = truffle
 
         state.set(STATE_KEY_TRUFFLE, truffle.id)

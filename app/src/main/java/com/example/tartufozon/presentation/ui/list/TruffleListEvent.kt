@@ -6,4 +6,6 @@ sealed class TruffleListEvent {
     object GetTruffleListEvent : TruffleListEvent()
 
     object GetShuffledTruffleList : TruffleListEvent()
+
+    object GetLocalTruffleList : TruffleListEvent()
 }
