@@ -2,7 +2,6 @@ package com.example.tartufozon.presentation.ui.repo
 
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.network.RemoteDataSource
-import com.example.tartufozon.network.model.TruffleListDto
 import javax.inject.Inject
 
 class TruffleRepositoryImpl @Inject constructor(
@@ -14,7 +13,7 @@ class TruffleRepositoryImpl @Inject constructor(
         return remoteDataSource.getTruffleDetail()
     }
 
-    override suspend fun getTruffleList(): TruffleListDto {
+    override suspend fun getTruffleList(): List<Truffle> {
         return remoteDataSource.getTruffleList()
     }
 

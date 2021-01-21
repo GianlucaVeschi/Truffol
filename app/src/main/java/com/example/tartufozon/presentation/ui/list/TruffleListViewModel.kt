@@ -60,7 +60,7 @@ constructor(
         delay(2000) //Fake Delay
 
         val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-        trufflesList.value = tmpTrufflesList.tartufi // TODO: 30.12.20 : Remove tmp list
+        trufflesList.value = tmpTrufflesList // TODO: 30.12.20 : Remove tmp list
 
         loading.value = false
 
@@ -73,7 +73,7 @@ constructor(
         delay(2000) //Fake Delay
 
         val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-        trufflesList.value = tmpTrufflesList.tartufi.shuffled()
+        trufflesList.value = tmpTrufflesList.shuffled()
         loading.value = false
 
     }

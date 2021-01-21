@@ -1,7 +1,6 @@
 package com.example.tartufozon.network
 
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.network.model.TruffleListDto
 import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,9 +15,16 @@ class RemoteDataSource @Inject constructor(
         return resourceTruffleDetail.data!!
     }
 
-    suspend fun getTruffleList(): TruffleListDto {
-        val resourceTruffleList = getResult { truffleService.getTruffleList() }
-        return resourceTruffleList.data!!
+    suspend fun getTruffleList(): List<Truffle> {
+        var resourceTruffleList : Response<List<Truffle>>? = null
+        try {
+            //resourceTruffleList = getResult { truffleService.getTruffleList() } //error fix me
+            resourceTruffleList = truffleService.getTruffleList()
+        }
+        catch (error : Error ){
+            Timber.e(error)
+        }
+        return resourceTruffleList?.body()!!
     }
 
     //LOCAL DB

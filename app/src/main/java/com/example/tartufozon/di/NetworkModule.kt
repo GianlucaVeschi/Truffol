@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-const val LOCAL_DB = "http://10.0.2.2:3000/"
+const val HEROKU_DB = "https://my-tartufo-api.herokuapp.com/"
 const val POSTMAN_DB = "https://761b9ae7-1a9c-4756-ace0-1bae12bfbead.mock.pstmn.io/"
 
 @Module
@@ -46,7 +46,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofitService(okHttpClient: OkHttpClient): TruffleService {
         return Retrofit.Builder()
-            .baseUrl(POSTMAN_DB)
+            .baseUrl(HEROKU_DB)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
@@ -57,7 +57,7 @@ object NetworkModule {
     @Provides
     fun provideLocalRetrofitService(okHttpClient: OkHttpClient): LocalTruffleService {
         return Retrofit.Builder()
-            .baseUrl(LOCAL_DB)
+            .baseUrl(HEROKU_DB)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
