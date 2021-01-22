@@ -1,4 +1,4 @@
-package com.example.tartufozon.presentation.ui.repo
+package com.example.tartufozon.presentation.ui.truffleview.repo
 
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.network.RemoteDataSource

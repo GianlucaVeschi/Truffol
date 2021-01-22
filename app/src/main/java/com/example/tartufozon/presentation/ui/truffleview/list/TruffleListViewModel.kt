@@ -1,4 +1,4 @@
-package com.example.tartufozon.presentation.ui.list
+package com.example.tartufozon.presentation.ui.truffleview.list
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -6,14 +6,12 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.presentation.ui.repo.TruffleRepositoryImpl
+import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-
-class TruffleListViewModel @ViewModelInject
-constructor(
+class TruffleListViewModel @ViewModelInject constructor(
     private val truffleRepositoryImpl: TruffleRepositoryImpl
 ) : ViewModel() {
 
@@ -96,4 +94,7 @@ constructor(
         selectedCategory.value = null
     }
 
+    companion object{
+        private const val TAG = "TruffleListViewModel"
+    }
 }

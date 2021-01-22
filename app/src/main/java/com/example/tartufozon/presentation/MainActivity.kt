@@ -1,23 +1,20 @@
 package com.example.tartufozon.presentation
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.example.tartufozon.R
-import com.example.tartufozon.presentation.components.Fragmentz
-import com.example.tartufozon.presentation.components.Profile
-import com.example.tartufozon.presentation.components.ShopsList
-import com.example.tartufozon.presentation.components.TrufflesList
-import com.example.tartufozon.presentation.ui.detail.TruffleDetailFragment
-import com.example.tartufozon.presentation.ui.list.TruffleListFragment
-import com.example.tartufozon.presentation.ui.profile.ProfileFragment
+import com.example.tartufozon.presentation.components.Screens
+import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreenContent
+import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
+import com.example.tartufozon.presentation.ui.profileview.ProfileScreen
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -25,17 +22,18 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val viewModel: TruffleListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        //Bottom Nav Works but still don't understand how to use use my fragments
-//        setContent {
-//            //BottomNav
-//            val navController : NavHostController = rememberNavController()
-//            val title = remember { mutableStateOf("TruffleListFragment") }
-//            buildScaffold(navController = navController, title = title)
-//        }
+        //Bottom Nav Works but still don't understand how to use use my screens
+        setContent {
+            //BottomNav
+            val navController: NavHostController = rememberNavController()
+            val title = remember { mutableStateOf("TruffleListScreen") }
+            buildScaffold(navController = navController, title = title)
+        }
     }
 
     @Composable
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                     BuildBottomBar(navController = navController)
                 }
             ) {
-                FragmentzController(navController = navController, topBarTitle = title)
+                ScreensController(navController = navController, topBarTitle = title)
             }
         }
     }
@@ -68,9 +66,9 @@ class MainActivity : AppCompatActivity() {
     @Composable
     fun BuildBottomBar(navController: NavHostController) {
         val items = listOf(
-            Fragmentz.TruffleListFragment,
-            Fragmentz.TruffleDetailFragment,
-            Fragmentz.ProfileFragment
+            Screens.TruffleListScreen,
+            Screens.ShopListScreen,
+            Screens.ProfileScreen
         )
         BottomNavigation {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -92,47 +90,30 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
 
-@Composable
-fun FragmentzController(navController: NavHostController, topBarTitle: MutableState<String>) {
-    NavHost(navController = navController, startDestination = "truffleListFragment") {
+    @Composable
+    fun ScreensController(
+        navController: NavHostController,
+        topBarTitle: MutableState<String>
+    ) {
+        NavHost(navController = navController, startDestination = "gotoShopListScreen") {
 
-        composable("truffleListFragment") {
-            TruffleListFragment()
-            topBarTitle.value = "TruffleListFragment"
-        }
+            composable("gotoTruffleListScreen") {
+                topBarTitle.value = "Truffles Screen"
+                TruffleListScreenContent(viewModel)
+            }
 
-        composable("truffleDetailFragment") {
-            TruffleDetailFragment()
-            topBarTitle.value = "TruffleDetailFragment"
-        }
+            composable("gotoShopListScreen") {
+                topBarTitle.value = "Shops Screen"
+                ProfileScreen(Color.White)
+            }
 
-        composable("profileFragment") {
-            ProfileFragment()
-            topBarTitle.value = "ProfileFragment"
-        }
-    }
-}
+            composable("gotoProfileScreen") {
+                topBarTitle.value = "Profile Screen"
+                ProfileScreen(Color.Red)
+            }
 
-@Composable
-fun ScreenController(navController: NavHostController, topBarTitle: MutableState<String>) {
-    NavHost(navController = navController, startDestination = "shopslist") {
-        composable("shopslist") {
-            ShopsList()
-            topBarTitle.value = "ShopsList"
-        }
-
-        composable("truffleslist") {
-            TrufflesList()
-            topBarTitle.value = "TrufflesList"
-        }
-
-        composable("profile") {
-            Profile()
-            topBarTitle.value = "Profile"
         }
     }
 }
-
 

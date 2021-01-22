@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import timber.log.Timber
 
 @Composable
-fun BuildBottomNavBar(screens : List<Fragmentz>) {
+fun BuildBottomNavBar(screens : List<Screens>) {
 
     BottomNavigation(
         elevation = 12.dp

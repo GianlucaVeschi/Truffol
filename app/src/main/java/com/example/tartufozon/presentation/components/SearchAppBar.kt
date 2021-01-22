@@ -15,7 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.tartufozon.presentation.ui.list.TruffleCategory
+import com.example.tartufozon.presentation.ui.truffleview.list.TruffleCategory
 
 @Composable
 fun SearchAppBar(

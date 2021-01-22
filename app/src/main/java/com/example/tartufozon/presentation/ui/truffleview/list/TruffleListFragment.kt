@@ -1,4 +1,4 @@
-package com.example.tartufozon.presentation.ui.list
+package com.example.tartufozon.presentation.ui.truffleview.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,7 +20,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.R
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.presentation.components.*
+import com.example.tartufozon.presentation.components.BuildDrawerContent
+import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
+import com.example.tartufozon.presentation.components.SearchAppBar
+import com.example.tartufozon.presentation.components.TruffleCard
 import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,12 +37,6 @@ class TruffleListFragment : Fragment() {
     lateinit var application: BaseApplication
 
     private val truffleListViewModel: TruffleListViewModel by viewModels()
-
-    val screens = listOf(
-        Fragmentz.TruffleListFragment,
-        Fragmentz.TruffleDetailFragment,
-        Fragmentz.ProfileFragment
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +57,6 @@ class TruffleListFragment : Fragment() {
                 ) {
                     Scaffold(
                         topBar = { BuildSearchBar(query, selectedCategory, scrollState.value) },
-                        bottomBar = { BuildBottomNavBar(screens) },
                         drawerContent = { BuildDrawerContent() }
                     ) {
                         BuildTrufflesList(truffles = trufflesList, loading)

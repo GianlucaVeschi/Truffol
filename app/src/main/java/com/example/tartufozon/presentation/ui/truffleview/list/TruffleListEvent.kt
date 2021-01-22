@@ -1,4 +1,4 @@
-package com.example.tartufozon.presentation.ui.list
+package com.example.tartufozon.presentation.ui.truffleview.list
 
 sealed class TruffleListEvent {
 

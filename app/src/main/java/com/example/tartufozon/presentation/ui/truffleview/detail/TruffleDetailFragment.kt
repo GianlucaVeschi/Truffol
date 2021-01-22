@@ -1,4 +1,4 @@
-package com.example.tartufozon.presentation.ui.detail
+package com.example.tartufozon.presentation.ui.truffleview.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
