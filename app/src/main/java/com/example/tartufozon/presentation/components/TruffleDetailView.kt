@@ -70,6 +70,7 @@ fun TruffleDetailView(
     }
 }
 
+@ExperimentalCoroutinesApi
 @Preview
 @Composable
 fun defaultPreview(){

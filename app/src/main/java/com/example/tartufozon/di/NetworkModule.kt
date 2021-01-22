@@ -1,6 +1,5 @@
 package com.example.tartufozon.di
 
-import com.example.tartufozon.network.LocalTruffleService
 import com.example.tartufozon.network.RemoteDataSource
 import com.example.tartufozon.network.TruffleService
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -16,8 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-const val HEROKU_DB = "https://my-tartufo-api.herokuapp.com/"
+//Not Used Anymore, Here only for ref
 const val POSTMAN_DB = "https://761b9ae7-1a9c-4756-ace0-1bae12bfbead.mock.pstmn.io/"
+const val HEROKU_DB = "https://my-tartufo-api.herokuapp.com/"
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -44,7 +44,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitService(okHttpClient: OkHttpClient): TruffleService {
+    fun provideRetrofitTruffleService(okHttpClient: OkHttpClient): TruffleService {
         return Retrofit.Builder()
             .baseUrl(HEROKU_DB)
             .client(okHttpClient)
@@ -55,22 +55,10 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideLocalRetrofitService(okHttpClient: OkHttpClient): LocalTruffleService {
-        return Retrofit.Builder()
-            .baseUrl(HEROKU_DB)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .build()
-            .create(LocalTruffleService::class.java)
-    }
-
-    @Singleton
-    @Provides
     fun provideNetworkDataSource(
-        truffleService: TruffleService,
-        localTruffleService: LocalTruffleService
+        truffleService: TruffleService
     ): RemoteDataSource {
-        return RemoteDataSource(truffleService, localTruffleService)
+        return RemoteDataSource(truffleService)
     }
 
 }

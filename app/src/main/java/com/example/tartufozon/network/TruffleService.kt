@@ -3,14 +3,14 @@ package com.example.tartufozon.network
 import com.example.tartufozon.domain.model.Truffle
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface TruffleService {
 
-    @GET("single_tartufo") //POSTMAN_DB
-    //@GET("tartufi") //LOCAL_DB
-    suspend fun getTruffleDetail(): Response<Truffle>
+    @GET("tartufi/") //LOCAL_DB
+    suspend fun getLocalTruffleList(): Response<List<Truffle>>
 
+    @GET("tartufi/{id}")
+    suspend fun getLocalTruffleDetail(@Path("id") id: Int): Response<Truffle>
 
-    @GET("tartufi/") //HEROKU_DB
-    suspend fun getTruffleList(): Response<List<Truffle>>
 }

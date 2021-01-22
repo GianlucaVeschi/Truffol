@@ -24,25 +24,19 @@ constructor(
     val loading = mutableStateOf(false)
 
     init {
-        onTriggerEvent(TruffleListEvent.GetTruffleListEvent)
-
-        //DEBUG LOCAL DB
-        onTriggerEvent(TruffleListEvent.GetLocalTruffleList)
+        onTriggerEvent(TruffleListEvent.GetTruffleList)
     }
 
     fun onTriggerEvent(event: TruffleListEvent) {
         viewModelScope.launch {
             try {
                 when (event) {
-                    is TruffleListEvent.GetTruffleListEvent -> {
-                        getTruffleList()
-                    }
                     //Additional pseudo use cases go here...
                     is TruffleListEvent.GetShuffledTruffleList -> {
                         getShuffledTruffleList()
                     }
-                    is TruffleListEvent.GetLocalTruffleList -> {
-                        getLocalTruffleList()
+                    is TruffleListEvent.GetTruffleList -> {
+                        getTruffleList()
                     }
                 }
             } catch (e: Exception) {
@@ -56,14 +50,13 @@ constructor(
 
     //Pseudo Use Case #1
     private suspend fun getTruffleList() {
+        resetSearchState()
         loading.value = true
         delay(2000) //Fake Delay
 
-        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-        trufflesList.value = tmpTrufflesList // TODO: 30.12.20 : Remove tmp list
-
+        val tmpTrufflesList = truffleRepositoryImpl.getLocalTruffleList()
+        trufflesList.value = tmpTrufflesList
         loading.value = false
-
     }
 
     //Pseudo Use Case #2
@@ -72,17 +65,9 @@ constructor(
         loading.value = true
         delay(2000) //Fake Delay
 
-        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
+        val tmpTrufflesList = truffleRepositoryImpl.getLocalTruffleList()
         trufflesList.value = tmpTrufflesList.shuffled()
         loading.value = false
-
-    }
-
-    //Pseudo Use Case #3
-    private suspend fun getLocalTruffleList() {
-
-        val tmpTrufflesList = truffleRepositoryImpl.getLocalTruffleList()
-        Timber.d("Gianluca $tmpTrufflesList")
     }
 
     fun onQueryChanged(query: String) {
