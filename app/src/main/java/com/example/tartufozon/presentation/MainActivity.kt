@@ -13,8 +13,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.presentation.components.Screens
 import com.example.tartufozon.presentation.ui.profileview.ProfileScreen
-import com.example.tartufozon.presentation.ui.shopview.ShopListScreen
-import com.example.tartufozon.presentation.ui.shopview.ShopListViewModel
+import com.example.tartufozon.presentation.ui.shopview.list.ShopListScreen
+import com.example.tartufozon.presentation.ui.shopview.list.ShopListViewModel
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreenContent
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint

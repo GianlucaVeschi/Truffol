@@ -25,18 +25,18 @@ class TruffleDetailViewModel @ViewModelInject constructor(
     init {
         // restore if process dies
         state.get<Int>(STATE_KEY_TRUFFLE)?.let{ truffleId ->
-            onTriggerEvent(TruffleEvent.GetTruffleEvent(truffleId))
+            onTriggerEvent(TruffleDetailEvent.GetTruffleDetailEvent(truffleId))
         }
     }
 
-    fun onTriggerEvent(event: TruffleEvent){
+    fun onTriggerEvent(detailEvent: TruffleDetailEvent){
         viewModelScope.launch {
             try {
-                when(event){
+                when(detailEvent){
                     //UseCase #1
-                    is TruffleEvent.GetTruffleEvent -> {
+                    is TruffleDetailEvent.GetTruffleDetailEvent -> {
                         //if(truffle.value == null){
-                            getTruffleDetail(event.id)
+                            getTruffleDetail(detailEvent.id)
                         //}
                     }
 

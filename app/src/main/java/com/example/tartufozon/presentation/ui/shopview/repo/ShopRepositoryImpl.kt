@@ -1,4 +1,4 @@
-package com.example.tartufozon.presentation.ui.shopview
+package com.example.tartufozon.presentation.ui.shopview.repo
 
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.network.RemoteDataSource

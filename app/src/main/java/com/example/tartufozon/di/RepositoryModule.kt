@@ -1,7 +1,7 @@
 package com.example.tartufozon.di
 
 import com.example.tartufozon.network.RemoteDataSource
-import com.example.tartufozon.presentation.ui.shopview.ShopRepositoryImpl
+import com.example.tartufozon.presentation.ui.shopview.repo.ShopRepositoryImpl
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
 import dagger.Module
 import dagger.Provides

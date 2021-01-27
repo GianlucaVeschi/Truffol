@@ -14,6 +14,7 @@ import com.example.tartufozon.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 const val DEFAULT_FOOD_IMAGE = R.drawable.empty_plate
+const val DEFAULT_SHOP_IMAGE = R.drawable.shop_placeholder_1240_698
 
 @ExperimentalCoroutinesApi
 @Composable
