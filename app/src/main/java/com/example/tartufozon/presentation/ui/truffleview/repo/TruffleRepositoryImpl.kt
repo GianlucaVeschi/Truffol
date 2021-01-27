@@ -8,12 +8,11 @@ class TruffleRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : TruffleRepository {
 
-    override suspend fun getLocalTruffleList(): List<Truffle> {
-        return remoteDataSource.getLocalTruffleList()
+    override suspend fun getTruffleList(): List<Truffle> {
+        return remoteDataSource.getTruffleList()
     }
 
-    override suspend fun getLocalTruffleDetail(truffleId : Int): Truffle {
-        return remoteDataSource.getLocalTruffleDetail(truffleId)
+    override suspend fun getTruffleDetail(truffleId : Int): Truffle {
+        return remoteDataSource.getTruffleDetail(truffleId)
     }
-
 }

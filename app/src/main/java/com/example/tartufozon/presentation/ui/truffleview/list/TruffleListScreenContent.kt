@@ -10,6 +10,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.BuildDrawerContent
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
@@ -21,7 +22,10 @@ import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @Composable
-fun TruffleListScreenContent(truffleListViewModel: TruffleListViewModel) {
+fun TruffleListScreenContent(
+    truffleListViewModel: TruffleListViewModel,
+    navController: NavController
+) {
     //val truffleListViewModel: TruffleListViewModel = viewModel()
 
     val trufflesList = truffleListViewModel.trufflesList.value
@@ -88,7 +92,7 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean) {
                         Timber.d("just clicked ${click++}")
                         val bundle = Bundle()
                         bundle.putInt("truffleId", truffle.id)
-                        //findNavController().navigate(R.id.action_truffleListFragment_to_truffleFragment, bundle)
+                        //navController.navigate()//??
                     })
                 }
             }

@@ -6,19 +6,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ShopListScreen(color : Color) {
+fun ShopListScreen(
+    shopListViewModel: ShopListViewModel
+) {
+
+    //val shopListViewModel : ShopListViewModel = viewModel() // Error
+    shopListViewModel.triggerEvent()
+
     Box(
         Modifier
             .fillMaxSize()
-            .background(color)) {
+            .background(Color.Cyan)) {
     }
-}
-
-@Preview
-@Composable
-fun PreviewShopListScreen(){
-    ShopListScreen(Color.Cyan)
 }

@@ -36,7 +36,7 @@ class TruffleDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.getInt("truffleId")?.let { truffleId ->
-            truffleDetailViewModel.onTriggerEvent(TruffleEvent.GetLocalTruffleEvent(truffleId))
+            truffleDetailViewModel.onTriggerEvent(TruffleEvent.GetTruffleEvent(truffleId))
         }
     }
 

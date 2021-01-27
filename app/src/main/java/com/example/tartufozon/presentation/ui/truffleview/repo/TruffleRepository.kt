@@ -4,8 +4,8 @@ import com.example.tartufozon.domain.model.Truffle
 
 interface TruffleRepository {
 
-    //HEROKU_DB
-    suspend fun getLocalTruffleList() : List<Truffle>
+    suspend fun getTruffleList() : List<Truffle>
 
-    suspend fun getLocalTruffleDetail(truffleId : Int): Truffle
+    suspend fun getTruffleDetail(truffleId : Int): Truffle
+
 }

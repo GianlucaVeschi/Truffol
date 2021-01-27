@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -50,9 +49,8 @@ class TruffleListViewModel @ViewModelInject constructor(
     private suspend fun getTruffleList() {
         resetSearchState()
         loading.value = true
-        delay(2000) //Fake Delay
 
-        val tmpTrufflesList = truffleRepositoryImpl.getLocalTruffleList()
+        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
         trufflesList.value = tmpTrufflesList
         loading.value = false
     }
@@ -61,9 +59,8 @@ class TruffleListViewModel @ViewModelInject constructor(
     private suspend fun getShuffledTruffleList() {
         resetSearchState()
         loading.value = true
-        delay(2000) //Fake Delay
 
-        val tmpTrufflesList = truffleRepositoryImpl.getLocalTruffleList()
+        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
         trufflesList.value = tmpTrufflesList.shuffled()
         loading.value = false
     }

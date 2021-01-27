@@ -6,8 +6,4 @@ sealed class TruffleEvent{
         val id: Int
     ): TruffleEvent()
 
-    data class GetLocalTruffleEvent(
-        val id: Int
-    ): TruffleEvent()
-
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -26,7 +25,7 @@ class TruffleDetailViewModel @ViewModelInject constructor(
     init {
         // restore if process dies
         state.get<Int>(STATE_KEY_TRUFFLE)?.let{ truffleId ->
-            onTriggerEvent(TruffleEvent.GetLocalTruffleEvent(truffleId))
+            onTriggerEvent(TruffleEvent.GetTruffleEvent(truffleId))
         }
     }
 
@@ -35,9 +34,9 @@ class TruffleDetailViewModel @ViewModelInject constructor(
             try {
                 when(event){
                     //UseCase #1
-                    is TruffleEvent.GetLocalTruffleEvent -> {
+                    is TruffleEvent.GetTruffleEvent -> {
                         //if(truffle.value == null){
-                            getLocalTruffleDetail(event.id)
+                            getTruffleDetail(event.id)
                         //}
                     }
 
@@ -49,13 +48,10 @@ class TruffleDetailViewModel @ViewModelInject constructor(
         }
     }
 
-    private suspend fun getLocalTruffleDetail(truffleId : Int){
+    private suspend fun getTruffleDetail(truffleId : Int){
         loading.value = true
 
-        // simulate a delay to show loading
-        delay(1000)
-
-        val truffle = truffleRepositoryImpl.getLocalTruffleDetail(truffleId)
+        val truffle = truffleRepositoryImpl.getTruffleDetail(truffleId)
         Timber.d("Gianluca $truffle")
         this.truffle.value = truffle
 

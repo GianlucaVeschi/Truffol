@@ -12,17 +12,21 @@ import androidx.compose.ui.platform.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.presentation.components.Screens
+import com.example.tartufozon.presentation.ui.profileview.ProfileScreen
+import com.example.tartufozon.presentation.ui.shopview.ShopListScreen
+import com.example.tartufozon.presentation.ui.shopview.ShopListViewModel
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreenContent
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
-import com.example.tartufozon.presentation.ui.profileview.ProfileScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: TruffleListViewModel by viewModels()
+    private val truffleListViewModel: TruffleListViewModel by viewModels()
+    private val shopListViewModel : ShopListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Composable
     fun ScreensController(
         navController: NavHostController,
@@ -100,12 +105,12 @@ class MainActivity : AppCompatActivity() {
 
             composable("gotoTruffleListScreen") {
                 topBarTitle.value = "Truffles Screen"
-                TruffleListScreenContent(viewModel)
+                TruffleListScreenContent(truffleListViewModel, navController)
             }
 
             composable("gotoShopListScreen") {
                 topBarTitle.value = "Shops Screen"
-                ProfileScreen(Color.White)
+                ShopListScreen(shopListViewModel)
             }
 
             composable("gotoProfileScreen") {
