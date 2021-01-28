@@ -30,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
+/** NOT USED - SHOULD BE DELETED */
 @AndroidEntryPoint
 class TruffleListFragment : Fragment() {
 

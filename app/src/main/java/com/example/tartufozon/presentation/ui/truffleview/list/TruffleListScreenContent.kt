@@ -20,6 +20,7 @@ import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
+
 @ExperimentalCoroutinesApi
 @Composable
 fun TruffleListScreenContent(
@@ -77,7 +78,6 @@ fun BuildSearchBar(
 @ExperimentalCoroutinesApi
 @Composable
 fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean) {
-    var click = 0
     Box(
         modifier = Modifier.background(color = MaterialTheme.colors.surface)
     ) {
@@ -88,12 +88,11 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean) {
                 itemsIndexed(
                     items = truffles
                 ) { index, truffle ->
-                    TruffleCard(truffle, onClick = {
-                        Timber.d("just clicked ${click++}")
+                    TruffleCard(truffle) {
+                        Timber.d("click truffle $index")
                         val bundle = Bundle()
                         bundle.putInt("truffleId", truffle.id)
-                        //navController.navigate()//??
-                    })
+                    }
                 }
             }
         }

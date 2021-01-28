@@ -1,5 +1,7 @@
 package com.example.tartufozon.presentation.ui.shopview.list
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,10 +49,16 @@ fun BuildShopList(shops: List<Shop>, isLoading: Boolean) {
                 itemsIndexed(
                     items = shops
                 ) { index, shop ->
-                    ShopCard(shop, { Timber.d("click shop") })
+                    ShopCard(shop) {
+                        Timber.d("click shop $index")
+                    }
                 }
             }
         }
         CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
     }
+}
+
+fun showMessage(context: Context, message:String){
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

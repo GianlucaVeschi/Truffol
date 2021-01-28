@@ -25,26 +25,28 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    //Is it a good idea to have all viewmodels here?
+    // They should live in they relative screens but it doesn't work...
     private val truffleListViewModel: TruffleListViewModel by viewModels()
-    private val shopListViewModel : ShopListViewModel by viewModels()
+    private val shopListViewModel: ShopListViewModel by viewModels()
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Bottom Nav Works but still don't understand how to use use my screens
+        //Bottom Nav Works but still don't understand how it works exactly...
         setContent {
             //BottomNav
             val navController: NavHostController = rememberNavController()
             val title = remember { mutableStateOf("TruffleListScreen") }
-            buildScaffold(navController = navController, title = title)
+            BuildScaffold(navController = navController, title = title)
         }
     }
 
     @Composable
-    fun buildScaffold(navController: NavHostController, title: MutableState<String>) {
+    fun BuildScaffold(navController: NavHostController, title: MutableState<String>) {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
-
             Scaffold(
                 topBar = {
                     TopAppBar(
@@ -74,7 +76,9 @@ class MainActivity : AppCompatActivity() {
             Screens.ShopListScreen,
             Screens.ProfileScreen
         )
-        BottomNavigation {
+        BottomNavigation(
+            backgroundColor = Color(139, 69, 19)
+        ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
 
