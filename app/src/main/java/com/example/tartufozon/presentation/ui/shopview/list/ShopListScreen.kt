@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.ShopCard
-import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
+import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
@@ -41,7 +41,7 @@ fun BuildShopList(shops: List<Shop>, isLoading: Boolean) {
         modifier = Modifier.background(color = MaterialTheme.colors.surface)
     ) {
         if (isLoading) {
-            LoadingTruffleListShimmer(imageHeight = 250.dp)
+            LoadingListShimmer(imageHeight = 250.dp)
         } else {
             LazyColumn {
                 itemsIndexed(

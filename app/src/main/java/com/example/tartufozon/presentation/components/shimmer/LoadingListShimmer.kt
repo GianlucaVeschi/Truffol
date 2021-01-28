@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoadingTruffleListShimmer(
+fun LoadingListShimmer(
     imageHeight: Dp,
     padding: Dp = 16.dp
 ){

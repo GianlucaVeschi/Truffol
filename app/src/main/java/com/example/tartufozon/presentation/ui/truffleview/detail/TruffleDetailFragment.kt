@@ -17,7 +17,7 @@ import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.IMAGE_HEIGHT
 import com.example.tartufozon.presentation.components.TruffleDetailView
-import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleDetailShimmer
+import com.example.tartufozon.presentation.components.shimmer.LoadingDetailShimmer
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -66,7 +66,7 @@ class TruffleDetailFragment : Fragment() {
                             modifier = Modifier.fillMaxSize()
                         ) {
                             if (loading && truffle == null){
-                               LoadingTruffleDetailShimmer(imageHeight = IMAGE_HEIGHT.dp)
+                               LoadingDetailShimmer(imageHeight = IMAGE_HEIGHT.dp)
                             }
                             else truffle?.let {
                                 TruffleDetailView(truffle = it)

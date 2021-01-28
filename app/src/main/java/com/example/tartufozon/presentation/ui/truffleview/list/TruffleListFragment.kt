@@ -24,7 +24,7 @@ import com.example.tartufozon.presentation.components.BuildDrawerContent
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.SearchAppBar
 import com.example.tartufozon.presentation.components.TruffleCard
-import com.example.tartufozon.presentation.components.shimmer.LoadingTruffleListShimmer
+import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -97,7 +97,7 @@ class TruffleListFragment : Fragment() {
             modifier = Modifier.background(color = MaterialTheme.colors.surface)
         ) {
             if (isLoading) {
-                LoadingTruffleListShimmer(imageHeight = 250.dp)
+                LoadingListShimmer(imageHeight = 250.dp)
             } else {
                 LazyColumn {
                     itemsIndexed(
