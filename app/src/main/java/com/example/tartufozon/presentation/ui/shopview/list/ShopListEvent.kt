@@ -1,9 +1,7 @@
-package com.example.tartufozon.presentation.ui.truffleview.list
+package com.example.tartufozon.presentation.ui.shopview.list
 
-sealed class TruffleListEvent {
+sealed class ShopListEvent {
 
     //Note that it would make more sense to use a class if we were passing smth to the event
-    object GetTruffleList : TruffleListEvent()
-
-    object GetShuffledTruffleList : TruffleListEvent()
+    object GetShopList : ShopListEvent()
 }

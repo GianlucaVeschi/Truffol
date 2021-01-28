@@ -28,7 +28,7 @@ class TruffleListViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             try {
                 when (event) {
-                    //Additional pseudo use cases go here...
+                    //Pseudo use cases go here...
                     is TruffleListEvent.GetShuffledTruffleList -> {
                         getShuffledTruffleList()
                     }

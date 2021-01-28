@@ -27,7 +27,6 @@ fun ShopListScreen(
     val scrollState = rememberScrollState()
 
     //val shopListViewModel : ShopListViewModel = viewModel() // Error
-    shopListViewModel.triggerEvent()
 
     Scaffold{
         BuildShopList(shops = shopList, isLoading = loading)

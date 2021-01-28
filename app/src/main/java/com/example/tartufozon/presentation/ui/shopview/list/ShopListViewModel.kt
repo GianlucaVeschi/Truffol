@@ -18,11 +18,18 @@ class ShopListViewModel @ViewModelInject constructor(
     //var categoryScrollPosition: Float = 0f
     val loading = mutableStateOf(false)
 
-    fun triggerEvent(){
+    init {
+        triggerEvent(ShopListEvent.GetShopList)
+    }
+
+    private fun triggerEvent(event : ShopListEvent){
         viewModelScope.launch {
             try {
-                getShopList()
-                printShops()
+                when(event){
+                    is ShopListEvent.GetShopList -> {
+                        getShopList()
+                    }
+                }
             } catch (e: Exception) {
                 Timber.e("launchJob: Exception: ${e}, ${e.cause}")
                 e.printStackTrace()
@@ -34,11 +41,10 @@ class ShopListViewModel @ViewModelInject constructor(
 
     private suspend fun getShopList() {
         //resetSearchState()
-        //loading.value = true
-
+        loading.value = true
         val tmpShopList = shopRepositoryImpl.getShopList()
         shopList.value = tmpShopList
-        //loading.value = false
+        loading.value = false
     }
 
     private fun printShops(){
