@@ -8,5 +8,9 @@ data class Shop(
     @SerializedName("title")        val shopName: String?,
     @SerializedName("description")  val description: String?,
     @SerializedName("image_url")    val image_url: String?,
-    @SerializedName("rating")       val rating: Long?
+    @SerializedName("website")      val website: String?,
+    @SerializedName("location")     val location: String?,
+    @SerializedName("email")        val email: String?,
+    @SerializedName("phone")        val phone: String?
 )
+

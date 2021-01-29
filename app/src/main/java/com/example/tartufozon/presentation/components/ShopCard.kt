@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.util.DEFAULT_SHOP_IMAGE
 import com.example.tartufozon.util.loadPicture
+import timber.log.Timber
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
@@ -60,7 +61,7 @@ fun ShopCard(
                             .wrapContentWidth(Alignment.Start),
                         style = MaterialTheme.typography.h5
                     )
-                    val rank = shop.rating.toString()
+                    val rank = shop.id.toString()
                     Text(
                         text = rank,
                         modifier = Modifier
@@ -77,14 +78,18 @@ fun ShopCard(
 
 @Preview
 @Composable
-fun PreviewShopCard(){
+fun PreviewShopCard() {
     ShopCard(
         shop = Shop(
-            id=2,
-            shopName="Negozio di Tartufo Nero",
-            description="Famosissimo",
-            image_url="https://www.virginitartufi.it/wp-content/uploads/2018/08/virgini-negozio-1.jpg",
-            rating=2),
-        onClick = { /*TODO*/ }
-    )
+            id = 1,
+            shopName = "Acqualagna tartufi",
+            description = "Molto famoso",
+            image_url = "https=//www.acqualagnatartufi.com/wp-content/uploads/2020/10/acqualagna-tartufi-logo-1.png",
+            website = "https=//www.acqualagnatartufi.com/",
+            location = "Acqualagna",
+            email = "info@acqualagnatartufi.com",
+            phone = "0721799310"),
+        onClick = {
+            Timber.d("onCLICK SHOP TOdo")
+        })
 }

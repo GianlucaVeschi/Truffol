@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
 
             composable("gotoProfileScreen") {
                 topBarTitle.value = "Profile Screen"
-                ProfileScreen(Color.Red)
+                ProfileScreen()
             }
 
         }
