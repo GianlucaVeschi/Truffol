@@ -2,21 +2,22 @@ package com.example.tartufozon.presentation.ui.truffleview.detail
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 const val STATE_KEY_TRUFFLE = "truffle.state.truffle.key"
 
-class TruffleDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class TruffleDetailViewModel @Inject constructor(
     private val truffleRepositoryImpl: TruffleRepositoryImpl,
-    @Assisted private val state: SavedStateHandle,
+    private val state: SavedStateHandle,
 ) : ViewModel() {
 
     val truffle: MutableState<Truffle?> = mutableStateOf(null)

@@ -1,9 +1,11 @@
 package com.example.tartufozon.presentation.ui.profileview
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ShopListViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
     // TODO: 10.01.21      
 }

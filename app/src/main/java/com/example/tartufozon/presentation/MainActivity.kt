@@ -25,7 +25,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    //Is it a good idea to have all viewmodels here?
+    //Is it a good idea to have all ViewModels here?
     // They should live in they relative screens but it doesn't work...
     private val truffleListViewModel: TruffleListViewModel by viewModels()
     private val shopListViewModel: ShopListViewModel by viewModels()
@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                             }
                         })
                 },
-
                 bottomBar = {
                     BuildBottomBar(navController = navController)
                 }

@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tartufozon.R
 
-private val initialimageFloat = 170f
+private const val initialimageFloat = 170f
 private val name = "Gianluca Veschi"
 private val email = "gianluca.veschi00@gmail.com"
 const val twitterUrl = "https://twitter.com/GianlucaVeschi"

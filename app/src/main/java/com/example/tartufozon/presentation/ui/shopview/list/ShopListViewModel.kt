@@ -2,15 +2,17 @@ package com.example.tartufozon.presentation.ui.shopview.list
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.presentation.ui.shopview.repo.ShopRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class ShopListViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ShopListViewModel @Inject constructor(
     private val shopRepositoryImpl: ShopRepositoryImpl
 ) : ViewModel() {
 
