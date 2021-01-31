@@ -11,11 +11,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.example.tartufozon.presentation.components.Screens
+import com.example.tartufozon.presentation.ui.Screens
 import com.example.tartufozon.presentation.ui.profileview.ProfileScreen
 import com.example.tartufozon.presentation.ui.shopview.list.ShopListScreen
 import com.example.tartufozon.presentation.ui.shopview.list.ShopListViewModel
-import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreenContent
+import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreen
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun BuildBottomBar(navController: NavHostController) {
-        val items = listOf(
+        val bottomNavScreens = listOf(
             Screens.TruffleListScreen,
             Screens.ShopListScreen,
             Screens.ProfileScreen
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
 
-            items.forEach {
+            bottomNavScreens.forEach {
                 BottomNavigationItem(
                     icon = { Icon(it.icon) },
                     selected = currentRoute == it.route,
@@ -104,19 +104,19 @@ class MainActivity : AppCompatActivity() {
         navController: NavHostController,
         topBarTitle: MutableState<String>
     ) {
-        NavHost(navController = navController, startDestination = "gotoShopListScreen") {
+        NavHost(navController = navController, startDestination = Screens.ShopListScreen.route) {
 
-            composable("gotoTruffleListScreen") {
+            composable(Screens.TruffleListScreen.route) {
                 topBarTitle.value = "Truffles Screen"
-                TruffleListScreenContent(truffleListViewModel, navController)
+                TruffleListScreen(truffleListViewModel)
             }
 
-            composable("gotoShopListScreen") {
+            composable(Screens.ShopListScreen.route) {
                 topBarTitle.value = "Shops Screen"
                 ShopListScreen(shopListViewModel)
             }
 
-            composable("gotoProfileScreen") {
+            composable(Screens.ProfileScreen.route) {
                 topBarTitle.value = "Profile Screen"
                 ProfileScreen()
             }
