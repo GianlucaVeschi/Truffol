@@ -1,7 +1,5 @@
 package com.example.tartufozon.presentation.ui.shopview.list
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,12 +9,19 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.tartufozon.domain.model.Shop
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.ShopCard
 import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
+import com.example.tartufozon.presentation.ui.DetailScreens
+import com.example.tartufozon.presentation.ui.Screens
+import com.example.tartufozon.presentation.ui.shopview.detail.ShopDetailScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @Composable
@@ -24,41 +29,45 @@ fun ShopListScreen(
     shopListViewModel: ShopListViewModel
 ) {
 
-    val shopList = shopListViewModel.shopList.value
-    val loading = shopListViewModel.loading.value
-    val scrollState = rememberScrollState()
+    val navController: NavHostController = rememberNavController()
 
-    //val shopListViewModel : ShopListViewModel = viewModel() // Error
-
-    Scaffold{
-        BuildShopList(shops = shopList, isLoading = loading)
+    NavHost(navController, startDestination = Screens.ShopListScreen.route) {
+        composable(Screens.ShopListScreen.route) {
+            ShopListScreenContent(shopListViewModel,navController)
+        }
+        composable(DetailScreens.ShopDetailScreen.route) {
+            ShopDetailScreen()
+        }
     }
 }
 
 @ExperimentalCoroutinesApi
 @Composable
-fun BuildShopList(shops: List<Shop>, isLoading: Boolean) {
-    var click = 0
-    Box(
-        modifier = Modifier.background(color = MaterialTheme.colors.surface)
-    ) {
-        if (isLoading) {
-            LoadingListShimmer(imageHeight = 250.dp)
-        } else {
-            LazyColumn {
-                itemsIndexed(
-                    items = shops
-                ) { index, shop ->
-                    ShopCard(shop) {
-                        Timber.d("click shop $index")
+fun ShopListScreenContent(shopListViewModel : ShopListViewModel, navController: NavController) {
+
+    val shopList = shopListViewModel.shopList.value
+    val loading = shopListViewModel.loading.value
+    val scrollState = rememberScrollState()
+
+    Scaffold {
+        var click = 0
+        Box(
+            modifier = Modifier.background(color = MaterialTheme.colors.surface)
+        ) {
+            if (loading) {
+                LoadingListShimmer(imageHeight = 250.dp)
+            } else {
+                LazyColumn {
+                    itemsIndexed(
+                        items = shopList
+                    ) { index, shop ->
+                        ShopCard(shop) {
+                            navController.navigate(DetailScreens.ShopDetailScreen.route)
+                        }
                     }
                 }
             }
+            CircularIndeterminateProgressBar(isDisplayed = loading, verticalBias = 0.5f)
         }
-        CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
     }
-}
-
-fun showMessage(context: Context, message:String){
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

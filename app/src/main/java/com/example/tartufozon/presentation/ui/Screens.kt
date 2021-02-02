@@ -14,4 +14,5 @@ sealed class Screens(val route: String, val label: String, val icon: ImageVector
 
 sealed class DetailScreens(val route: String){
     object TruffleDetailScreen : DetailScreens("gotoTruffleDetailScreen")
+    object ShopDetailScreen : DetailScreens("gotoShopDetailScreen")
 }
