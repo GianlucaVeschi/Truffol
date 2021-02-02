@@ -71,7 +71,6 @@ fun ProfileScreen() {
         composable(Screens.ProfileScreen.route) { ProfileScreenContent(navController) }
         composable(DetailScreens.TruffleDetailScreen.route) { TruffleDetailScreenContent() }
     }
-    //ProfileScreenContent()
 }
 
 @Composable

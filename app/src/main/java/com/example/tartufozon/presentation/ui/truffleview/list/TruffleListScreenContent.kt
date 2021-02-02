@@ -1,6 +1,5 @@
 package com.example.tartufozon.presentation.ui.truffleview.list
 
-import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,9 +9,11 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.BuildDrawerContent
@@ -24,7 +25,6 @@ import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
 import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailScreenContent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 
 
 @ExperimentalCoroutinesApi
@@ -32,8 +32,20 @@ import timber.log.Timber
 fun TruffleListScreen(
     truffleListViewModel: TruffleListViewModel
 ) {
-    //val truffleListViewModel: TruffleListViewModel = viewModel()
+    val navController : NavHostController = rememberNavController()
 
+    NavHost(navController, startDestination = Screens.TruffleListScreen.route) {
+        composable(Screens.TruffleListScreen.route) {
+            TruffleListScreenContent(truffleListViewModel,navController)
+        }
+        composable(DetailScreens.TruffleDetailScreen.route) {
+            TruffleDetailScreenContent()
+        }
+    }
+}
+
+@Composable
+fun TruffleListScreenContent(truffleListViewModel: TruffleListViewModel, navController: NavController) {
     val trufflesList = truffleListViewModel.trufflesList.value
     val query: String = truffleListViewModel.query.value
     val selectedCategory = truffleListViewModel.selectedCategory.value
@@ -51,9 +63,8 @@ fun TruffleListScreen(
         },
         drawerContent = { BuildDrawerContent() }
     ) {
-        BuildTrufflesList(truffles = trufflesList, loading)
+        BuildTrufflesList(truffles = trufflesList, loading, navController)
     }
-
 }
 
 @Composable
@@ -83,9 +94,7 @@ fun BuildSearchBar(
 
 @ExperimentalCoroutinesApi
 @Composable
-fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean) {
-
-    val navController : NavHostController = rememberNavController()
+fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController: NavController) {
 
     Box(
         modifier = Modifier.background(color = MaterialTheme.colors.surface)
@@ -98,27 +107,14 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean) {
                     items = truffles
                 ) { index, truffle ->
                     TruffleCard(truffle, onClick = {
-                        Timber.d("click truffle $index")
-                        val bundle = Bundle()
-                        bundle.putInt("truffleId", truffle.id)
-                        //navController.navigate(DetailScreens.TruffleDetailScreen.route)
+//                        Timber.d("click truffle $index")
+//                        val bundle = Bundle()
+//                        bundle.putInt("truffleId", truffle.id)
+                        navController.navigate(DetailScreens.TruffleDetailScreen.route)
                     })
                 }
             }
         }
         CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
-    }
-}
-
-/**
- * The navController is created automatically by
- * the NavHost composable and is only available
- * inside the NavGraph using AmbientNavController.current
- */
-@Composable
-fun SimpleNav() {
-    val navController = rememberNavController()
-        NavHost(navController, startDestination = Screens.TruffleListScreen.route) {
-        composable(DetailScreens.TruffleDetailScreen.route) { TruffleDetailScreenContent() }
     }
 }
