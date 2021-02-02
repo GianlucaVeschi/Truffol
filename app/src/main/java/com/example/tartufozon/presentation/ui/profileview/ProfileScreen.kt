@@ -31,7 +31,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.tartufozon.R
+import com.example.tartufozon.presentation.ui.DetailScreens
+import com.example.tartufozon.presentation.ui.Screens
+import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailScreenContent
 
 private const val initialimageFloat = 170f
 private val name = "Gianluca Veschi"
@@ -55,6 +64,18 @@ private fun launchSocialActivity(context: Context, socialType: String) {
 
 @Composable
 fun ProfileScreen() {
+
+    val navController : NavHostController = rememberNavController()
+
+    NavHost(navController, startDestination = Screens.ProfileScreen.route) {
+        composable(Screens.ProfileScreen.route) { ProfileScreenContent(navController) }
+        composable(DetailScreens.TruffleDetailScreen.route) { TruffleDetailScreenContent() }
+    }
+    //ProfileScreenContent()
+}
+
+@Composable
+fun ProfileScreenContent(navController: NavController){
     Scaffold {
         Box(
             modifier = Modifier
@@ -67,12 +88,11 @@ fun ProfileScreen() {
             ScrollableColumn(scrollState = scrollState, modifier = Modifier.fillMaxSize()) {
                 Spacer(modifier = Modifier.height(100.dp))
                 TopScrollingContent(scrollState)
-                BottomScrollingContent()
+                BottomScrollingContent(navController)
             }
         }
     }
 }
-
 @Composable
 fun TopScrollingContent(scrollState: ScrollState) {
     val visibilityChangeFloat = scrollState.value > initialimageFloat - 20
@@ -97,7 +117,7 @@ fun TopScrollingContent(scrollState: ScrollState) {
 }
 
 @Composable
-fun BottomScrollingContent() {
+fun BottomScrollingContent(navController: NavController) {
     Column(modifier = Modifier
         .background(MaterialTheme.colors.surface)
         .padding(8.dp)) {
@@ -130,7 +150,7 @@ fun BottomScrollingContent() {
                 .fillMaxWidth()
                 .padding(8.dp),
         )
-        MoreInfoSection()
+        MoreInfoSection(navController)
     }
 }
 
@@ -158,7 +178,7 @@ fun SocialRow() {
 }
 
 @Composable
-fun MoreInfoSection() {
+fun MoreInfoSection(navController: NavController) {
     val context = AmbientContext.current
     Text(
         text = "More Info",
@@ -181,7 +201,10 @@ fun MoreInfoSection() {
         },
         secondaryText = { Text(text = "Tap to checkout the repo for the project") },
         modifier = Modifier
-            .clickable(onClick = { launchSocialActivity(context, "repository") })
+            .clickable(onClick = {
+                //launchSocialActivity(context, "repository")
+                navController.navigate(DetailScreens.TruffleDetailScreen.route)
+            })
     )
     ListItem(
         icon = { Icon(imageVector = Icons.Rounded.Email) },

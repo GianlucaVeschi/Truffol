@@ -12,6 +12,6 @@ sealed class Screens(val route: String, val label: String, val icon: ImageVector
     object ProfileScreen : Screens("gotoProfileScreen","Profile",Icons.Default.BabyChangingStation)
 }
 
-sealed class DetailScreens(val route: String, val label: String){
-    object TruffleDetailScreen : DetailScreens("gotoTruffleDetailScreen","Truffle Detail")
+sealed class DetailScreens(val route: String){
+    object TruffleDetailScreen : DetailScreens("gotoTruffleDetailScreen")
 }
