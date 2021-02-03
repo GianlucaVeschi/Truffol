@@ -35,12 +35,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.tartufozon.R
-import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
-import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailScreenContent
 
 private const val initialimageFloat = 170f
 private val name = "Gianluca Veschi"
@@ -69,7 +66,6 @@ fun ProfileScreen() {
 
     NavHost(navController, startDestination = Screens.ProfileScreen.route) {
         composable(Screens.ProfileScreen.route) { ProfileScreenContent(navController) }
-        composable(DetailScreens.TruffleDetailScreen.route) { TruffleDetailScreenContent() }
     }
 }
 
@@ -201,8 +197,7 @@ fun MoreInfoSection(navController: NavController) {
         secondaryText = { Text(text = "Tap to checkout the repo for the project") },
         modifier = Modifier
             .clickable(onClick = {
-                //launchSocialActivity(context, "repository")
-                navController.navigate(DetailScreens.TruffleDetailScreen.route)
+                launchSocialActivity(context, "repository")
             })
     )
     ListItem(

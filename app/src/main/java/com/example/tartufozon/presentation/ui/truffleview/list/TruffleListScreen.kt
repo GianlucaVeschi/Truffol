@@ -23,7 +23,7 @@ import com.example.tartufozon.presentation.components.TruffleCard
 import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
-import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailScreenContent
+import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -32,20 +32,25 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun TruffleListScreen(
     truffleListViewModel: TruffleListViewModel
 ) {
-    val navController : NavHostController = rememberNavController()
+    val navController: NavHostController = rememberNavController()
 
     NavHost(navController, startDestination = Screens.TruffleListScreen.route) {
         composable(Screens.TruffleListScreen.route) {
-            TruffleListScreenContent(truffleListViewModel,navController)
+            TruffleListScreenContent(truffleListViewModel, navController)
         }
-        composable(DetailScreens.TruffleDetailScreen.route) {
-            TruffleDetailScreenContent()
+        composable(DetailScreens.TruffleDetailScreen.routeWithArg) { backStackEntry ->
+            TruffleDetailScreen(
+                truffleName = backStackEntry.arguments?.getString("arg") ?: ""
+            )
         }
     }
 }
 
 @Composable
-fun TruffleListScreenContent(truffleListViewModel: TruffleListViewModel, navController: NavController) {
+fun TruffleListScreenContent(
+    truffleListViewModel: TruffleListViewModel,
+    navController: NavController
+) {
     val trufflesList = truffleListViewModel.trufflesList.value
     val query: String = truffleListViewModel.query.value
     val selectedCategory = truffleListViewModel.selectedCategory.value
@@ -107,10 +112,9 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                     items = truffles
                 ) { index, truffle ->
                     TruffleCard(truffle, onClick = {
-//                        Timber.d("click truffle $index")
-//                        val bundle = Bundle()
-//                        bundle.putInt("truffleId", truffle.id)
-                        navController.navigate(DetailScreens.TruffleDetailScreen.route)
+                        navController.navigate(
+                            DetailScreens.TruffleDetailScreen.withArg(truffle.tartufoName!!)
+                        )
                     })
                 }
             }
