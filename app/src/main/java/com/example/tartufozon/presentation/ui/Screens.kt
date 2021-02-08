@@ -13,10 +13,6 @@ sealed class Screens(val route: String, val label: String, val icon: ImageVector
 }
 
 sealed class DetailScreens(val route: String){
-    // TODO: 03.02.21  pass truffle instead of string
-    object TruffleDetailScreen : DetailScreens("gotoTruffleDetailScreen"){
-        val routeWithArg: String = "$route?arg={arg}"
-        fun withArg(arg: String): String = routeWithArg.replace("{arg}", arg)
-    }
+    object TruffleDetailScreen : DetailScreens("gotoTruffleDetailScreen")
     object ShopDetailScreen : DetailScreens("gotoShopDetailScreen")
 }
