@@ -38,16 +38,17 @@ fun TruffleListScreen(
         composable(Screens.TruffleListScreen.route) {
             TruffleListScreenContent(truffleListViewModel, navController)
         }
-        composable(DetailScreens.TruffleDetailScreen.routeWithArg) { backStackEntry ->
+        composable(DetailScreens.TruffleDetailScreen.routeWithArg) { currentBackStackEntry ->
             TruffleDetailScreen(
-                truffleName = backStackEntry.arguments?.getString("arg") ?: ""
+                truffleName = currentBackStackEntry.arguments?.getString("arg") ?: ""
+                //truffleName = currentBackStackEntry.arguments?.putParcelable("arg",truffle) ?: ""
             )
         }
     }
 }
 
 @Composable
-fun TruffleListScreenContent(
+private fun TruffleListScreenContent(
     truffleListViewModel: TruffleListViewModel,
     navController: NavController
 ) {
@@ -100,7 +101,6 @@ fun BuildSearchBar(
 @ExperimentalCoroutinesApi
 @Composable
 fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController: NavController) {
-
     Box(
         modifier = Modifier.background(color = MaterialTheme.colors.surface)
     ) {

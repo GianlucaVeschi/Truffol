@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.util.DEFAULT_SHOP_IMAGE
 import com.example.tartufozon.util.loadPicture
-import timber.log.Timber
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
@@ -88,8 +87,9 @@ fun PreviewShopCard() {
             website = "https=//www.acqualagnatartufi.com/",
             location = "Acqualagna",
             email = "info@acqualagnatartufi.com",
-            phone = "0721799310"),
+            phone = "0721799310"
+        ),
         onClick = {
-            Timber.d("onCLICK SHOP TOdo")
+            // TODO: 08.02.21 onCLICK SHOP
         })
 }

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -49,7 +50,7 @@ android {
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
 
-    kapt{
+    kapt {
         correctErrorTypes = true
     }
 

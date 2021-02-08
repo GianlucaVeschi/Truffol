@@ -22,12 +22,14 @@ fun TruffleDetailScreen(truffleName: String) {
             .then(Modifier.padding(8.dp)),
         horizontalAlignment = Alignment.End
     ) {
+        //navController.previousBackStackEntry ?.arguments?.getParcelable<Truffle>("truffle_key")
         TruffleDetailScreenContent(truffleName = truffleName)
     }
 }
 
 @Composable
-fun TruffleDetailScreenContent(truffleName: String) {
+private fun TruffleDetailScreenContent(truffleName: String) {
+
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
