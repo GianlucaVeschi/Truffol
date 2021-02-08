@@ -14,7 +14,6 @@ import androidx.navigation.NavController
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.TruffleDetailView
 import com.example.tartufozon.util.Constants.TRUFFLE_KEY
-import timber.log.Timber
 
 
 @Composable
@@ -26,27 +25,22 @@ fun TruffleDetailScreen(navController: NavController) {
             .then(Modifier.padding(8.dp)),
         horizontalAlignment = Alignment.End
     ) {
-        val truffle = navController.previousBackStackEntry?.arguments?.getParcelable<Truffle>(TRUFFLE_KEY)
-        Timber.d(truffle.toString())
-        truffle?.let { TruffleDetailScreenContent(truffleDetail = it) }
-    }
-}
-
-@Composable
-private fun TruffleDetailScreenContent(truffleDetail: Truffle) {
-
-    val scaffoldState = rememberScaffoldState()
-
-    Scaffold(
-        scaffoldState = scaffoldState,
-        snackbarHost = {
-            scaffoldState.snackbarHostState
-        }
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            TruffleDetailView(truffle = truffleDetail)
+        val truffleDetail = navController.previousBackStackEntry?.arguments?.getParcelable<Truffle>(TRUFFLE_KEY)
+        truffleDetail?.let {
+            val scaffoldState = rememberScaffoldState()
+            Scaffold(
+                scaffoldState = scaffoldState,
+                snackbarHost = {
+                    scaffoldState.snackbarHostState
+                }
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    TruffleDetailView(truffle = truffleDetail)
+                }
+            }
         }
     }
+
 }

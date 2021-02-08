@@ -21,6 +21,7 @@ import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
 import com.example.tartufozon.presentation.ui.shopview.detail.ShopDetailScreen
+import com.example.tartufozon.util.Constants.SHOP_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -36,7 +37,7 @@ fun ShopListScreen(
             ShopListScreenContent(shopListViewModel,navController)
         }
         composable(DetailScreens.ShopDetailScreen.route) {
-            ShopDetailScreen()
+            ShopDetailScreen(navController)
         }
     }
 }
@@ -62,6 +63,7 @@ fun ShopListScreenContent(shopListViewModel : ShopListViewModel, navController: 
                         items = shopList
                     ) { index, shop ->
                         ShopCard(shop) {
+                            navController.currentBackStackEntry?.arguments?.putParcelable(SHOP_KEY,shop)
                             navController.navigate(DetailScreens.ShopDetailScreen.route)
                         }
                     }

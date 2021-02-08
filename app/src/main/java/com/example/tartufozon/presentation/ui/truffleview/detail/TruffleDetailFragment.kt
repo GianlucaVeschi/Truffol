@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
-import com.example.tartufozon.presentation.components.IMAGE_HEIGHT
 import com.example.tartufozon.presentation.components.TruffleDetailView
 import com.example.tartufozon.presentation.components.shimmer.LoadingDetailShimmer
 import com.example.tartufozon.presentation.components.theme.AppTheme
+import com.example.tartufozon.util.Constants.IMAGE_HEIGHT
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
