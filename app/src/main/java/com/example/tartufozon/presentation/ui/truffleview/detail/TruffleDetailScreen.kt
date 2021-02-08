@@ -10,25 +10,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.TruffleDetailView
+import com.example.tartufozon.util.Constants.TRUFFLE_KEY
+import timber.log.Timber
 
 
 @Composable
-fun TruffleDetailScreen(truffleName: String) {
+fun TruffleDetailScreen(navController: NavController) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .then(Modifier.padding(8.dp)),
         horizontalAlignment = Alignment.End
     ) {
-        //navController.previousBackStackEntry ?.arguments?.getParcelable<Truffle>("truffle_key")
-        TruffleDetailScreenContent(truffleName = truffleName)
+        val truffle = navController.previousBackStackEntry?.arguments?.getParcelable<Truffle>(TRUFFLE_KEY)
+        Timber.d(truffle.toString())
+        truffle?.let { TruffleDetailScreenContent(truffleDetail = it) }
     }
 }
 
 @Composable
-private fun TruffleDetailScreenContent(truffleName: String) {
+private fun TruffleDetailScreenContent(truffleDetail: Truffle) {
 
     val scaffoldState = rememberScaffoldState()
 
@@ -41,13 +46,7 @@ private fun TruffleDetailScreenContent(truffleName: String) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            val truffle = Truffle(
-                1,
-                truffleName,
-                "Buonisssimo",
-                "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
-                9)
-            TruffleDetailView(truffle = truffle)
+            TruffleDetailView(truffle = truffleDetail)
         }
     }
 }

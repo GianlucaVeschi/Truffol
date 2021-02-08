@@ -24,6 +24,7 @@ import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
 import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailScreen
+import com.example.tartufozon.util.Constants.TRUFFLE_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -38,10 +39,9 @@ fun TruffleListScreen(
         composable(Screens.TruffleListScreen.route) {
             TruffleListScreenContent(truffleListViewModel, navController)
         }
-        composable(DetailScreens.TruffleDetailScreen.routeWithArg) { currentBackStackEntry ->
+        composable(DetailScreens.TruffleDetailScreen.route) {
             TruffleDetailScreen(
-                truffleName = currentBackStackEntry.arguments?.getString("arg") ?: ""
-                //truffleName = currentBackStackEntry.arguments?.putParcelable("arg",truffle) ?: ""
+                navController = navController
             )
         }
     }
@@ -112,8 +112,9 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                     items = truffles
                 ) { index, truffle ->
                     TruffleCard(truffle, onClick = {
+                        navController.currentBackStackEntry?.arguments?.putParcelable(TRUFFLE_KEY, truffle)
                         navController.navigate(
-                            DetailScreens.TruffleDetailScreen.withArg(truffle.tartufoName!!)
+                            DetailScreens.TruffleDetailScreen.route
                         )
                     })
                 }
