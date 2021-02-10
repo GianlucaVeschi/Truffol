@@ -13,7 +13,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tartufozon.domain.model.Shop
-import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.util.Constants.IMAGE_HEIGHT
 import com.example.tartufozon.util.DEFAULT_FOOD_IMAGE
 import com.example.tartufozon.util.loadPicture
@@ -54,13 +53,19 @@ fun ShopDetailView(
                                 .wrapContentWidth(Alignment.Start),
                             style = MaterialTheme.typography.h3
                         )
-                        val shopID = shop.id.toString()
                         Text(
-                            text = shopID,
+                            text = shop.id.toString(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentWidth(Alignment.End)
                                 .align(Alignment.CenterVertically),
+                            style = MaterialTheme.typography.h5
+                        )
+                        Text(
+                            text = shop.location.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(0.85f)
+                                .wrapContentWidth(Alignment.Start),
                             style = MaterialTheme.typography.h5
                         )
                     }
@@ -73,12 +78,16 @@ fun ShopDetailView(
 @ExperimentalCoroutinesApi
 @Preview
 @Composable
-fun defaultPreview(){
-    val truffle = Truffle(
-        1,
-        "Tartufinho",
-        "Buonisssimo",
-        "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
-        9)
-    TruffleDetailView(truffle = truffle)
+fun ShopDetailScreenPreview() {
+    val shop = Shop(
+        id = 10,
+        shopName = "Tartufo Valmetauro Di Sartori Manuel",
+        description = "La Ditta Sartori custode di questa antica tradizione, raccoglie e seleziona soltanto i frutti migliori, quelli cioè che hanno raggiunto il giusto grado di maturazione, e ne racchiude le proprietà con l’attenzione di chi ama il proprio lavoro, riuscendo così a restituirne integralmente tutta la fragranza.",
+        image_url = "http://valmetauro.com/wp-content/themes/infringe/images/logo-azienda.png",
+        website = "http://www.valmetauro.com/",
+        location = "Via Ada Negri, 5 - 61033 FERMIGNANO (PU)",
+        email = "info@valmetauro.com",
+        phone = "+390722330324"
+    )
+    ShopDetailView(shop = shop)
 }

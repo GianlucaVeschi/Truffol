@@ -4,9 +4,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.setContent
 import androidx.navigation.NavHostController
@@ -19,7 +18,6 @@ import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreen
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -38,32 +36,21 @@ class MainActivity : AppCompatActivity() {
         setContent {
             //BottomNav
             val navController: NavHostController = rememberNavController()
-            val title = remember { mutableStateOf("TruffleListScreen") }
-            BuildScaffold(navController = navController, title = title)
+            //val title = remember { mutableStateOf("TruffleListScreen") }
+            BuildScaffold(navController = navController)
         }
     }
 
     @Composable
-    fun BuildScaffold(navController: NavHostController, title: MutableState<String>) {
+    fun BuildScaffold(navController: NavHostController) {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
             Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { Text(text = title.value) },
-                        actions = {
-                            IconButton(onClick = {
-                                Timber.d("Mail clicked")
-                            }) {
-                                Icon(Icons.Default.Email)
-                            }
-                        })
-                },
                 bottomBar = {
                     BuildBottomBar(navController = navController)
                 }
             ) {
-                ScreensController(navController = navController, topBarTitle = title)
+                ScreensController(navController = navController)
             }
         }
     }
@@ -101,23 +88,23 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalCoroutinesApi
     @Composable
     fun ScreensController(
-        navController: NavHostController,
-        topBarTitle: MutableState<String>
+        navController: NavHostController
+        //topBarTitle: MutableState<String>
     ) {
         NavHost(navController = navController, startDestination = Screens.ShopListScreen.route) {
 
             composable(Screens.TruffleListScreen.route) {
-                topBarTitle.value = "Truffles Screen"
+                //topBarTitle.value = "Truffles Screen"
                 TruffleListScreen(truffleListViewModel)
             }
 
             composable(Screens.ShopListScreen.route) {
-                topBarTitle.value = "Shops Screen"
+                //topBarTitle.value = "Shops Screen"
                 ShopListScreen(shopListViewModel)
             }
 
             composable(Screens.ProfileScreen.route) {
-                topBarTitle.value = "Profile Screen"
+                //topBarTitle.value = "Profile Screen"
                 ProfileScreen()
             }
 
