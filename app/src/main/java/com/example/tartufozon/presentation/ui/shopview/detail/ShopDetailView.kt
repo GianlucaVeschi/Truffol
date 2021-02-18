@@ -30,6 +30,7 @@ fun ShopDetailView(
             image?.let { img ->
                 Image(
                     bitmap = img.asImageBitmap(),
+                    contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
                         .preferredHeight(IMAGE_HEIGHT.dp),

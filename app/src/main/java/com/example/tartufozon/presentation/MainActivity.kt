@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                             IconButton(onClick = {
                                 Timber.d("Mail clicked")
                             }) {
-                                Icon(Icons.Default.Email)
+                                Icon(Icons.Default.Email, contentDescription = null)
                             }
                         })
                 },
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
             bottomNavScreens.forEach {
                 BottomNavigationItem(
-                    icon = { Icon(it.icon) },
+                    icon = { Icon(it.icon, contentDescription = null) },
                     selected = currentRoute == it.route,
                     label = { Text(text = it.label) },
                     onClick = {

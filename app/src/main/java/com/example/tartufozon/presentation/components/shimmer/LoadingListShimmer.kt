@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoadingRecipeShimmer(
+fun LoadingListShimmer(
     imageHeight: Dp,
     padding: Dp = 16.dp
 ) {

@@ -56,6 +56,7 @@ fun NewsStory() {
 
             Image(image,
                 modifier = imageModifier,
+                contentDescription = null,
                 contentScale = ContentScale.Crop)
             Spacer(Modifier.preferredHeight(16.dp))
 
