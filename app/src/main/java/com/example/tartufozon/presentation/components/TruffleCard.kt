@@ -39,6 +39,7 @@ fun TruffleCard(
                 image?.let { img ->
                     Image(
                         bitmap = img.asImageBitmap(),
+                        contentDescription = "Truffle Card image",
                         modifier = Modifier
                             .fillMaxWidth()
                             .preferredHeight(225.dp),

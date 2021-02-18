@@ -40,6 +40,7 @@ fun ShopCard(
                 image?.let { img ->
                     Image(
                         bitmap = img.asImageBitmap(),
+                        contentDescription = "Shop Card image",
                         modifier = Modifier
                             .fillMaxWidth()
                             .preferredHeight(225.dp),

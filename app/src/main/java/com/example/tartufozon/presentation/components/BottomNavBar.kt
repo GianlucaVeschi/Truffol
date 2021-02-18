@@ -17,7 +17,7 @@ fun BuildBottomNavBar(screens : List<Screens>) {
     ) {
         screens.forEach {
             BottomNavigationItem(
-                icon = { Icon(it.icon) },
+                icon = { Icon(it.icon,"bottomNavIcon") },
                 selected = false,
                 label = { Text(text = it.label) },
                 onClick = {

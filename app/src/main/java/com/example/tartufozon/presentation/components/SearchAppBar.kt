@@ -2,6 +2,9 @@ package com.example.tartufozon.presentation.components
 
 import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -53,7 +56,7 @@ fun SearchAppBar(
                         imeAction = ImeAction.Done,
                     ),
                     leadingIcon = {
-                        Icon(Icons.Filled.Search)
+                        Icon(Icons.Filled.Search, "search Icon")
                     },
                     onImeActionPerformed = { action, softKeyboardController ->
                         if (action == ImeAction.Done) {
@@ -76,25 +79,20 @@ fun SearchAppBar(
                             },
                         onClick = onToggleTheme,
                     ) {
-                        Icon(Icons.Filled.MoreVert)
+                        Icon(Icons.Filled.MoreVert, "moreVert Icon")
                     }
                 }
             }
-            val scrollState = rememberScrollState()
-            ScrollableRow(
+            val scrollState = rememberLazyListState()
+            LazyRow(
                 modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
-                scrollState = scrollState,
+                state = scrollState,
             ) {
-
-                // restore scroll position after rotation
-                scrollState.scrollTo(scrollPosition)
-
-                for (category in categories) {
+                items(categories) {
                     TruffleCategoryChip(
-                        category = category.value,
-                        isSelected = selectedCategory == category,
+                        category = it.value,
+                        isSelected = selectedCategory == it,
                         onSelectedCategoryChanged = {
-                            onChangeScrollPosition(scrollState.value)
                             onSelectedCategoryChanged(it)
                         },
                         onExecuteSearch = {
