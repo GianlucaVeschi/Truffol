@@ -37,16 +37,19 @@ fun MyPhotosSection() {
     ) {
         Image(
             bitmap = imageResource(id = R.drawable.food2),
+            contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
         Image(
             bitmap = imageResource(id = R.drawable.food2),
+            contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
         Image(
             bitmap = imageResource(id = R.drawable.food2),
+            contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
@@ -57,16 +60,19 @@ fun MyPhotosSection() {
     ) {
         Image(
             bitmap = imageResource(id = R.drawable.food2),
+            contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
         Image(
             bitmap = imageResource(id = R.drawable.food2),
+            contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
         Image(
             bitmap = imageResource(id = R.drawable.food2),
+            contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
