@@ -43,10 +43,10 @@ android {
     }
 
     composeOptions {
-        def kotlin_compiler_version = "1.4.21"
+        def kotlin_compiler_version = "1.4.30-RC"
         kotlinCompilerVersion kotlin_compiler_version
 
-        def kotlin_compiler_extension_version = "1.0.0-alpha09"
+        def kotlin_compiler_extension_version = "1.0.0-alpha11"
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
 
@@ -136,6 +136,6 @@ dependencies {
     //Glide
     def glide_version = "4.11.0"
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
 }
