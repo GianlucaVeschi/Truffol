@@ -43,9 +43,6 @@ android {
     }
 
     composeOptions {
-        def kotlin_compiler_version = "1.4.30-RC"
-        kotlinCompilerVersion kotlin_compiler_version
-
         def kotlin_compiler_extension_version = "1.0.0-alpha11"
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
@@ -68,34 +65,19 @@ dependencies {
 
     def compose_version = "1.0.0-alpha11"
     implementation "androidx.compose.ui:ui:$compose_version"
-
     // Tooling support (Previews, etc.)
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
-
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     implementation "androidx.compose.foundation:foundation:$compose_version"
-
-    // Material Design
     implementation "androidx.compose.material:material:$compose_version"
-
-    // Material design icons
     implementation "androidx.compose.material:material-icons-core:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
-
-    // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"
-
-    // UI Tests
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version" // UI Tests
 
     // Jetpack Compose Navigation
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha05"
-
-    //Navigation
-    def nav_version = "2.3.2"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     //OkHttp
     def okhttp_version = "3.14.9"
@@ -129,9 +111,17 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_android"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_android"
 
-    // LiveData
-    def lifecycle_version = "2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    //Hilt ViewModel /* NOT USED YET */
+    //def hilt_lifecycle_viewmodel = "1.0.0-alpha03"
+    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_viewmodel"
+
+    //Hilt Navigation
+    def hilt_navigation = "1.0.0-alpha03"
+    implementation "androidx.hilt:hilt-navigation:$hilt_navigation"
+
+    // LiveData /* NOT USED YET */
+    //def lifecycle_version = "2.3.0"
+    //implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     //Glide
     def glide_version = "4.11.0"

@@ -8,7 +8,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.viewinterop.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.presentation.ui.Screens
@@ -18,17 +20,13 @@ import com.example.tartufozon.presentation.ui.shopview.list.ShopListViewModel
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreen
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.hilt.navigation.HiltViewModelFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    //Is it a good idea to have all ViewModels here?
-    // They should live in they relative screens but it doesn't work...
-    private val truffleListViewModel: TruffleListViewModel by viewModels()
-    private val shopListViewModel: ShopListViewModel by viewModels()
 
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,17 +105,17 @@ class MainActivity : AppCompatActivity() {
         NavHost(navController = navController, startDestination = Screens.ShopListScreen.route) {
 
             composable(Screens.TruffleListScreen.route) {
-                topBarTitle.value = "Truffles Screen"
-                TruffleListScreen(truffleListViewModel)
+                val viewModel: TruffleListViewModel by viewModels()
+                TruffleListScreen(viewModel)
             }
-
+            //What is the difference between the two viewModel declarations here?
             composable(Screens.ShopListScreen.route) {
-                topBarTitle.value = "Shops Screen"
-                ShopListScreen(shopListViewModel)
+                val factory = HiltViewModelFactory(AmbientContext.current, it)
+                val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
+                ShopListScreen(viewModel)
             }
 
             composable(Screens.ProfileScreen.route) {
-                topBarTitle.value = "Profile Screen"
                 ProfileScreen()
             }
 
