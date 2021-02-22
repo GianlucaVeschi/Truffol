@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.BabyChangingStation
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.ui.graphics.vector.ImageVector
 
+//Bottom Nav Screens
 sealed class Screens(val route: String, val label: String, val icon: ImageVector) {
     object TruffleListScreen: Screens("gotoTruffleListScreen", "Truffles", Icons.Default.AccountBox)
     object ShopListScreen: Screens("gotoShopListScreen", "Shops", Icons.Default.ThumbUp)

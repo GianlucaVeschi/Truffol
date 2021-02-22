@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Composable
     fun BuildScaffold(navController: NavHostController, title: MutableState<String>) {
         // A surface container using the 'background' color from the theme
@@ -58,16 +59,16 @@ class MainActivity : AppCompatActivity() {
                         })
                 },
                 bottomBar = {
-                    BuildBottomBar(navController = navController)
+                    BottomNavBar(navController = navController)
                 }
             ) {
-                ScreensController(navController = navController, topBarTitle = title)
+                BottomNavScreensController(navController = navController)
             }
         }
     }
 
     @Composable
-    fun BuildBottomBar(navController: NavHostController) {
+    fun BottomNavBar(navController: NavHostController) {
         val bottomNavScreens = listOf(
             Screens.TruffleListScreen,
             Screens.ShopListScreen,
@@ -98,9 +99,8 @@ class MainActivity : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     @Composable
-    fun ScreensController(
-        navController: NavHostController,
-        topBarTitle: MutableState<String>
+    fun BottomNavScreensController(
+        navController: NavHostController
     ) {
         NavHost(navController = navController, startDestination = Screens.ShopListScreen.route) {
 

@@ -3,6 +3,8 @@ package com.example.tartufozon.presentation.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,56 +25,73 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun ShopDetailView(
     shop: Shop,
 ) {
-    ScrollableColumn(modifier = Modifier.fillMaxWidth()) {
-        shop.image_url?.let { url ->
-            val image = loadPicture(url = url, defaultImage = DEFAULT_FOOD_IMAGE).value
-            image?.let { img ->
-                Image(
-                    bitmap = img.asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .preferredHeight(IMAGE_HEIGHT.dp),
-                    contentScale = ContentScale.Crop,
-                )
-            }
-            Column(
+    Column(modifier = Modifier.fillMaxWidth()) {
+        val image = loadPicture(url = shop.image_url!!, defaultImage = DEFAULT_FOOD_IMAGE).value
+        image?.let { img ->
+            Image(
+                bitmap = img.asImageBitmap(),
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                shop.shopName.let { title ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 4.dp)
-                    ) {
-                        Text(
-                            text = title,
-                            modifier = Modifier
-                                .fillMaxWidth(0.85f)
-                                .wrapContentWidth(Alignment.Start),
-                            style = MaterialTheme.typography.h3
-                        )
-                        Text(
-                            text = shop.id.toString(),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentWidth(Alignment.End)
-                                .align(Alignment.CenterVertically),
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = shop.location.toString(),
-                            modifier = Modifier
-                                .fillMaxWidth(0.85f)
-                                .wrapContentWidth(Alignment.Start),
-                            style = MaterialTheme.typography.h5
-                        )
-                    }
-                }
-            }
+                    .preferredHeight(IMAGE_HEIGHT.dp),
+                contentScale = ContentScale.Crop,
+            )
         }
+        Text(
+            text = shop.shopName,
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .wrapContentWidth(Alignment.Start),
+            style = MaterialTheme.typography.h3
+        )
+        Divider(thickness = 4.dp)
+        Text(
+            text = shop.id.toString(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentWidth(Alignment.Start),
+            style = MaterialTheme.typography.h5
+        )
+        Divider(thickness = 4.dp)
+        Text(
+            text = shop.location.toString(),
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .wrapContentWidth(Alignment.Start),
+            style = MaterialTheme.typography.h5
+        )
+        Divider(thickness = 4.dp)
+        Text(
+            text = shop.email.toString(),
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .wrapContentWidth(Alignment.Start),
+            style = MaterialTheme.typography.h5
+        )
+        Divider(thickness = 4.dp)
+        Text(
+            text = shop.phone.toString(),
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .wrapContentWidth(Alignment.Start),
+            style = MaterialTheme.typography.h5
+        )
+        Divider(thickness = 4.dp)
+        Text(
+            text = shop.website.toString(),
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .wrapContentWidth(Alignment.Start),
+            style = MaterialTheme.typography.h5
+        )
+        Divider(thickness = 4.dp)
+        Text(
+            text = shop.description.toString(),
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .wrapContentWidth(Alignment.Start),
+            style = MaterialTheme.typography.h5
+        )
     }
 }
 
