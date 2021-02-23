@@ -1,12 +1,10 @@
-package com.example.tartufozon.domain.model
+package com.example.tartufozon.network.model
 
-import android.os.Parcelable
+import com.example.tartufozon.domain.model.Truffle
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
-// TODO: 28.12.20 : Write a mapper
-@Parcelize
-data class Shop(
+// TODO: 30.12.20 : Improve DTO Model 
+data class ShopDto(
     @SerializedName("id")           val id: Int,
     @SerializedName("title")        val shopName: String,
     @SerializedName("description")  val description: String,
@@ -15,8 +13,4 @@ data class Shop(
     @SerializedName("location")     val location: String,
     @SerializedName("email")        val email: String,
     @SerializedName("phone")        val phone: String
-    // TODO: 23.02.21 : Add Dates
-    //val dateAdded: Date,
-    //val dateUpdated: Date,
-): Parcelable
-
+)

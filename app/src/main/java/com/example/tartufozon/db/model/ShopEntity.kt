@@ -1,4 +1,4 @@
-package com.example.tartufozon.db
+package com.example.tartufozon.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -11,40 +11,40 @@ data class ShopEntity(
     @ColumnInfo(name = "id")
     val id: Int,
 
-    @ColumnInfo(name = "title")
+    @ColumnInfo(name = "shopName")
     val shopName: String,
 
     @ColumnInfo(name = "description")
-    val description: String?,
+    val description: String,
 
     @ColumnInfo(name = "image_url")
-    val image_url: String?,
+    val image_url: String,
 
     @ColumnInfo(name = "website")
-    val website: String?,
+    val website: String,
 
     @ColumnInfo(name = "location")
-    val location: String?,
+    val location: String,
 
     @ColumnInfo(name = "email")
-    val email: String?,
+    val email: String,
 
     @ColumnInfo(name = "phone")
-    val phone: String?,
+    val phone: String,
 
      /** NOT USED YET */
 
     //Value from API
-    @ColumnInfo(name = "date_added")
-    var dateAdded: Long,
+    //@ColumnInfo(name = "date_added")
+    //var dateAdded: Long,
 
     //Value from API
-    @ColumnInfo(name = "date_updated")
-    var dateUpdated: Long,
+    //@ColumnInfo(name = "date_updated")
+    //var dateUpdated: Long,
 
     //The date this recipe was "refreshed" in the cache.
-    @ColumnInfo(name = "date_cached")
-    var dateCached: Long
+    //@ColumnInfo(name = "date_cached")
+    //var dateCached: Long
 )
 
 

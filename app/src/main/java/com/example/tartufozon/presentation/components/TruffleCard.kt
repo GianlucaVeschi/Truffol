@@ -11,10 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.util.DEFAULT_FOOD_IMAGE
 import com.example.tartufozon.util.loadPicture
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
@@ -34,7 +37,7 @@ fun TruffleCard(
         elevation = 8.dp,
     ) {
         Column() {
-            truffle.image_url?.let { url ->
+            truffle.image_url.let { url ->
                 val image = loadPicture(url = url, defaultImage = DEFAULT_FOOD_IMAGE).value
                 image?.let { img ->
                     Image(
@@ -47,7 +50,7 @@ fun TruffleCard(
                     )
                 }
             }
-            truffle.tartufoName?.let { title ->
+            truffle.tartufoName.let { title ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -73,5 +76,22 @@ fun TruffleCard(
             }
         }
     }
+}
+
+@ExperimentalCoroutinesApi
+@Preview
+@Composable
+fun PreviewTruffleCard() {
+    TruffleCard(
+        truffle = Truffle(
+            1,
+            "Tartufinho",
+            "Buonisssimo",
+            "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
+            9
+        ),
+        onClick = {
+            // TODO: 08.02.21 onCLICK Truffle
+        })
 }
 
