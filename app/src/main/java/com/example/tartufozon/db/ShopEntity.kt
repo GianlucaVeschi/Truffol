@@ -30,7 +30,21 @@ data class ShopEntity(
     val email: String?,
 
     @ColumnInfo(name = "phone")
-    val phone: String?
+    val phone: String?,
+
+     /** NOT USED YET */
+
+    //Value from API
+    @ColumnInfo(name = "date_added")
+    var dateAdded: Long,
+
+    //Value from API
+    @ColumnInfo(name = "date_updated")
+    var dateUpdated: Long,
+
+    //The date this recipe was "refreshed" in the cache.
+    @ColumnInfo(name = "date_cached")
+    var dateCached: Long
 )
 
 
