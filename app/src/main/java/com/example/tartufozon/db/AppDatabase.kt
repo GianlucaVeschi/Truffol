@@ -9,7 +9,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract  fun shopDao(): ShopDao
 
     companion object{
-        val DATABASE_NAME: String = "recipe_db"
+        val DATABASE_NAME: String = "shop_db"
     }
 
 }
