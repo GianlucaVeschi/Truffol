@@ -8,9 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.platform.setContent
-import androidx.compose.ui.viewinterop.viewModel
+import androidx.activity.compose.setContent
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.presentation.ui.Screens
@@ -21,6 +20,7 @@ import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreen
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             }
             //What is the difference between the two viewModel declarations here?
             composable(Screens.ShopListScreen.route) {
-                val factory = HiltViewModelFactory(AmbientContext.current, it)
+                val factory = HiltViewModelFactory(LocalContext.current, it)
                 val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
                 ShopListScreen(viewModel)
             }

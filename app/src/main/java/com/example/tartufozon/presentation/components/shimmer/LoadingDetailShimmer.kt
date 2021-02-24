@@ -1,8 +1,6 @@
 package com.example.tartufozon.presentation.components.shimmer
 
 import androidx.compose.animation.core.*
-import androidx.compose.animation.transition
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

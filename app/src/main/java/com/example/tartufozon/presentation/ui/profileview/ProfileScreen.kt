@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -156,7 +157,7 @@ fun BottomScrollingContent(navController: NavController) {
 @Composable
 fun SocialRow() {
     Card(elevation = 8.dp, modifier = Modifier.padding(8.dp)) {
-        val context = AmbientContext.current
+        val context = LocalContext.current
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
@@ -178,7 +179,7 @@ fun SocialRow() {
 
 @Composable
 fun MoreInfoSection(navController: NavController) {
-    val context = AmbientContext.current
+    val context = LocalContext.current
     Text(
         text = "More Info",
         style = typography.h6,
