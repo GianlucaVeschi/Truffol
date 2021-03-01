@@ -121,6 +121,6 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                 }
             }
         }
-        CircularIndeterminateProgressBar(isDisplayed = isLoading, verticalBias = 0.5f)
+        CircularIndeterminateProgressBar(isDisplayed = isLoading)
     }
 }

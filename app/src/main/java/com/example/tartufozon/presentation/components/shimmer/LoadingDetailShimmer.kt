@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.WithConstraints
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -25,8 +24,8 @@ fun LoadingDetailShimmer(
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
     ) {
-        val cardWidthPx = with(AmbientDensity.current) { (maxWidth - (padding * 2)).toPx() }
-        val cardHeightPx = with(AmbientDensity.current) { (imageHeight - padding).toPx() }
+        val cardWidthPx = with(LocalDensity.current) { (maxWidth - (padding * 2)).toPx() }
+        val cardHeightPx = with(LocalDensity.current) { (imageHeight - padding).toPx() }
         val gradientWidth: Float = (0.2f * cardHeightPx)
 
         val infiniteTransition = rememberInfiniteTransition()

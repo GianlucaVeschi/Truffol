@@ -1,11 +1,11 @@
 package com.example.tartufozon.presentation.components
 
-import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -41,30 +41,32 @@ fun SearchAppBar(
         Column {
             Row(modifier = Modifier.fillMaxWidth()) {
                 TextField(
-                    modifier = Modifier
-                        .fillMaxWidth(.9f)
-                        .padding(8.dp),
                     value = query,
                     onValueChange = {
                         onQueryChanged(it)
                     },
+                    modifier = Modifier
+                        .fillMaxWidth(.9f)
+                        .padding(8.dp),
+                    textStyle = TextStyle(color = MaterialTheme.colors.onSurface),
                     label = {
                         Text(text = "Search")
+                    },
+                    leadingIcon = {
+                        Icon(Icons.Filled.Search, "search Icon")
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Done,
                     ),
-                    leadingIcon = {
-                        Icon(Icons.Filled.Search, "search Icon")
-                    },
-                    onImeActionPerformed = { action, softKeyboardController ->
-                        if (action == ImeAction.Done) {
-                            onExecuteSearch()
-                            softKeyboardController?.hideSoftwareKeyboard()
-                        }
-                    },
-                    textStyle = TextStyle(color = MaterialTheme.colors.onSurface),
+                    keyboardActions = KeyboardActions(
+                        onDone = { },
+                        onGo = { },
+                        onNext = { },
+                        onPrevious = { },
+                        onSearch = { },
+                        onSend = { }
+                    ),
                     backgroundColor = MaterialTheme.colors.surface
                 )
                 ConstraintLayout(

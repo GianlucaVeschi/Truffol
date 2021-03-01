@@ -28,6 +28,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +37,20 @@ class MainActivity : AppCompatActivity() {
         setContent {
             //BottomNav
             val navController: NavHostController = rememberNavController()
-            val title = remember { mutableStateOf("TruffleListScreen") }
-            BuildScaffold(navController = navController, title = title)
+            BuildScaffold(navController = navController)
         }
     }
 
+    @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable
-    fun BuildScaffold(navController: NavHostController, title: MutableState<String>) {
+    fun BuildScaffold(navController: NavHostController) {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = title.value) },
+                        title = { Text(text = "tartufozon") },
                         actions = {
                             IconButton(onClick = {
                                 Timber.d("Mail clicked")
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable
     fun BottomNavScreensController(
