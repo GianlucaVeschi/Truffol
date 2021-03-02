@@ -72,7 +72,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredSize(imageHeight)
+                            .height(imageHeight)
                             .background(brush = brush)
                     )
                 }
@@ -85,7 +85,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredHeight(imageHeight / 10)
+                            .height(imageHeight / 10)
                             .background(brush = brush)
                     )
                 }
@@ -98,7 +98,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredHeight(imageHeight / 10)
+                            .height(imageHeight / 10)
                             .background(brush = brush)
                     )
                 }
@@ -111,7 +111,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredHeight(imageHeight / 10)
+                            .height(imageHeight / 10)
                             .background(brush = brush)
                     )
                 }

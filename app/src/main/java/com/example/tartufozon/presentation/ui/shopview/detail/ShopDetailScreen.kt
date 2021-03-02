@@ -51,7 +51,7 @@ fun NewsStory() {
             modifier = Modifier.padding(16.dp)
         ) {
             val imageModifier = Modifier
-                .preferredHeight(180.dp)
+                .height(180.dp)
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(4.dp))
 
@@ -59,7 +59,7 @@ fun NewsStory() {
                 modifier = imageModifier,
                 contentDescription = null,
                 contentScale = ContentScale.Crop)
-            Spacer(Modifier.preferredHeight(16.dp))
+            Spacer(Modifier.height(16.dp))
 
             Text(
                 "A day wandering through the sandhills " +

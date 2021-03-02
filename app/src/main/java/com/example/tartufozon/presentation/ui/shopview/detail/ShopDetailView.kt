@@ -1,7 +1,6 @@
 package com.example.tartufozon.presentation.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
@@ -33,7 +32,7 @@ fun ShopDetailView(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .preferredHeight(IMAGE_HEIGHT.dp),
+                    .height(IMAGE_HEIGHT.dp),
                 contentScale = ContentScale.Crop,
             )
         }

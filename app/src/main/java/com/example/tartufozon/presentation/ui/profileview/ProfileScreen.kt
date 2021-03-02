@@ -79,7 +79,7 @@ fun ProfileScreenContent(navController: NavController){
                 .fillMaxSize()
                 .semantics { testTag = "Profile Screen" }
         ) {
-            val scrollState = rememberScrollState(0f)
+            val scrollState = rememberScrollState(0)
             TopAppBarView(scrollState.value)
             TopBackground()
             Column(modifier = Modifier.fillMaxSize().verticalScroll(state = scrollState)) {
@@ -193,7 +193,7 @@ fun MoreInfoSection(navController: NavController) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_github_square_brands),
                 contentDescription = "item icon",
-                modifier = Modifier.preferredSize(24.dp)
+                modifier = Modifier.height(24.dp)
             )
         },
         text = {
@@ -255,7 +255,7 @@ fun InterestsSection() {
 }
 
 @Composable
-fun TopAppBarView(scroll: Float) {
+fun TopAppBarView(scroll: Int) {
     if (scroll > initialimageFloat + 5) {
         TopAppBar(
             title = {
@@ -267,7 +267,7 @@ fun TopAppBarView(scroll: Float) {
                     contentDescription = "top bar profile image",
                     modifier = Modifier
                         .padding(vertical = 4.dp, horizontal = 8.dp)
-                        .preferredSize(32.dp)
+                        .height(32.dp)
                         .clip(CircleShape)
                 )
             },
@@ -283,7 +283,7 @@ fun TopAppBarView(scroll: Float) {
 }
 
 @Composable
-fun AnimatedImage(scroll: Float) {
+fun AnimatedImage(scroll: Int) {
     val dynamicAnimationSizeValue = (initialimageFloat - scroll).coerceIn(36f, initialimageFloat)
     Image(
         painter = painterResource(id = R.drawable.p1),
@@ -291,7 +291,7 @@ fun AnimatedImage(scroll: Float) {
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .padding(start = 16.dp)
-            .preferredSize(animateDpAsState(Dp(dynamicAnimationSizeValue)).value)
+            .height(animateDpAsState(Dp(dynamicAnimationSizeValue)).value)
             .clip(CircleShape)
     )
 }
@@ -300,7 +300,7 @@ fun AnimatedImage(scroll: Float) {
 private fun TopBackground() {
     Spacer(
         modifier = Modifier
-            .preferredHeight(150.dp)
+            .height(150.dp)
             .fillMaxWidth()
     )
 }

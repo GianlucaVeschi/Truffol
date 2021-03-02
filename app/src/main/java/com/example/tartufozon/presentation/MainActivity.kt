@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.activity.compose.setContent
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
@@ -28,6 +29,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @ExperimentalComposeUiApi
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalComposeUiApi
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable
@@ -98,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalComposeUiApi
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable

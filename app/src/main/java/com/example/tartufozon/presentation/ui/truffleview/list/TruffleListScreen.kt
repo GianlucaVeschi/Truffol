@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -29,6 +30,7 @@ import com.example.tartufozon.util.Constants.TRUFFLE_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun TruffleListScreen(
@@ -48,6 +50,7 @@ fun TruffleListScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @Composable
 private fun TruffleListScreenContent(
     truffleListViewModel: TruffleListViewModel,
@@ -64,8 +67,7 @@ private fun TruffleListScreenContent(
             BuildSearchBar(
                 truffleListViewModel,
                 query,
-                selectedCategory,
-                scrollState.value
+                selectedCategory
             )
         },
         drawerContent = { BuildDrawerContent() }
@@ -74,12 +76,12 @@ private fun TruffleListScreenContent(
     }
 }
 
+@ExperimentalComposeUiApi
 @Composable
 fun BuildSearchBar(
     truffleListViewModel: TruffleListViewModel,
     query: String,
-    selectedCategory: TruffleCategory?,
-    scrollState: Float
+    selectedCategory: TruffleCategory?
 ) {
     SearchAppBar(
         query = query,
@@ -91,8 +93,6 @@ fun BuildSearchBar(
         categories = getAllTruffleCategories(),
         selectedCategory = selectedCategory,
         onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged,
-        scrollPosition = scrollState,
-        onChangeScrollPosition = truffleListViewModel::onChangeCategoryScrollPosition,
         onToggleTheme = {
             //application.toggleLightTheme()
         }
