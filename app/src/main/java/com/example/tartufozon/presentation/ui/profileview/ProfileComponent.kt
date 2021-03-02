@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.tartufozon.R
@@ -28,7 +29,7 @@ fun MyPhotosSection() {
     Divider(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
     val imageModifier = Modifier
         .padding(vertical = 8.dp, horizontal = 4.dp)
-        .preferredSize(120.dp)
+        .height(120.dp)
         .clip(RoundedCornerShape(8.dp))
 
     Row(
@@ -36,19 +37,19 @@ fun MyPhotosSection() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
-            bitmap = imageResource(id = R.drawable.food2),
+            painter = painterResource(id = R.drawable.food2),
+            contentDescription = null,
+            modifier = imageModifier,
+            contentScale = ContentScale.Crop
+        )
+        Image(
+            painter = painterResource(id = R.drawable.food2),
             contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
         Image(
-            bitmap = imageResource(id = R.drawable.food2),
-            contentDescription = "random profile image",
-            modifier = imageModifier,
-            contentScale = ContentScale.Crop
-        )
-        Image(
-            bitmap = imageResource(id = R.drawable.food2),
+            painter = painterResource(id = R.drawable.food2),
             contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
@@ -59,19 +60,19 @@ fun MyPhotosSection() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
-            bitmap = imageResource(id = R.drawable.food2),
+            painter = painterResource(id = R.drawable.food2),
             contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
         Image(
-            bitmap = imageResource(id = R.drawable.food2),
+            painter = painterResource(id = R.drawable.food2),
             contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop
         )
         Image(
-            bitmap = imageResource(id = R.drawable.food2),
+            painter = painterResource(id = R.drawable.food2),
             contentDescription = "random profile image",
             modifier = imageModifier,
             contentScale = ContentScale.Crop

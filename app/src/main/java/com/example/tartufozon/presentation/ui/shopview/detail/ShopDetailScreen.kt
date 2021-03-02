@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,14 +44,14 @@ fun ShopDetailScreen(navController: NavController){
 
 @Composable
 fun NewsStory() {
-    val image = imageResource(R.drawable.panorama_view)
+    val image = painterResource(R.drawable.panorama_view)
     MaterialTheme {
         val typography = MaterialTheme.typography
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             val imageModifier = Modifier
-                .preferredHeight(180.dp)
+                .height(180.dp)
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(4.dp))
 
@@ -58,7 +59,7 @@ fun NewsStory() {
                 modifier = imageModifier,
                 contentDescription = null,
                 contentScale = ContentScale.Crop)
-            Spacer(Modifier.preferredHeight(16.dp))
+            Spacer(Modifier.height(16.dp))
 
             Text(
                 "A day wandering through the sandhills " +

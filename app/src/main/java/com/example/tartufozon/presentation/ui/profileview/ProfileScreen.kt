@@ -3,13 +3,10 @@ package com.example.tartufozon.presentation.ui.profileview
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.animation.core.animateAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.Icon
@@ -24,10 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -63,6 +59,7 @@ private fun launchSocialActivity(context: Context, socialType: String) {
     context.startActivity(intent)
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun ProfileScreen() {
 
@@ -73,6 +70,7 @@ fun ProfileScreen() {
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun ProfileScreenContent(navController: NavController){
     Scaffold {
@@ -81,7 +79,7 @@ fun ProfileScreenContent(navController: NavController){
                 .fillMaxSize()
                 .semantics { testTag = "Profile Screen" }
         ) {
-            val scrollState = rememberScrollState(0f)
+            val scrollState = rememberScrollState(0)
             TopAppBarView(scrollState.value)
             TopBackground()
             Column(modifier = Modifier.fillMaxSize().verticalScroll(state = scrollState)) {
@@ -115,6 +113,7 @@ fun TopScrollingContent(scrollState: ScrollState) {
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun BottomScrollingContent(navController: NavController) {
     Column(modifier = Modifier
@@ -156,7 +155,7 @@ fun BottomScrollingContent(navController: NavController) {
 @Composable
 fun SocialRow() {
     Card(elevation = 8.dp, modifier = Modifier.padding(8.dp)) {
-        val context = AmbientContext.current
+        val context = LocalContext.current
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
@@ -164,21 +163,25 @@ fun SocialRow() {
                 .padding(horizontal = 32.dp, vertical = 16.dp)
         ) {
             IconButton(onClick = { launchSocialActivity(context, "github") }) {
-                Icon(imageVector = vectorResource(id = R.drawable.ic_github_square_brands),"github icon")
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_github_square_brands),
+                    "github icon"
+                )
             }
             IconButton(onClick = { launchSocialActivity(context, "twitter") }) {
-                Icon(imageVector = vectorResource(id = R.drawable.ic_twitter_square_brands),"twitter icon")
+                Icon(painter = painterResource(id = R.drawable.ic_twitter_square_brands),"twitter icon")
             }
             IconButton(onClick = { launchSocialActivity(context, "linkedin") }) {
-                Icon(imageVector = vectorResource(id = R.drawable.ic_linkedin_brands), "linkedin icon")
+                Icon(painter = painterResource(id = R.drawable.ic_linkedin_brands), "linkedin icon")
             }
         }
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun MoreInfoSection(navController: NavController) {
-    val context = AmbientContext.current
+    val context = LocalContext.current
     Text(
         text = "More Info",
         style = typography.h6,
@@ -188,9 +191,9 @@ fun MoreInfoSection(navController: NavController) {
     ListItem(
         icon = {
             Icon(
-                imageVector = vectorResource(id = R.drawable.ic_github_square_brands),
+                painter = painterResource(id = R.drawable.ic_github_square_brands),
                 contentDescription = "item icon",
-                modifier = Modifier.preferredSize(24.dp)
+                modifier = Modifier.height(24.dp)
             )
         },
         text = {
@@ -252,7 +255,7 @@ fun InterestsSection() {
 }
 
 @Composable
-fun TopAppBarView(scroll: Float) {
+fun TopAppBarView(scroll: Int) {
     if (scroll > initialimageFloat + 5) {
         TopAppBar(
             title = {
@@ -260,11 +263,11 @@ fun TopAppBarView(scroll: Float) {
             },
             navigationIcon = {
                 Image(
-                    bitmap = imageResource(id = R.drawable.p1),
+                    painter = painterResource(id = R.drawable.p1),
                     contentDescription = "top bar profile image",
                     modifier = Modifier
                         .padding(vertical = 4.dp, horizontal = 8.dp)
-                        .preferredSize(32.dp)
+                        .height(32.dp)
                         .clip(CircleShape)
                 )
             },
@@ -280,15 +283,15 @@ fun TopAppBarView(scroll: Float) {
 }
 
 @Composable
-fun AnimatedImage(scroll: Float) {
+fun AnimatedImage(scroll: Int) {
     val dynamicAnimationSizeValue = (initialimageFloat - scroll).coerceIn(36f, initialimageFloat)
     Image(
-        bitmap = imageResource(id = R.drawable.p1),
+        painter = painterResource(id = R.drawable.p1),
         contentDescription = "animated image",
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .padding(start = 16.dp)
-            .preferredSize(animateDpAsState(Dp(dynamicAnimationSizeValue)).value)
+            .height(animateDpAsState(Dp(dynamicAnimationSizeValue)).value)
             .clip(CircleShape)
     )
 }
@@ -297,11 +300,12 @@ fun AnimatedImage(scroll: Float) {
 private fun TopBackground() {
     Spacer(
         modifier = Modifier
-            .preferredHeight(150.dp)
+            .height(150.dp)
             .fillMaxWidth()
     )
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun ShowProfileScreen() {

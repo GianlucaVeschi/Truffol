@@ -8,9 +8,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.platform.setContent
-import androidx.compose.ui.viewinterop.viewModel
+import androidx.activity.compose.setContent
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.presentation.ui.Screens
@@ -21,6 +21,7 @@ import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListScreen
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
@@ -28,6 +29,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @ExperimentalComposeUiApi
+    @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +39,21 @@ class MainActivity : AppCompatActivity() {
         setContent {
             //BottomNav
             val navController: NavHostController = rememberNavController()
-            val title = remember { mutableStateOf("TruffleListScreen") }
-            BuildScaffold(navController = navController, title = title)
+            BuildScaffold(navController = navController)
         }
     }
 
+    @ExperimentalComposeUiApi
+    @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable
-    fun BuildScaffold(navController: NavHostController, title: MutableState<String>) {
+    fun BuildScaffold(navController: NavHostController) {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = title.value) },
+                        title = { Text(text = "tartufozon") },
                         actions = {
                             IconButton(onClick = {
                                 Timber.d("Mail clicked")
@@ -97,6 +101,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalComposeUiApi
+    @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable
     fun BottomNavScreensController(
@@ -110,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             }
             //What is the difference between the two viewModel declarations here?
             composable(Screens.ShopListScreen.route) {
-                val factory = HiltViewModelFactory(AmbientContext.current, it)
+                val factory = HiltViewModelFactory(LocalContext.current, it)
                 val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
                 ShopListScreen(viewModel)
             }

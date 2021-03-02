@@ -1,8 +1,6 @@
 package com.example.tartufozon.presentation.components.shimmer
 
 import androidx.compose.animation.core.*
-import androidx.compose.animation.transition
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.WithConstraints
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -27,8 +24,8 @@ fun LoadingDetailShimmer(
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
     ) {
-        val cardWidthPx = with(AmbientDensity.current) { (maxWidth - (padding * 2)).toPx() }
-        val cardHeightPx = with(AmbientDensity.current) { (imageHeight - padding).toPx() }
+        val cardWidthPx = with(LocalDensity.current) { (maxWidth - (padding * 2)).toPx() }
+        val cardHeightPx = with(LocalDensity.current) { (imageHeight - padding).toPx() }
         val gradientWidth: Float = (0.2f * cardHeightPx)
 
         val infiniteTransition = rememberInfiniteTransition()
@@ -75,7 +72,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredSize(imageHeight)
+                            .height(imageHeight)
                             .background(brush = brush)
                     )
                 }
@@ -88,7 +85,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredHeight(imageHeight / 10)
+                            .height(imageHeight / 10)
                             .background(brush = brush)
                     )
                 }
@@ -101,7 +98,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredHeight(imageHeight / 10)
+                            .height(imageHeight / 10)
                             .background(brush = brush)
                     )
                 }
@@ -114,7 +111,7 @@ fun LoadingDetailShimmer(
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredHeight(imageHeight / 10)
+                            .height(imageHeight / 10)
                             .background(brush = brush)
                     )
                 }

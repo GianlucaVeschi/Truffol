@@ -35,7 +35,7 @@ fun ShopCard(
         elevation = 8.dp,
     ) {
         Column() {
-            shop.image_url?.let { url ->
+            shop.image_url.let { url ->
                 val image = loadPicture(url = url, defaultImage = DEFAULT_SHOP_IMAGE).value
                 image?.let { img ->
                     Image(
@@ -43,7 +43,7 @@ fun ShopCard(
                         contentDescription = "Shop Card image",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .preferredHeight(225.dp),
+                            .height(225.dp),
                         contentScale = ContentScale.Crop,
                     )
                 }
