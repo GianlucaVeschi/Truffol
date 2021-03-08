@@ -15,6 +15,9 @@ interface ShopDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertShops(shops: List<ShopEntity>): LongArray
 
+    @Query("SELECT * FROM shops")
+    suspend fun getAllShops(): List<ShopEntity>
+
     @Query("SELECT * FROM shops WHERE id = :id")
     suspend fun getShopById(id: Int): ShopEntity?
 

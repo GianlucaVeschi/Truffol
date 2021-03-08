@@ -32,11 +32,11 @@ class ShopEntityMapper : DomainMapper<Shop, ShopEntity> {
         )
     }
 
-    fun toDomainList(initial: List<Shop>): List<ShopEntity>{
+    fun toEntityList(initial: List<Shop>): List<ShopEntity>{
         return initial.map { mapToDomainModel(it) }
     }
 
-    fun fromDomainList(initial: List<ShopEntity>): List<Shop>{
+    fun fromEntityList(initial: List<ShopEntity>): List<Shop>{
         return initial.map { mapFromDomainModel(it) }
     }
 }
