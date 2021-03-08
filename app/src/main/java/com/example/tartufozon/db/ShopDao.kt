@@ -27,6 +27,4 @@ interface ShopDao {
     @Query("DELETE FROM shops WHERE id = :primaryKey")
     suspend fun deleteShop(primaryKey: Int): Int
 
-    //Additional methods available at ...
-    //https://github.com/mitchtabian/food2fork-compose/blob/room-dao-functions/app/src/main/java/com/codingwithmitch/food2forkcompose/cache/RecipeDao.kt
 }

@@ -3,6 +3,8 @@ package com.example.tartufozon.di
 import com.example.tartufozon.network.RemoteDataSource
 import com.example.tartufozon.network.ShopService
 import com.example.tartufozon.network.TruffleService
+import com.example.tartufozon.network.model.ShopDtoMapper
+import com.example.tartufozon.network.model.TruffleDtoMapper
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -56,6 +58,18 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    fun provideShopDtoMapper() : ShopDtoMapper {
+        return ShopDtoMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun provideTruffleDtoMapper() : TruffleDtoMapper {
+        return TruffleDtoMapper()
+    }
+
+    @Singleton
+    @Provides
     fun provideRetrofitTruffleService(okHttpClient: OkHttpClient): TruffleService {
         return Retrofit.Builder()
             .baseUrl(HEROKU_DB)
@@ -69,9 +83,11 @@ object NetworkModule {
     @Provides
     fun provideNetworkDataSource(
         truffleService: TruffleService,
-        shopService: ShopService
+        shopService: ShopService,
+        shopDtoMapper: ShopDtoMapper,
+        truffleDtoMapper: TruffleDtoMapper
     ): RemoteDataSource {
-        return RemoteDataSource(truffleService, shopService)
+        return RemoteDataSource(truffleService, shopService,shopDtoMapper,truffleDtoMapper)
     }
 
 }
