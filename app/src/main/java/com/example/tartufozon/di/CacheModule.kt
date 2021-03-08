@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.db.AppDatabase
 import com.example.tartufozon.db.ShopDao
+import com.example.tartufozon.db.model.ShopEntityMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +29,16 @@ object CacheModule {
     fun provideShopDao(db: AppDatabase): ShopDao {
         return db.shopDao()
     }
+
+    @Singleton
+    @Provides
+    fun provideShopEntityMapper() : ShopEntityMapper {
+        return ShopEntityMapper()
+    }
+
+    /*@Singleton
+    @Provides
+    fun provideTruffleEntityMapper() : TruffleEntityMapper {
+        return TruffleEntityMapper()
+    }*/
 }
