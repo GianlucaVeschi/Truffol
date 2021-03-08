@@ -70,7 +70,7 @@ fun ShopListScreenContent(shopListViewModel : ShopListViewModel, navController: 
                     }
                 }
             }
-            CircularIndeterminateProgressBar(isDisplayed = loading)
+            CircularIndeterminateProgressBar(isDisplayed = loading,0.5f)
         }
     }
 }
