@@ -5,15 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
+import com.example.tartufozon.interactors.SearchTrufflesUseCase
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class TruffleListViewModel @Inject constructor(
-    private val truffleRepositoryImpl: TruffleRepositoryImpl
+    private val truffleRepositoryImpl: TruffleRepositoryImpl,
+    private val searchTrufflesUseCase: SearchTrufflesUseCase
 ) : ViewModel() {
 
     val trufflesList: MutableState<List<Truffle>> = mutableStateOf(ArrayList())
@@ -35,7 +39,7 @@ class TruffleListViewModel @Inject constructor(
                         getShuffledTruffleList()
                     }
                     is TruffleListEvent.GetTruffleList -> {
-                        getTruffleList()
+                        getTruffleListUseCase()
                     }
                 }
             } catch (e: Exception) {
@@ -79,6 +83,21 @@ class TruffleListViewModel @Inject constructor(
 
     fun onChangeCategoryScrollPosition(position: Float) {
         categoryScrollPosition = position
+    }
+
+    private fun getTruffleListUseCase() {
+        searchTrufflesUseCase.run().onEach { dataState ->
+            loading.value = dataState.loading
+
+            dataState.data?.let { list ->
+                trufflesList.value = list
+            }
+
+            dataState.error?.let { error ->
+                Timber.e("newSearch: ${error}")
+                // TODO("Handle error")
+            }
+        }.launchIn(viewModelScope)
     }
 
     /**

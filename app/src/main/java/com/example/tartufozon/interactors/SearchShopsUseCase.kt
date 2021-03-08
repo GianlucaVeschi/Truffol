@@ -9,12 +9,13 @@ import com.example.tartufozon.network.model.ShopDtoMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class SearchShopsUseCase (
+class SearchShopsUseCase(
     private val shopDao: ShopDao,
     private val shopService: ShopService,
     private val entityMapper: ShopEntityMapper,
     private val dtoMapper: ShopDtoMapper
 ) {
+
     fun run(): Flow<DataState<List<Shop>>> = flow {
         try {
             emit(DataState.loading())

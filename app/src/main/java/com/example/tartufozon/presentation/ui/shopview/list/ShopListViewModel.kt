@@ -5,14 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Shop
+import com.example.tartufozon.interactors.SearchShopsUseCase
 import com.example.tartufozon.presentation.ui.shopview.repo.ShopRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class ShopListViewModel @Inject constructor(
+    private val searchShopsUseCase: SearchShopsUseCase,
     private val shopRepositoryImpl: ShopRepositoryImpl
 ) : ViewModel() {
 
@@ -29,7 +33,7 @@ class ShopListViewModel @Inject constructor(
             try {
                 when(event){
                     is ShopListEvent.GetShopList -> {
-                        getShopList()
+                        getShopListUseCase()
                     }
                 }
             } catch (e: Exception) {
@@ -47,6 +51,21 @@ class ShopListViewModel @Inject constructor(
         val tmpShopList = shopRepositoryImpl.getShopList()
         shopList.value = tmpShopList
         loading.value = false
+    }
+
+    private fun getShopListUseCase() {
+        searchShopsUseCase.run().onEach { dataState ->
+            loading.value = dataState.loading
+
+            dataState.data?.let { list ->
+                shopList.value = list
+            }
+
+            dataState.error?.let { error ->
+                Timber.e("newSearch: ${error}")
+                // TODO("Handle error")
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun printShops(){
