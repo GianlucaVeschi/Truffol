@@ -2,56 +2,69 @@ package com.example.tartufozon.network
 
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.domain.model.Truffle
+import com.example.tartufozon.network.model.ShopDtoMapper
+import com.example.tartufozon.network.model.TruffleDtoMapper
 import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val truffleService: TruffleService,
+    private val shopService: ShopService,
+    private val shopDtoMapper: ShopDtoMapper,
+    private val truffleDtoMapper: TruffleDtoMapper
 ) : BaseDataSource() {
 
     suspend fun getTruffleList() : List<Truffle> {
-        var truffleList : Response<List<Truffle>>? = null
+        var truffleList : List<Truffle>? = null
         try {
-            truffleList = truffleService.getTruffleList()
+            truffleList = truffleService.getTruffleList().body()?.let {
+                truffleDtoMapper.toDomainList(it)
+            }
         }
         catch (error : Error ){
             Timber.e(error)
         }
-        return truffleList?.body()!!
+        return truffleList!!
     }
 
     suspend fun getTruffleDetail(truffleId : Int): Truffle {
-        var truffleDetail : Response<Truffle>? = null
+        var truffleDetail : Truffle? = null
         try {
-            truffleDetail = truffleService.getTruffleDetail(truffleId)
+            truffleDetail = truffleService.getTruffleDetail(truffleId).body()?.let {
+                truffleDtoMapper.mapToDomainModel(it)
+            }
         }
         catch (error : Error ){
             Timber.e(error)
         }
-        return truffleDetail?.body()!!
+        return truffleDetail!!
     }
 
     suspend fun getShopList(): List<Shop> {
-        var shopList : Response<List<Shop>>? = null
+        var shopList : List<Shop>? = null
         try {
-            shopList = truffleService.getShopList()
+            shopList = shopService.getShopList().body()?.let {
+                shopDtoMapper.toDomainList(it)
+            }
         }
         catch (error : Error){
             Timber.e(error)
         }
-        return shopList?.body()!!
+        return shopList!!
     }
 
     suspend fun getShopDetail(shopId: Int): Shop {
-        var shopDetail : Response<Shop>? = null
+        var shopDetail : Shop? = null
         try {
-            shopDetail = truffleService.getShopDetail(shopId)
+            shopDetail = shopService.getShopDetail(shopId).body()?.let {
+                shopDtoMapper.mapToDomainModel(it)
+            }
         }
         catch (error : Error){
             Timber.e(error)
         }
-        return shopDetail?.body()!!
+        return shopDetail!!
     }
 
 }

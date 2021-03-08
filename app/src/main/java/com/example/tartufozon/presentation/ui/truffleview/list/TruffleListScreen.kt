@@ -113,7 +113,10 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                     items = truffles
                 ) { index, truffle ->
                     TruffleCard(truffle, onClick = {
-                        navController.currentBackStackEntry?.arguments?.putParcelable(TRUFFLE_KEY, truffle)
+                        navController.currentBackStackEntry?.arguments?.putParcelable(
+                            TRUFFLE_KEY,
+                            truffle
+                        )
                         navController.navigate(
                             DetailScreens.TruffleDetailScreen.route
                         )
@@ -121,6 +124,6 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                 }
             }
         }
-        CircularIndeterminateProgressBar(isDisplayed = isLoading)
+        CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.5f)
     }
 }
