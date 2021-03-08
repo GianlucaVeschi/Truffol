@@ -14,10 +14,10 @@ interface TruffleService {
     @GET("tartufi/{id}")
     suspend fun getTruffleDetail(@Path("id") id: Int): Response<Truffle>
 
-    @GET("negozi/")
-    suspend fun getShopList(): Response<List<Shop>>
-
-    @GET("negozi/{id}")
-    suspend fun getShopDetail(@Path("id") id: Int): Response<Shop>
+//    @GET("negozi/")
+//    suspend fun getShopList(): Response<List<Shop>>
+//
+//    @GET("negozi/{id}")
+//    suspend fun getShopDetail(@Path("id") id: Int): Response<Shop>
 
 }

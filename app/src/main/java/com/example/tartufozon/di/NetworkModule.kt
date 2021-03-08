@@ -1,6 +1,7 @@
 package com.example.tartufozon.di
 
 import com.example.tartufozon.network.RemoteDataSource
+import com.example.tartufozon.network.ShopService
 import com.example.tartufozon.network.TruffleService
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.GsonBuilder
@@ -44,6 +45,17 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    fun provideRetrofitShopService(okHttpClient: OkHttpClient): ShopService {
+        return Retrofit.Builder()
+            .baseUrl(HEROKU_DB)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .build()
+            .create(ShopService::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideRetrofitTruffleService(okHttpClient: OkHttpClient): TruffleService {
         return Retrofit.Builder()
             .baseUrl(HEROKU_DB)
@@ -56,9 +68,10 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideNetworkDataSource(
-        truffleService: TruffleService
+        truffleService: TruffleService,
+        shopService: ShopService
     ): RemoteDataSource {
-        return RemoteDataSource(truffleService)
+        return RemoteDataSource(truffleService, shopService)
     }
 
 }

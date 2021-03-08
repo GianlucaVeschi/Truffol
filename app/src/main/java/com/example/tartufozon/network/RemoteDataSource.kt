@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val truffleService: TruffleService,
+    private val shopService: ShopService
 ) : BaseDataSource() {
 
     suspend fun getTruffleList() : List<Truffle> {
@@ -35,7 +36,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun getShopList(): List<Shop> {
         var shopList : Response<List<Shop>>? = null
         try {
-            shopList = truffleService.getShopList()
+            shopList = shopService.getShopList()
         }
         catch (error : Error){
             Timber.e(error)
@@ -46,7 +47,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun getShopDetail(shopId: Int): Shop {
         var shopDetail : Response<Shop>? = null
         try {
-            shopDetail = truffleService.getShopDetail(shopId)
+            shopDetail = shopService.getShopDetail(shopId)
         }
         catch (error : Error){
             Timber.e(error)
