@@ -20,12 +20,23 @@ import androidx.navigation.NavController
 import com.example.tartufozon.R
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.presentation.components.ShopDetailView
+import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailViewModel
 import com.example.tartufozon.util.Constants.SHOP_KEY
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Composable
-fun ShopDetailScreen(navController: NavController){
-    val shopDetail : Shop = navController.previousBackStackEntry?.arguments?.getParcelable<Shop>(SHOP_KEY)!!
+fun ShopDetailScreen(
+    navController: NavController,
+    shopDetailViewModel: ShopDetailViewModel
+){
+    val shopDetail = navController.previousBackStackEntry?.arguments?.getInt(SHOP_KEY)!!
     shopDetail.let {
+
+        shopDetailViewModel.onTriggerEvent(
+            ShopDetailEvent.getShopDetailEvent(it)
+        )
+
         val scaffoldState = rememberScaffoldState()
         Scaffold(
             scaffoldState = scaffoldState,
@@ -36,49 +47,12 @@ fun ShopDetailScreen(navController: NavController){
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-                ShopDetailView(shop = shopDetail)
+                shopDetailViewModel.shop.value?.let { shopDetail ->
+                    ShopDetailView(
+                        shop = shopDetail
+                    )
+                }
             }
         }
     }
 }
-
-@Composable
-fun NewsStory() {
-    val image = painterResource(R.drawable.panorama_view)
-    MaterialTheme {
-        val typography = MaterialTheme.typography
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            val imageModifier = Modifier
-                .height(180.dp)
-                .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(4.dp))
-
-            Image(image,
-                modifier = imageModifier,
-                contentDescription = null,
-                contentScale = ContentScale.Crop)
-            Spacer(Modifier.height(16.dp))
-
-            Text(
-                "A day wandering through the sandhills " +
-                        "in Shark Fin Cove, and a few of the " +
-                        "sights I saw",
-                style = typography.h6,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis)
-            Text("Davenport, California",
-                style = typography.body2)
-            Text("December 2018",
-                style = typography.body2)
-        }
-    }
-}
-
-@Preview
-@Composable
-fun DefaultPreview() {
-    NewsStory()
-}
-
