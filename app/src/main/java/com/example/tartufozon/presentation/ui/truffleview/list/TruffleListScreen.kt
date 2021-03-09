@@ -1,5 +1,6 @@
 package com.example.tartufozon.presentation.ui.truffleview.list
 
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,7 +11,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -26,7 +29,9 @@ import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
 import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailScreen
+import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailViewModel
 import com.example.tartufozon.util.Constants.TRUFFLE_KEY
+import androidx.hilt.navigation.HiltViewModelFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -34,7 +39,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun TruffleListScreen(
-    truffleListViewModel: TruffleListViewModel
+    truffleListViewModel: TruffleListViewModel,
 ) {
     val navController: NavHostController = rememberNavController()
 
@@ -43,8 +48,13 @@ fun TruffleListScreen(
             TruffleListScreenContent(truffleListViewModel, navController)
         }
         composable(DetailScreens.TruffleDetailScreen.route) {
+
+            val factory = HiltViewModelFactory(LocalContext.current, it)
+            val truffleDetailViewModel: TruffleDetailViewModel = viewModel("RecipeDetailViewModel", factory)
+
             TruffleDetailScreen(
-                navController = navController
+                navController = navController,
+                truffleDetailViewModel = truffleDetailViewModel
             )
         }
     }
@@ -87,8 +97,7 @@ fun BuildSearchBar(
         query = query,
         onQueryChanged = truffleListViewModel::onQueryChanged,
         onExecuteSearch = {
-            truffleListViewModel
-                .onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
+            truffleListViewModel.onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
         },
         categories = getAllTruffleCategories(),
         selectedCategory = selectedCategory,
@@ -113,9 +122,9 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                     items = truffles
                 ) { index, truffle ->
                     TruffleCard(truffle, onClick = {
-                        navController.currentBackStackEntry?.arguments?.putParcelable(
+                        navController.currentBackStackEntry?.arguments?.putInt(
                             TRUFFLE_KEY,
-                            truffle
+                            truffle.id
                         )
                         navController.navigate(
                             DetailScreens.TruffleDetailScreen.route

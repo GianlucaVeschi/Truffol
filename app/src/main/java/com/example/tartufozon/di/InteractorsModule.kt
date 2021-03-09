@@ -5,6 +5,7 @@ import com.example.tartufozon.db.TruffleDao
 import com.example.tartufozon.db.model.ShopEntityMapper
 import com.example.tartufozon.db.model.TruffleEntityMapper
 import com.example.tartufozon.domain.model.Truffle
+import com.example.tartufozon.interactors.GetTruffleUseCase
 import com.example.tartufozon.interactors.SearchShopsUseCase
 import com.example.tartufozon.interactors.SearchTrufflesUseCase
 import com.example.tartufozon.network.ShopService
@@ -50,6 +51,22 @@ object InteractorsModule {
             truffleService = truffleService,
             entityMapper = entityMapper,
             dtoMapper = dtoMapper
+        )
+    }
+
+    @ViewModelScoped
+    @Provides
+    fun provideGetTruffleUseCase(
+        truffleService: TruffleService,
+        truffleDao: TruffleDao,
+        entityMapper: TruffleEntityMapper,
+        dtoMapper: TruffleDtoMapper,
+    ): GetTruffleUseCase {
+        return GetTruffleUseCase(
+            truffleDao = truffleDao,
+            truffleService = truffleService,
+            entityMapper = entityMapper,
+            truffleDtoMapper = dtoMapper
         )
     }
 }

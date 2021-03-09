@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,10 +15,15 @@ import androidx.navigation.NavController
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.presentation.components.TruffleDetailView
 import com.example.tartufozon.util.Constants.TRUFFLE_KEY
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 @Composable
-fun TruffleDetailScreen(navController: NavController) {
+fun TruffleDetailScreen(
+    navController: NavController,
+    truffleDetailViewModel: TruffleDetailViewModel
+) {
 
     Column(
         modifier = Modifier
@@ -25,8 +31,12 @@ fun TruffleDetailScreen(navController: NavController) {
             .then(Modifier.padding(8.dp)),
         horizontalAlignment = Alignment.End
     ) {
-        val truffleDetail = navController.previousBackStackEntry?.arguments?.getParcelable<Truffle>(TRUFFLE_KEY)
-        truffleDetail?.let {
+        val truffleId = navController.previousBackStackEntry?.arguments?.getInt(TRUFFLE_KEY)
+
+        truffleId?.let {
+            truffleDetailViewModel.onTriggerEvent(
+                TruffleDetailEvent.GetTruffleDetailEvent(it)
+            )
             val scaffoldState = rememberScaffoldState()
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -37,7 +47,9 @@ fun TruffleDetailScreen(navController: NavController) {
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    TruffleDetailView(truffle = truffleDetail)
+                    truffleDetailViewModel.truffle.value?.let { truffleDetail ->
+                        TruffleDetailView(truffle = truffleDetail)
+                    }
                 }
             }
         }

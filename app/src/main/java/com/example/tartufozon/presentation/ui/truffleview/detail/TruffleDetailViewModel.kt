@@ -6,8 +6,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
+import com.example.tartufozon.interactors.GetTruffleUseCase
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,6 +21,7 @@ const val STATE_KEY_TRUFFLE = "truffle.state.truffle.key"
 class TruffleDetailViewModel @Inject constructor(
     private val truffleRepositoryImpl: TruffleRepositoryImpl,
     private val state: SavedStateHandle,
+    private val getTruffleUseCase: GetTruffleUseCase
 ) : ViewModel() {
 
     val truffle: MutableState<Truffle?> = mutableStateOf(null)
@@ -25,38 +29,44 @@ class TruffleDetailViewModel @Inject constructor(
 
     init {
         // restore if process dies
-        state.get<Int>(STATE_KEY_TRUFFLE)?.let{ truffleId ->
+        state.get<Int>(STATE_KEY_TRUFFLE)?.let { truffleId ->
             onTriggerEvent(TruffleDetailEvent.GetTruffleDetailEvent(truffleId))
         }
     }
 
-    fun onTriggerEvent(detailEvent: TruffleDetailEvent){
-        viewModelScope.launch {
-            try {
-                when(detailEvent){
-                    //UseCase #1
-                    is TruffleDetailEvent.GetTruffleDetailEvent -> {
-                        //if(truffle.value == null){
-                            getTruffleDetail(detailEvent.id)
-                        //}
-                    }
-
+    fun onTriggerEvent(detailEvent: TruffleDetailEvent) {
+        try {
+            when (detailEvent) {
+                //UseCase #1
+                is TruffleDetailEvent.GetTruffleDetailEvent -> {
+                    getTruffleDetailUseCase(detailEvent.id)
                 }
-            }catch (e: Exception){
-                Timber.e("launchJob: Exception: ${e}, ${e.cause}")
-                e.printStackTrace()
             }
+        } catch (e: Exception) {
+            Timber.e("launchJob: Exception: ${e}, ${e.cause}")
+            e.printStackTrace()
         }
     }
 
-    private suspend fun getTruffleDetail(truffleId : Int){
+    private fun getTruffleDetailUseCase(truffleId: Int) {
         loading.value = true
 
-        val truffle = truffleRepositoryImpl.getTruffleDetail(truffleId)
-        Timber.d("Gianluca $truffle")
-        this.truffle.value = truffle
+        getTruffleUseCase.run(truffleId).onEach { dataState ->
+            loading.value = dataState.loading
 
-        state.set(STATE_KEY_TRUFFLE, truffle.id)
+            dataState.data?.let {
+                Timber.d(it.toString())
+                truffle.value = it
+            }
+
+            dataState.error?.let { error ->
+                Timber.e("newSearch: ${error}")
+                // TODO("Handle error")
+            }
+        }.launchIn(viewModelScope)
+
+
+        Timber.d(truffle.toString())
 
         loading.value = false
     }

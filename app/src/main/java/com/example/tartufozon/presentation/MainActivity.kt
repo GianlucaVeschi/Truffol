@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 val viewModel: TruffleListViewModel by viewModels()
                 TruffleListScreen(viewModel)
             }
-            //What is the difference between the two viewModel declarations here?
+
             composable(Screens.ShopListScreen.route) {
                 val factory = HiltViewModelFactory(LocalContext.current, it)
                 val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
