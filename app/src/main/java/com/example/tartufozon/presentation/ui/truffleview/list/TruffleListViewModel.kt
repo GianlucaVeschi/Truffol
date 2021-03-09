@@ -51,25 +51,22 @@ class TruffleListViewModel @Inject constructor(
         }
     }
 
-    //Pseudo Use Case #1
-    private suspend fun getTruffleList() {
+    private fun getShuffledTruffleList() {
         resetSearchState()
-        loading.value = true
+        searchTrufflesUseCase.run().onEach { dataState ->
+            loading.value = dataState.loading
 
-        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-        trufflesList.value = tmpTrufflesList
-        loading.value = false
+            dataState.data?.let { list ->
+                trufflesList.value = list.shuffled()
+            }
+
+            dataState.error?.let { error ->
+                Timber.e("newSearch: ${error}")
+                // TODO("Handle error")
+            }
+        }.launchIn(viewModelScope)
     }
 
-    //Pseudo Use Case #2
-    private suspend fun getShuffledTruffleList() {
-        resetSearchState()
-        loading.value = true
-
-        val tmpTrufflesList = truffleRepositoryImpl.getTruffleList()
-        trufflesList.value = tmpTrufflesList.shuffled()
-        loading.value = false
-    }
 
     fun onQueryChanged(query: String) {
         this.query.value = query
@@ -86,6 +83,7 @@ class TruffleListViewModel @Inject constructor(
     }
 
     private fun getTruffleListUseCase() {
+        resetSearchState()
         searchTrufflesUseCase.run().onEach { dataState ->
             loading.value = dataState.loading
 
