@@ -29,7 +29,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun ShopDetailScreen(
     navController: NavController,
     shopDetailViewModel: ShopDetailViewModel
-){
+) {
     val shopDetail = navController.previousBackStackEntry?.arguments?.getInt(SHOP_KEY)!!
     shopDetail.let {
 
@@ -37,22 +37,14 @@ fun ShopDetailScreen(
             ShopDetailEvent.getShopDetailEvent(it)
         )
 
-        val scaffoldState = rememberScaffoldState()
-        Scaffold(
-            scaffoldState = scaffoldState,
-            snackbarHost = {
-                scaffoldState.snackbarHostState
-            }
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                shopDetailViewModel.shop.value?.let { shopDetail ->
-                    ShopDetailView(
-                        shop = shopDetail
-                    )
-                }
-            }
+
+
+        shopDetailViewModel.shop.value?.let { shopDetail ->
+            ShopDetailView(
+                shop = shopDetail
+            )
         }
+
+
     }
 }

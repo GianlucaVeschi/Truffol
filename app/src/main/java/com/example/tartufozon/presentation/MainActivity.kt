@@ -9,8 +9,14 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.tartufozon.presentation.ui.Screens
@@ -34,10 +40,7 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //Bottom Nav Works but still don't understand how it works exactly...
         setContent {
-            //BottomNav
             val navController: NavHostController = rememberNavController()
             BuildScaffold(navController = navController)
         }
@@ -48,16 +51,13 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalCoroutinesApi
     @Composable
     fun BuildScaffold(navController: NavHostController) {
-        // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
             Scaffold(
                 topBar = {
                     TopAppBar(
                         title = { Text(text = "tartufozon") },
                         actions = {
-                            IconButton(onClick = {
-                                Timber.d("Mail clicked")
-                            }) {
+                            IconButton(onClick = { Timber.d("Mail clicked") }) {
                                 Icon(Icons.Default.Email, contentDescription = null)
                             }
                         })
@@ -79,8 +79,9 @@ class MainActivity : AppCompatActivity() {
             Screens.ProfileScreen
         )
         BottomNavigation(
-            backgroundColor = Color(139, 69, 19)
+            backgroundColor = Color(0, 69, 89)
         ) {
+
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
 
@@ -124,8 +125,40 @@ class MainActivity : AppCompatActivity() {
             composable(Screens.ProfileScreen.route) {
                 ProfileScreen()
             }
-
         }
     }
 }
 
+@Composable
+fun ShowDialog(){
+    val isShowing = remember{ mutableStateOf(true) }
+    if(isShowing.value){
+        AlertDialog(
+            onDismissRequest = {isShowing.value = false},
+            title = { Text("Dialog Title") },
+            text = { Text("Here is the description text for a dialog.") },
+            buttons = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    horizontalArrangement = Arrangement.End,
+                ){
+                    Button(
+                        modifier = Modifier.padding(end = 8.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.onError),
+                        onClick = {isShowing.value = false}
+                    ) {
+                        Text(text = "Cancel")
+                    }
+                    Button(
+                        modifier = Modifier.padding(end = 8.dp),
+                        onClick = {isShowing.value = false}
+                    ) {
+                        Text(text = "Ok")
+                    }
+                }
+            }
+        )
+    }
+}

@@ -1,13 +1,14 @@
 package com.example.tartufozon.presentation.ui.shopview.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -39,16 +40,17 @@ fun ShopListScreen(
     val navController: NavHostController = rememberNavController()
 
     NavHost(navController, startDestination = Screens.ShopListScreen.route) {
+
         composable(Screens.ShopListScreen.route) {
             ShopListScreenContent(shopListViewModel, navController)
         }
-        composable(DetailScreens.ShopDetailScreen.route) {
 
+        composable(DetailScreens.ShopDetailScreen.route) {
             val factory = HiltViewModelFactory(LocalContext.current, it)
             val shopDetailViewModel: ShopDetailViewModel = viewModel("ShopDetailViewModel", factory)
-
             ShopDetailScreen(navController, shopDetailViewModel)
         }
+
     }
 }
 
@@ -61,7 +63,6 @@ fun ShopListScreenContent(shopListViewModel: ShopListViewModel, navController: N
     val scrollState = rememberScrollState()
 
     Scaffold {
-        var click = 0
         Box(
             modifier = Modifier.background(color = MaterialTheme.colors.surface)
         ) {
