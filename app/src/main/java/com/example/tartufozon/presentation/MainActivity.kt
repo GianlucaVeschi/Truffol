@@ -9,10 +9,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -66,7 +63,10 @@ class MainActivity : AppCompatActivity() {
                     BottomNavBar(navController = navController)
                 }
             ) {
-                BottomNavScreensController(navController = navController)
+                // Apply the padding globally to the whole BottomNavScreensController
+                Box(modifier = Modifier.padding(it)) {
+                    BottomNavScreensController(navController = navController)
+                }
             }
         }
     }
