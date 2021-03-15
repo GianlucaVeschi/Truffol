@@ -25,6 +25,9 @@ import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewMo
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tartufozon.presentation.components.GenericDialog
+import com.example.tartufozon.presentation.components.NegativeAction
+import com.example.tartufozon.presentation.components.PositiveAction
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController: NavHostController = rememberNavController()
             BuildScaffold(navController = navController)
+            ShowDialog()
         }
     }
 
@@ -130,35 +134,21 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-fun ShowDialog(){
-    val isShowing = remember{ mutableStateOf(true) }
-    if(isShowing.value){
-        AlertDialog(
-            onDismissRequest = {isShowing.value = false},
-            title = { Text("Dialog Title") },
-            text = { Text("Here is the description text for a dialog.") },
-            buttons = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.End,
-                ){
-                    Button(
-                        modifier = Modifier.padding(end = 8.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.onError),
-                        onClick = {isShowing.value = false}
-                    ) {
-                        Text(text = "Cancel")
-                    }
-                    Button(
-                        modifier = Modifier.padding(end = 8.dp),
-                        onClick = {isShowing.value = false}
-                    ) {
-                        Text(text = "Ok")
-                    }
-                }
-            }
+fun ShowDialog() {
+    val isShowing = remember { mutableStateOf(true) }
+    if (isShowing.value) {
+        GenericDialog(
+            onDismiss = { isShowing.value = false },
+            title = "Generic Dialog",
+            description = "Hey look a dialog descrip",
+            positiveAction = PositiveAction(
+                positiveBtnTxt = "OK",
+                onPositiveAction = { isShowing.value = false }
+            ),
+            negativeAction = NegativeAction(
+                negativeBtnTxt = "Cancel",
+                onNegativeAction = { isShowing.value = false }
+            )
         )
     }
 }
