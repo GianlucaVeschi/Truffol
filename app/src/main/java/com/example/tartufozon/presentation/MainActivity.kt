@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController: NavHostController = rememberNavController()
             BuildScaffold(navController = navController)
-            ShowDialog()
+            //ShowDialog()
         }
     }
 

@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
 import com.example.tartufozon.presentation.components.ShopCard
 import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
+import com.example.tartufozon.presentation.components.theme.AppTheme
 import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
 import com.example.tartufozon.presentation.ui.shopview.detail.ShopDetailScreen
@@ -31,6 +32,7 @@ import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailVi
 import com.example.tartufozon.util.Constants.SHOP_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
 fun ShopListScreen(
@@ -54,6 +56,7 @@ fun ShopListScreen(
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
 fun ShopListScreenContent(shopListViewModel: ShopListViewModel, navController: NavController) {
@@ -61,29 +64,39 @@ fun ShopListScreenContent(shopListViewModel: ShopListViewModel, navController: N
     val shopList = shopListViewModel.shopList.value
     val loading = shopListViewModel.loading.value
     val scrollState = rememberScrollState()
+    val dialogQueue = shopListViewModel.dialogQueue
+    val scaffoldState = rememberScaffoldState()
+    val isDarkTheme = false
 
-    Scaffold {
-        Box(
-            modifier = Modifier.background(color = MaterialTheme.colors.surface)
-        ) {
-            if (loading) {
-                LoadingListShimmer(imageHeight = 250.dp)
-            } else {
-                LazyColumn {
-                    itemsIndexed(
-                        items = shopList
-                    ) { index, shop ->
-                        ShopCard(shop) {
-                            navController.currentBackStackEntry?.arguments?.putInt(
-                                SHOP_KEY,
-                                shop.id
-                            )
-                            navController.navigate(DetailScreens.ShopDetailScreen.route)
+    AppTheme(
+        displayProgressBar = loading,
+        scaffoldState = scaffoldState,
+        darkTheme = isDarkTheme,
+        dialogQueue = dialogQueue.queue.value,
+    ) {
+        Scaffold {
+            Box(
+                modifier = Modifier.background(color = MaterialTheme.colors.surface)
+            ) {
+                if (loading) {
+                    LoadingListShimmer(imageHeight = 250.dp)
+                } else {
+                    LazyColumn {
+                        itemsIndexed(
+                            items = shopList
+                        ) { index, shop ->
+                            ShopCard(shop) {
+                                navController.currentBackStackEntry?.arguments?.putInt(
+                                    SHOP_KEY,
+                                    shop.id
+                                )
+                                navController.navigate(DetailScreens.ShopDetailScreen.route)
+                            }
                         }
                     }
                 }
+                //CircularIndeterminateProgressBar(isDisplayed = loading, 0.5f)
             }
-            CircularIndeterminateProgressBar(isDisplayed = loading, 0.5f)
         }
     }
 }

@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -32,9 +34,11 @@ import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailSc
 import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailViewModel
 import com.example.tartufozon.util.Constants.TRUFFLE_KEY
 import androidx.hilt.navigation.HiltViewModelFactory
+import com.example.tartufozon.presentation.components.theme.AppTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -50,7 +54,8 @@ fun TruffleListScreen(
         composable(DetailScreens.TruffleDetailScreen.route) {
 
             val factory = HiltViewModelFactory(LocalContext.current, it)
-            val truffleDetailViewModel: TruffleDetailViewModel = viewModel("RecipeDetailViewModel", factory)
+            val truffleDetailViewModel: TruffleDetailViewModel =
+                viewModel("RecipeDetailViewModel", factory)
 
             TruffleDetailScreen(
                 navController = navController,
@@ -60,6 +65,7 @@ fun TruffleListScreen(
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 private fun TruffleListScreenContent(
@@ -71,18 +77,28 @@ private fun TruffleListScreenContent(
     val selectedCategory = truffleListViewModel.selectedCategory.value
     val loading = truffleListViewModel.loading.value
     val scrollState = rememberScrollState()
+    val dialogQueue = truffleListViewModel.dialogQueue
+    val scaffoldState = rememberScaffoldState()
+    val isDarkTheme = false
 
-    Scaffold(
-        topBar = {
-            BuildSearchBar(
-                truffleListViewModel,
-                query,
-                selectedCategory
-            )
-        },
-        drawerContent = { BuildDrawerContent() }
+    AppTheme(
+        displayProgressBar = loading,
+        scaffoldState = scaffoldState,
+        darkTheme = isDarkTheme,
+        dialogQueue = dialogQueue.queue.value,
     ) {
-        BuildTrufflesList(truffles = trufflesList, loading, navController)
+        Scaffold(
+            topBar = {
+                BuildSearchBar(
+                    truffleListViewModel,
+                    query,
+                    selectedCategory
+                )
+            },
+            drawerContent = { BuildDrawerContent() }
+        ) {
+            BuildTrufflesList(truffles = trufflesList, loading, navController)
+        }
     }
 }
 
@@ -133,6 +149,6 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                 }
             }
         }
-        CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.5f)
+        //CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.5f)
     }
 }

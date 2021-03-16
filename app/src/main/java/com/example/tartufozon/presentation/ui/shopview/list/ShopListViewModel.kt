@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.interactors.SearchShopsUseCase
 import com.example.tartufozon.presentation.ui.shopview.repo.ShopRepositoryImpl
+import com.example.tartufozon.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,6 +24,7 @@ class ShopListViewModel @Inject constructor(
     val shopList: MutableState<List<Shop>> = mutableStateOf(ArrayList())
     //var categoryScrollPosition: Float = 0f
     val loading = mutableStateOf(false)
+    val dialogQueue = DialogQueue()
 
     init {
         triggerEvent(ShopListEvent.GetShopList)
@@ -45,14 +47,6 @@ class ShopListViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getShopList() {
-        //resetSearchState()
-        loading.value = true
-        val tmpShopList = shopRepositoryImpl.getShopList()
-        shopList.value = tmpShopList
-        loading.value = false
-    }
-
     private fun getShopListUseCase() {
         searchShopsUseCase.run().onEach { dataState ->
             loading.value = dataState.loading
@@ -63,7 +57,7 @@ class ShopListViewModel @Inject constructor(
 
             dataState.error?.let { error ->
                 Timber.e("newSearch: ${error}")
-                // TODO("Handle error")
+                dialogQueue.appendErrorMessage("An Error Occurred", error)
             }
         }.launchIn(viewModelScope)
     }

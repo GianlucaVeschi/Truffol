@@ -2,11 +2,13 @@ package com.example.tartufozon.presentation.ui.truffleview.list
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.interactors.SearchTrufflesUseCase
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
+import com.example.tartufozon.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,6 +27,7 @@ class TruffleListViewModel @Inject constructor(
     val selectedCategory: MutableState<TruffleCategory?> = mutableStateOf(null)
     var categoryScrollPosition: Float = 0f
     val loading = mutableStateOf(false)
+    val dialogQueue = DialogQueue()
 
     init {
         onTriggerEvent(TruffleListEvent.GetTruffleList)
@@ -62,7 +65,7 @@ class TruffleListViewModel @Inject constructor(
 
             dataState.error?.let { error ->
                 Timber.e("newSearch: ${error}")
-                // TODO("Handle error")
+                dialogQueue.appendErrorMessage("An error appeared",error)
             }
         }.launchIn(viewModelScope)
     }
@@ -93,7 +96,7 @@ class TruffleListViewModel @Inject constructor(
 
             dataState.error?.let { error ->
                 Timber.e("newSearch: ${error}")
-                // TODO("Handle error")
+                dialogQueue.appendErrorMessage("An error appeared",error)
             }
         }.launchIn(viewModelScope)
     }
