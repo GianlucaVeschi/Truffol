@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tartufozon.presentation.components.GenericDialog
+import com.example.tartufozon.presentation.components.GenericDialogInfo
 import com.example.tartufozon.presentation.components.NegativeAction
 import com.example.tartufozon.presentation.components.PositiveAction
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -137,18 +138,31 @@ class MainActivity : AppCompatActivity() {
 fun ShowDialog() {
     val isShowing = remember { mutableStateOf(true) }
     if (isShowing.value) {
-        GenericDialog(
-            onDismiss = { isShowing.value = false },
-            title = "Generic Dialog",
-            description = "Hey look a dialog descrip",
-            positiveAction = PositiveAction(
-                positiveBtnTxt = "OK",
-                onPositiveAction = { isShowing.value = false }
-            ),
-            negativeAction = NegativeAction(
-                negativeBtnTxt = "Cancel",
-                onNegativeAction = { isShowing.value = false }
+
+        val dialogInfo = GenericDialogInfo.Builder()
+            .title("Error")
+            .onDismiss{isShowing.value = false}
+            .description("Hey look a dialog description")
+            .positive(
+                positiveAction = PositiveAction(
+                    positiveBtnTxt = "OK",
+                    onPositiveAction = {isShowing.value = false }
+                )
             )
+            .negative(
+                negativeAction = NegativeAction(
+                    negativeBtnTxt = "Cancel",
+                    onNegativeAction = {isShowing.value = false }
+                )
+            )
+            .build()
+
+        GenericDialog(
+            onDismiss = dialogInfo.onDismiss,
+            title = dialogInfo.title,
+            description = dialogInfo.description,
+            positiveAction = dialogInfo.positiveAction,
+            negativeAction = dialogInfo.negativeAction
         )
     }
 }
