@@ -1,6 +1,11 @@
 package com.example.tartufozon.presentation
 
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
@@ -36,6 +41,40 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    val TAG = "c-manager"
+
+    lateinit var cm: ConnectivityManager
+
+    val networkRequest = NetworkRequest.Builder()
+        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        .build()
+
+    val networkCallback = object: ConnectivityManager.NetworkCallback() {
+
+        // Called when the framework connects and has declared a new network ready for use.
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            Log.d(TAG, "onAvailable: ${network}")
+        }
+
+        // Called when a network disconnects or otherwise no longer satisfies this request or callback
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            Log.d(TAG, "onLost: ${network}")
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        cm = this.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        cm.registerNetworkCallback(networkRequest, networkCallback)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cm.unregisterNetworkCallback(networkCallback)
+    }
+
     @ExperimentalComposeUiApi
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
@@ -44,7 +83,6 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController: NavHostController = rememberNavController()
             BuildScaffold(navController = navController)
-            //ShowDialog()
         }
     }
 
@@ -131,38 +169,5 @@ class MainActivity : AppCompatActivity() {
                 ProfileScreen()
             }
         }
-    }
-}
-
-@Composable
-fun ShowDialog() {
-    val isShowing = remember { mutableStateOf(true) }
-    if (isShowing.value) {
-
-        val dialogInfo = GenericDialogInfo.Builder()
-            .title("Error")
-            .onDismiss{isShowing.value = false}
-            .description("Hey look a dialog description")
-            .positive(
-                positiveAction = PositiveAction(
-                    positiveBtnTxt = "OK",
-                    onPositiveAction = {isShowing.value = false }
-                )
-            )
-            .negative(
-                negativeAction = NegativeAction(
-                    negativeBtnTxt = "Cancel",
-                    onNegativeAction = {isShowing.value = false }
-                )
-            )
-            .build()
-
-        GenericDialog(
-            onDismiss = dialogInfo.onDismiss,
-            title = dialogInfo.title,
-            description = dialogInfo.description,
-            positiveAction = dialogInfo.positiveAction,
-            negativeAction = dialogInfo.negativeAction
-        )
     }
 }
