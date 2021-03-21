@@ -1,4 +1,4 @@
-package com.example.tartufozon.interactors
+package com.example.tartufozon.interactors.shop
 
 import com.example.tartufozon.db.ShopDao
 import com.example.tartufozon.db.model.ShopEntityMapper

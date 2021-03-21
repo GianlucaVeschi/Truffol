@@ -2,11 +2,10 @@ package com.example.tartufozon.presentation.ui.truffleview.list
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.interactors.SearchTrufflesUseCase
+import com.example.tartufozon.interactors.truffle.SearchTrufflesUseCase
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
 import com.example.tartufozon.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel

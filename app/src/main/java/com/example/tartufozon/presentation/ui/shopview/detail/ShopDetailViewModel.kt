@@ -6,13 +6,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Shop
-import com.example.tartufozon.interactors.GetShopUseCase
+import com.example.tartufozon.interactors.shop.GetShopUseCase
 import com.example.tartufozon.presentation.ui.shopview.repo.ShopRepositoryImpl
 import com.example.tartufozon.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 

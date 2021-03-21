@@ -3,6 +3,7 @@ package com.example.tartufozon.presentation
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
@@ -30,11 +31,12 @@ import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewMo
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tartufozon.interactors.app.DoesNetworkHaveInternet
 import com.example.tartufozon.presentation.components.GenericDialog
 import com.example.tartufozon.presentation.components.GenericDialogInfo
 import com.example.tartufozon.presentation.components.NegativeAction
 import com.example.tartufozon.presentation.components.PositiveAction
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 
@@ -49,12 +51,25 @@ class MainActivity : AppCompatActivity() {
         .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         .build()
 
-    val networkCallback = object: ConnectivityManager.NetworkCallback() {
+    val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
         // Called when the framework connects and has declared a new network ready for use.
         override fun onAvailable(network: Network) {
-            super.onAvailable(network)
             Log.d(TAG, "onAvailable: ${network}")
+            val networkCapabilities = cm.getNetworkCapabilities(network)
+            val hasInternetCapability = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
+            Log.d(TAG, "onAvailable: ${network}, $hasInternetCapability")
+            if (hasInternetCapability == true) {
+                // check if this network actually has internet
+                CoroutineScope(Dispatchers.IO).launch {
+                    val hasInternet = DoesNetworkHaveInternet.execute(network.socketFactory)
+                    if (hasInternet) {
+                        withContext(Dispatchers.Main) {
+                            Log.d(TAG, "onAvailable: This network has internet: ${network}")
+                        }
+                    }
+                }
+            }
         }
 
         // Called when a network disconnects or otherwise no longer satisfies this request or callback

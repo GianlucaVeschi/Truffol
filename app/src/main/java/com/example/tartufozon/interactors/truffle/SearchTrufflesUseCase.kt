@@ -1,4 +1,4 @@
-package com.example.tartufozon.interactors
+package com.example.tartufozon.interactors.truffle
 
 import com.example.tartufozon.db.TruffleDao
 import com.example.tartufozon.db.model.TruffleEntityMapper

@@ -6,12 +6,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.interactors.GetTruffleUseCase
+import com.example.tartufozon.interactors.truffle.GetTruffleUseCase
 import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 

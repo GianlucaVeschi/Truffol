@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Shop
-import com.example.tartufozon.interactors.SearchShopsUseCase
+import com.example.tartufozon.interactors.shop.SearchShopsUseCase
 import com.example.tartufozon.presentation.ui.shopview.repo.ShopRepositoryImpl
 import com.example.tartufozon.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel

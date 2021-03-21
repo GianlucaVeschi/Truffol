@@ -4,11 +4,10 @@ import com.example.tartufozon.db.ShopDao
 import com.example.tartufozon.db.TruffleDao
 import com.example.tartufozon.db.model.ShopEntityMapper
 import com.example.tartufozon.db.model.TruffleEntityMapper
-import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.interactors.GetShopUseCase
-import com.example.tartufozon.interactors.GetTruffleUseCase
-import com.example.tartufozon.interactors.SearchShopsUseCase
-import com.example.tartufozon.interactors.SearchTrufflesUseCase
+import com.example.tartufozon.interactors.shop.GetShopUseCase
+import com.example.tartufozon.interactors.truffle.GetTruffleUseCase
+import com.example.tartufozon.interactors.shop.SearchShopsUseCase
+import com.example.tartufozon.interactors.truffle.SearchTrufflesUseCase
 import com.example.tartufozon.network.ShopService
 import com.example.tartufozon.network.TruffleService
 import com.example.tartufozon.network.model.ShopDtoMapper
