@@ -92,7 +92,7 @@ fun ShopListScreenContent(shopListViewModel: ShopListViewModel, navController: N
 fun ShopsLazyColumn(shopList: List<Shop>, navController: NavController) {
     LazyColumn {
         itemsIndexed(
-            items = shopList
+            items = shopList,
         ) { index, shop ->
             ShopCard(shop) {
                 navController.currentBackStackEntry?.arguments?.putInt(
@@ -113,7 +113,7 @@ fun ShopsGrid(shops: List<Shop>, navController: NavController) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(10.dp),
-        cells = GridCells.Adaptive(minSize = 140.dp)
+        cells = GridCells.Fixed(2)
     ) {
         items(shops) { shop ->
             ShopCard(shop) {
