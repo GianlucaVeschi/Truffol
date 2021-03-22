@@ -12,6 +12,10 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.tartufozon.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.bumptech.glide.request.RequestOptions
+
+
+
 
 const val DEFAULT_FOOD_IMAGE = R.drawable.empty_plate
 const val DEFAULT_SHOP_IMAGE = R.drawable.shop_placeholder_1240_698
@@ -21,11 +25,13 @@ const val DEFAULT_SHOP_IMAGE = R.drawable.shop_placeholder_1240_698
 fun loadPicture(url: String, @DrawableRes defaultImage: Int): MutableState<Bitmap?> {
 
     val bitmapState: MutableState<Bitmap?> = mutableStateOf(null)
+    val options = RequestOptions().centerCrop()
 
     // show default image while image loads
     Glide.with(LocalContext.current)
         .asBitmap()
         .load(defaultImage)
+        .apply(options)
         .into(object : CustomTarget<Bitmap>() {
             override fun onLoadCleared(placeholder: Drawable?) {}
             override fun onResourceReady(
@@ -40,6 +46,7 @@ fun loadPicture(url: String, @DrawableRes defaultImage: Int): MutableState<Bitma
     Glide.with(LocalContext.current)
         .asBitmap()
         .load(url)
+        .apply(options)
         .into(object : CustomTarget<Bitmap>() {
             override fun onLoadCleared(placeholder: Drawable?) {}
             override fun onResourceReady(
