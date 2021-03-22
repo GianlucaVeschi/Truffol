@@ -127,13 +127,19 @@ class MainActivity : AppCompatActivity() {
 
             composable(Screens.TruffleListScreen.route) {
                 val viewModel: TruffleListViewModel by viewModels()
-                TruffleListScreen(viewModel)
+                TruffleListScreen(
+                    viewModel,
+                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                )
             }
 
             composable(Screens.ShopListScreen.route) {
                 val factory = HiltViewModelFactory(LocalContext.current, it)
                 val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
-                ShopListScreen(viewModel)
+                ShopListScreen(
+                    viewModel,
+                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                )
             }
 
             composable(Screens.ProfileScreen.route) {

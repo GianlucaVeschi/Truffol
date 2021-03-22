@@ -34,7 +34,8 @@ import timber.log.Timber
 @ExperimentalCoroutinesApi
 @Composable
 fun ShopListScreen(
-    shopListViewModel: ShopListViewModel
+    shopListViewModel: ShopListViewModel,
+    isNetworkAvailable: Boolean
 ) {
 
     val navController: NavHostController = rememberNavController()
@@ -42,7 +43,7 @@ fun ShopListScreen(
     NavHost(navController, startDestination = Screens.ShopListScreen.route) {
 
         composable(Screens.ShopListScreen.route) {
-            ShopListScreenContent(shopListViewModel, navController)
+            ShopListScreenContent(shopListViewModel, navController, isNetworkAvailable)
         }
 
         composable(DetailScreens.ShopDetailScreen.route) {
@@ -57,7 +58,11 @@ fun ShopListScreen(
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
-fun ShopListScreenContent(shopListViewModel: ShopListViewModel, navController: NavController) {
+fun ShopListScreenContent(
+    shopListViewModel: ShopListViewModel,
+    navController: NavController,
+    isNetworkAvailable: Boolean
+) {
 
     val shopList = shopListViewModel.shopList.value
     val loading = shopListViewModel.loading.value
@@ -69,6 +74,7 @@ fun ShopListScreenContent(shopListViewModel: ShopListViewModel, navController: N
     AppTheme(
         displayProgressBar = loading,
         scaffoldState = scaffoldState,
+        isNetworkAvailable = isNetworkAvailable,
         darkTheme = isDarkTheme,
         dialogQueue = dialogQueue.queue.value,
     ) {

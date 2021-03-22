@@ -2,12 +2,14 @@ package com.example.tartufozon.presentation.components.theme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
+import com.example.tartufozon.presentation.components.ConnectivityMonitor
 import com.example.tartufozon.presentation.components.GenericDialog
 import com.example.tartufozon.presentation.components.GenericDialogInfo
 import java.util.*
@@ -44,6 +46,7 @@ private val DarkThemeColors = darkColors(
 @Composable
 fun AppTheme(
     darkTheme: Boolean,
+    isNetworkAvailable: Boolean,
     displayProgressBar: Boolean,
     scaffoldState: ScaffoldState?,
     dialogQueue: Queue<GenericDialogInfo>? = null,
@@ -58,7 +61,10 @@ fun AppTheme(
                 .fillMaxSize()
                 .background(color = if (!darkTheme) Grey1 else Color.Black)
         ){
-            content()
+            Column{
+                ConnectivityMonitor(isNetworkAvailable = isNetworkAvailable)
+                content()
+            }
             CircularIndeterminateProgressBar(isDisplayed = displayProgressBar, 0.5f)
 //            DefaultSnackbar(
 //                snackbarHostState = scaffoldState.snackbarHostState,

@@ -44,12 +44,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun TruffleListScreen(
     truffleListViewModel: TruffleListViewModel,
+    isNetworkAvailable : Boolean
 ) {
     val navController: NavHostController = rememberNavController()
 
     NavHost(navController, startDestination = Screens.TruffleListScreen.route) {
         composable(Screens.TruffleListScreen.route) {
-            TruffleListScreenContent(truffleListViewModel, navController)
+            TruffleListScreenContent(truffleListViewModel, navController,isNetworkAvailable)
         }
         composable(DetailScreens.TruffleDetailScreen.route) {
 
@@ -70,7 +71,8 @@ fun TruffleListScreen(
 @Composable
 private fun TruffleListScreenContent(
     truffleListViewModel: TruffleListViewModel,
-    navController: NavController
+    navController: NavController,
+    isNetworkAvailable : Boolean
 ) {
     val trufflesList = truffleListViewModel.trufflesList.value
     val query: String = truffleListViewModel.query.value
@@ -86,6 +88,7 @@ private fun TruffleListScreenContent(
         scaffoldState = scaffoldState,
         darkTheme = isDarkTheme,
         dialogQueue = dialogQueue.queue.value,
+        isNetworkAvailable = isNetworkAvailable
     ) {
         Scaffold(
             topBar = {
