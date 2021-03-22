@@ -1,7 +1,6 @@
 package com.example.tartufozon
 
 import android.app.Application
-import com.facebook.stetho.BuildConfig
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
