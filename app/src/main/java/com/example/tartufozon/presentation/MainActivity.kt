@@ -1,6 +1,7 @@
 package com.example.tartufozon.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
@@ -26,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tartufozon.presentation.util.CustomConnectivityManager
+import com.example.tartufozon.presentation.util.TAG
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -53,33 +55,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController: NavHostController = rememberNavController()
-            BuildScaffold(navController = navController)
-        }
-    }
+            val isNetworkAvailable = connectivityManager.isNetworkAvailable.value
+            Log.d(TAG,"onCreate: IS NETWORK AVAILABLE? ${isNetworkAvailable}")
 
-    @ExperimentalComposeUiApi
-    @ExperimentalMaterialApi
-    @ExperimentalCoroutinesApi
-    @Composable
-    fun BuildScaffold(navController: NavHostController) {
-        Surface(color = MaterialTheme.colors.background) {
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { Text(text = "tartufozon") },
-                        actions = {
-                            IconButton(onClick = { Timber.d("Mail clicked") }) {
-                                Icon(Icons.Default.Email, contentDescription = null)
-                            }
-                        })
-                },
-                bottomBar = {
-                    BottomNavBar(navController = navController)
-                }
-            ) {
-                // Apply the padding globally to the whole BottomNavScreensController
-                Box(modifier = Modifier.padding(it)) {
-                    BottomNavScreensController(navController = navController)
+            Surface(color = MaterialTheme.colors.background) {
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = "tartufozon") },
+                            actions = {
+                                IconButton(onClick = { Timber.d("Mail clicked") }) {
+                                    Icon(Icons.Default.Email, contentDescription = null)
+                                }
+                            })
+                    },
+                    bottomBar = {
+                        BottomNavBar(navController = navController)
+                    }
+                ) {
+                    // Apply the padding globally to the whole BottomNavScreensController
+                    Box(modifier = Modifier.padding(it)) {
+                        BottomNavScreensController(navController = navController)
+                    }
                 }
             }
         }
@@ -121,7 +118,8 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalCoroutinesApi
     @Composable
     fun BottomNavScreensController(
-        navController: NavHostController
+        navController: NavHostController,
+
     ) {
         NavHost(navController = navController, startDestination = Screens.ShopListScreen.route) {
 
