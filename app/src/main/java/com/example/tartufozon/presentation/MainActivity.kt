@@ -26,6 +26,7 @@ import com.example.tartufozon.presentation.ui.truffleview.list.TruffleListViewMo
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.presentation.util.CustomConnectivityManager
 import com.example.tartufozon.presentation.util.TAG
 import kotlinx.coroutines.*
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController: NavHostController = rememberNavController()
             val isNetworkAvailable = connectivityManager.isNetworkAvailable.value
-            Log.d(TAG,"onCreate: IS NETWORK AVAILABLE? ${isNetworkAvailable}")
+            Timber.d("onCreate: IS NETWORK AVAILABLE? ${isNetworkAvailable}")
 
             Surface(color = MaterialTheme.colors.background) {
                 Scaffold(
@@ -136,7 +137,7 @@ class MainActivity : AppCompatActivity() {
                 val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
                 ShopListScreen(
                     viewModel,
-                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value
                 )
             }
 

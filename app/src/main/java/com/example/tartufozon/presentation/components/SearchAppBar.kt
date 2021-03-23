@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleCategory
+import timber.log.Timber
 
 @ExperimentalComposeUiApi
 @Composable
@@ -32,8 +33,7 @@ fun SearchAppBar(
     onExecuteSearch: () -> Unit,
     categories: List<TruffleCategory>,
     selectedCategory: TruffleCategory?,
-    onSelectedCategoryChanged: (String) -> Unit,
-    onToggleTheme: () -> Unit,
+    onSelectedCategoryChanged: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -81,9 +81,9 @@ fun SearchAppBar(
                                 end.linkTo(parent.end)
                                 linkTo(top = parent.top, bottom = parent.bottom)
                             },
-                        onClick = onToggleTheme,
+                        onClick = { Timber.d("Icon clicked ...")},
                     ) {
-                        Icon(Icons.Filled.MoreVert, contentDescription = "Toggle Dark/Light Theme")
+                        Icon(Icons.Filled.MoreVert, contentDescription = "Not yet used")
                     }
                 }
             }

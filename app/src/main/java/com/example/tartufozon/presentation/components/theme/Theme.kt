@@ -45,7 +45,6 @@ private val DarkThemeColors = darkColors(
 @ExperimentalMaterialApi
 @Composable
 fun AppTheme(
-    darkTheme: Boolean,
     isNetworkAvailable: Boolean,
     displayProgressBar: Boolean,
     scaffoldState: ScaffoldState?,
@@ -53,13 +52,13 @@ fun AppTheme(
     content: @Composable () -> Unit,
 ) {
     MaterialTheme(
-        colors = if (darkTheme) DarkThemeColors else LightThemeColors,
+        colors = LightThemeColors,
         shapes = AppShapes
     ){
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = if (!darkTheme) Grey1 else Color.Black)
+                .background(color = Grey1)
         ){
             Column{
                 ConnectivityMonitor(isNetworkAvailable = isNetworkAvailable)

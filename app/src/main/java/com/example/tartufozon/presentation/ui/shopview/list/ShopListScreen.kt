@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.presentation.components.ShopCard
 import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
@@ -61,7 +62,7 @@ fun ShopListScreen(
 fun ShopListScreenContent(
     shopListViewModel: ShopListViewModel,
     navController: NavController,
-    isNetworkAvailable: Boolean
+    isNetworkAvailable: Boolean,
 ) {
 
     val shopList = shopListViewModel.shopList.value
@@ -69,13 +70,11 @@ fun ShopListScreenContent(
     val scrollState = rememberScrollState()
     val dialogQueue = shopListViewModel.dialogQueue
     val scaffoldState = rememberScaffoldState()
-    val isDarkTheme = false
 
     AppTheme(
         displayProgressBar = loading,
         scaffoldState = scaffoldState,
         isNetworkAvailable = isNetworkAvailable,
-        darkTheme = isDarkTheme,
         dialogQueue = dialogQueue.queue.value,
     ) {
         Scaffold {

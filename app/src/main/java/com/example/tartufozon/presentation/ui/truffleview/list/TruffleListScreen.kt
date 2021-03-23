@@ -34,6 +34,7 @@ import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailSc
 import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailViewModel
 import com.example.tartufozon.util.Constants.TRUFFLE_KEY
 import androidx.hilt.navigation.HiltViewModelFactory
+import com.example.tartufozon.BaseApplication
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -66,6 +67,7 @@ fun TruffleListScreen(
     }
 }
 
+@ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
@@ -81,12 +83,10 @@ private fun TruffleListScreenContent(
     val scrollState = rememberScrollState()
     val dialogQueue = truffleListViewModel.dialogQueue
     val scaffoldState = rememberScaffoldState()
-    val isDarkTheme = false
 
     AppTheme(
         displayProgressBar = loading,
         scaffoldState = scaffoldState,
-        darkTheme = isDarkTheme,
         dialogQueue = dialogQueue.queue.value,
         isNetworkAvailable = isNetworkAvailable
     ) {
@@ -120,10 +120,7 @@ fun BuildSearchBar(
         },
         categories = getAllTruffleCategories(),
         selectedCategory = selectedCategory,
-        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged,
-        onToggleTheme = {
-            //application.toggleLightTheme()
-        }
+        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged
     )
 }
 
@@ -152,6 +149,5 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                 }
             }
         }
-        //CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.5f)
     }
 }
