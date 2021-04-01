@@ -8,25 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 
-//Center a circular indeterminate progress bar with optional vertical bias.
-
-//@Composable
-//fun CircularIndeterminateProgressBar(isDisplayed: Boolean) {
-//    if (isDisplayed) {
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(top = 20.dp),
-//            horizontalArrangement = Arrangement.Center
-//        ) {
-//            CircularProgressIndicator(
-//                color = MaterialTheme.colors.primary
-//            )
-//        }
-//    }
-//}
-
-//Constraint Layout Version
 @Composable
 fun CircularIndeterminateProgressBar(isDisplayed: Boolean, verticalBias: Float){
     if(isDisplayed){

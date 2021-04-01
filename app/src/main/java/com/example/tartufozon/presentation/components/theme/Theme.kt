@@ -29,19 +29,6 @@ private val LightThemeColors = lightColors(
     onSurface = Black2,
 )
 
-private val DarkThemeColors = darkColors(
-    primary = Blue700,
-    primaryVariant = Color.White,
-    onPrimary = Color.White,
-    secondary = Black1,
-    onSecondary = Color.White,
-    error = RedErrorLight,
-    background = Color.Black,
-    onBackground = Color.White,
-    surface = Black1,
-    onSurface = Color.White,
-)
-
 @ExperimentalMaterialApi
 @Composable
 fun AppTheme(
@@ -65,13 +52,6 @@ fun AppTheme(
                 content()
             }
             CircularIndeterminateProgressBar(isDisplayed = displayProgressBar, 0.5f)
-//            DefaultSnackbar(
-//                snackbarHostState = scaffoldState.snackbarHostState,
-//                onDismiss = {
-//                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-//                },
-//                modifier = Modifier.align(Alignment.BottomCenter)
-//            )
             ProcessDialogQueue(
                 dialogQueue = dialogQueue,
             )

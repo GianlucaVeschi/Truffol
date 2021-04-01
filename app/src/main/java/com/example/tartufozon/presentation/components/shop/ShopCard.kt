@@ -48,7 +48,7 @@ fun ShopCard(
                     )
                 }
             }
-            shop.shopName?.let { title ->
+            shop.shopName.let { title ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

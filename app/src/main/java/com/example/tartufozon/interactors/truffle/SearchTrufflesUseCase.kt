@@ -22,10 +22,8 @@ class SearchTrufflesUseCase (
 
             val truffles = getTrufflesFromNetwork()
 
-            // insert into cache
             truffleDao.insertTruffles(entityMapper.toEntityList(truffles))
 
-            // TODO: 08.03.21 : query the cache
             val cacheResult = truffleDao.getAllTruffles()
 
             val list = entityMapper.fromEntityList(cacheResult)

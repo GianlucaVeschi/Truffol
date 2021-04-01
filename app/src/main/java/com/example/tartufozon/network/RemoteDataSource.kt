@@ -13,7 +13,7 @@ class RemoteDataSource @Inject constructor(
     private val shopService: ShopService,
     private val shopDtoMapper: ShopDtoMapper,
     private val truffleDtoMapper: TruffleDtoMapper
-) : BaseDataSource() {
+) {
 
     suspend fun getTruffleList() : List<Truffle> {
         var truffleList : List<Truffle>? = null
