@@ -122,7 +122,10 @@ class MainActivity : AppCompatActivity() {
         navController: NavHostController,
 
     ) {
-        NavHost(navController = navController, startDestination = Screens.ShopListScreen.route) {
+        NavHost(
+            navController = navController,
+            startDestination = Screens.ShopListScreen.route
+        ) {
 
             composable(Screens.TruffleListScreen.route) {
                 val viewModel: TruffleListViewModel by viewModels()
