@@ -3,12 +3,17 @@ buildscript {
 
     ext {
         kotlin_version = "1.4.31"
-        compose_version = '1.0.0-beta02'
+        compose_version = '1.0.0-beta04'
     }
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        jcenter {
+            content {
+                includeModule("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm")
+            }
+        }
     }
 
     dependencies {
@@ -31,7 +36,12 @@ plugins {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        jcenter {
+            content {
+                includeModule("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm")
+            }
+        }
     }
 }
 
