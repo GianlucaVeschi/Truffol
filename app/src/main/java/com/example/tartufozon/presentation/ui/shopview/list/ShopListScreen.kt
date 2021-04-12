@@ -116,8 +116,6 @@ fun ShopsLazyColumn(shopList: List<Shop>, navController: NavController) {
 @Composable
 fun ShopsGrid(shops: List<Shop>, navController: NavController) {
     LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(10.dp),
         cells = GridCells.Fixed(2)
     ) {
         items(shops) { shop ->

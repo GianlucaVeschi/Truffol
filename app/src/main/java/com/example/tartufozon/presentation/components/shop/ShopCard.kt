@@ -27,8 +27,10 @@ fun ShopCard(
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
             .padding(
+                start = 10.dp,
                 bottom = 6.dp,
                 top = 6.dp,
+                end = 8.dp
             )
             .fillMaxWidth()
             .clickable(onClick = onClick),
