@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -39,10 +40,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tartufozon.R
 import com.example.tartufozon.presentation.ui.Screens
 
-private const val initialimageFloat = 170f
 private val name = "Gianluca Veschi"
 private val email = "gianluca.veschi00@gmail.com"
-const val twitterUrl = "https://twitter.com/GianlucaVeschi"
 const val linkedInUrl = "https://www.linkedin.com/in/gianlucaveschi/"
 const val githubUrl = "https://github.com/GianlucaVeschi"
 const val githubRepoUrl = "https://github.com/GianlucaVeschi/Tartufozon"
@@ -53,8 +52,7 @@ private fun launchSocialActivity(context: Context, socialType: String) {
     val intent = when (socialType) {
         "github" -> Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl))
         "repository" -> Intent(Intent.ACTION_VIEW, Uri.parse(githubRepoUrl))
-        "linkedin" -> Intent(Intent.ACTION_VIEW, Uri.parse(linkedInUrl))
-        else -> Intent(Intent.ACTION_VIEW, Uri.parse(twitterUrl))
+        else -> Intent(Intent.ACTION_VIEW, Uri.parse(linkedInUrl))
     }
     context.startActivity(intent)
 }
@@ -63,7 +61,7 @@ private fun launchSocialActivity(context: Context, socialType: String) {
 @Composable
 fun ProfileScreen() {
 
-    val navController : NavHostController = rememberNavController()
+    val navController: NavHostController = rememberNavController()
 
     NavHost(navController, startDestination = Screens.ProfileScreen.route) {
         composable(Screens.ProfileScreen.route) { ProfileScreenContent(navController) }
@@ -72,7 +70,7 @@ fun ProfileScreen() {
 
 @ExperimentalMaterialApi
 @Composable
-fun ProfileScreenContent(navController: NavController){
+fun ProfileScreenContent(navController: NavController) {
     Scaffold {
         Box(
             modifier = Modifier
@@ -80,25 +78,26 @@ fun ProfileScreenContent(navController: NavController){
                 .semantics { testTag = "Profile Screen" }
         ) {
             val scrollState = rememberScrollState(0)
-            TopAppBarView(scrollState.value)
-            TopBackground()
-            Column(modifier = Modifier.fillMaxSize().verticalScroll(state = scrollState)) {
-                Spacer(modifier = Modifier.height(100.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(state = scrollState)
+            ) {
+                Spacer(modifier = Modifier.height(30.dp))
                 TopScrollingContent(scrollState)
                 BottomScrollingContent(navController)
             }
         }
     }
 }
+
 @Composable
 fun TopScrollingContent(scrollState: ScrollState) {
-    val visibilityChangeFloat = scrollState.value > initialimageFloat - 20
     Row {
-        AnimatedImage(scroll = scrollState.value)
+        ProfileImage()
         Column(
             modifier = Modifier
                 .padding(start = 8.dp, top = 48.dp)
-                .alpha(animateFloatAsState(if (visibilityChangeFloat) 0f else 1f).value)
         ) {
             Text(
                 text = name,
@@ -106,7 +105,7 @@ fun TopScrollingContent(scrollState: ScrollState) {
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
-                text = "Android developer at Thalia Gmbh",
+                text = "Android Developer based in Berlin.",
                 style = typography.subtitle2
             )
         }
@@ -116,66 +115,32 @@ fun TopScrollingContent(scrollState: ScrollState) {
 @ExperimentalMaterialApi
 @Composable
 fun BottomScrollingContent(navController: NavController) {
-    Column(modifier = Modifier
-        .background(MaterialTheme.colors.surface)
-        .padding(8.dp)) {
-        SocialRow()
-        Text(
-            text = "About Me",
-            style = typography.h6,
-            modifier = Modifier.padding(start = 8.dp, top = 12.dp)
-        )
-        Divider(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
-        Text(
-            text = stringResource(id = R.string.about_me),
-            style = typography.body1,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-        )
-        InterestsSection()
-        MyPhotosSection()
-        Text(
-            text = "About Project",
-            style = typography.h6,
-            modifier = Modifier.padding(start = 8.dp, top = 16.dp)
-        )
-        Divider(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
-        Text(
-            text = stringResource(id = R.string.about_project),
-            style = typography.body1,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-        )
+
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colors.surface)
+            .padding(8.dp)
+    ) {
+        AboutProjectSection()
         MoreInfoSection(navController)
     }
 }
 
 @Composable
-fun SocialRow() {
-    Card(elevation = 8.dp, modifier = Modifier.padding(8.dp)) {
-        val context = LocalContext.current
-        Row(
-            horizontalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 16.dp)
-        ) {
-            IconButton(onClick = { launchSocialActivity(context, "github") }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_github_square_brands),
-                    "github icon"
-                )
-            }
-            IconButton(onClick = { launchSocialActivity(context, "twitter") }) {
-                Icon(painter = painterResource(id = R.drawable.ic_twitter_square_brands),"twitter icon")
-            }
-            IconButton(onClick = { launchSocialActivity(context, "linkedin") }) {
-                Icon(painter = painterResource(id = R.drawable.ic_linkedin_brands), "linkedin icon")
-            }
-        }
-    }
+fun AboutProjectSection() {
+    Text(
+        text = "About Project",
+        style = typography.h6,
+        modifier = Modifier.padding(start = 8.dp, top = 16.dp)
+    )
+    Divider(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
+    Text(
+        text = stringResource(id = R.string.about_project),
+        style = typography.body1,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+    )
 }
 
 @ExperimentalMaterialApi
@@ -188,17 +153,17 @@ fun MoreInfoSection(navController: NavController) {
         modifier = Modifier.padding(start = 8.dp, top = 16.dp)
     )
     Divider(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
+
     ListItem(
         icon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_github_square_brands),
-                contentDescription = "item icon",
-                modifier = Modifier.height(24.dp)
+                contentDescription = "item icon"
             )
         },
         text = {
             Text(
-                text = "Compose Cookbook github",
+                text = "Tartufozon github repository",
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
@@ -208,8 +173,14 @@ fun MoreInfoSection(navController: NavController) {
                 launchSocialActivity(context, "repository")
             })
     )
+
     ListItem(
-        icon = { Icon(imageVector = Icons.Rounded.Email, contentDescription = "item icon",) },
+        icon = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_email_24),
+                contentDescription = "item icon"
+            )
+        },
         text = {
             Text(
                 text = "Contact Me",
@@ -217,91 +188,47 @@ fun MoreInfoSection(navController: NavController) {
             )
         },
         secondaryText = { Text(text = "Tap to write me about any concern or info at $email") },
-        modifier = Modifier
-            .clickable(onClick = { launchSocialActivity(context, "repository") })
+        modifier = Modifier.clickable(
+            onClick = {
+                val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse("mailto:${email}")
+                }
+                ContextCompat.startActivity(
+                    context,
+                    Intent.createChooser(emailIntent, "Send feedback"),
+                    null)
+            })
     )
+
     ListItem(
-        icon = { Icon(imageVector = Icons.Rounded.Settings, contentDescription = "item icon",) },
+        icon = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_linkedin_brands),
+                "linkedin icon"
+            )
+        },
         text = {
             Text(
-                text = "Demo Settings",
+                text = "Contact Me",
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
-        secondaryText = { Text(text = "Not included yet. coming soon..") },
-        modifier = Modifier.clickable(onClick = {})
-    )
-}
-
-@Composable
-fun InterestsSection() {
-    Text(
-        text = "My Interests",
-        style = typography.h6,
-        modifier = Modifier.padding(start = 8.dp, top = 16.dp)
+        secondaryText = { Text(text = "Tap to visit my linkedin profile") },
+        modifier = Modifier
+            .clickable(onClick = { launchSocialActivity(context, "linkedin") })
     )
     Divider(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
-    Row(modifier = Modifier.padding(start = 8.dp, top = 8.dp)) {
-        InterestTag("Android")
-        InterestTag("Compose")
-        InterestTag("Skateboarding")
-        InterestTag("MTB")
-    }
-    Row(modifier = Modifier.padding(start = 8.dp)) {
-        InterestTag("Girls")
-        InterestTag("Programming")
-        InterestTag("Finance")
-    }
 }
 
 @Composable
-fun TopAppBarView(scroll: Int) {
-    if (scroll > initialimageFloat + 5) {
-        TopAppBar(
-            title = {
-                Text(text = name)
-            },
-            navigationIcon = {
-                Image(
-                    painter = painterResource(id = R.drawable.p1),
-                    contentDescription = "top bar profile image",
-                    modifier = Modifier
-                        .padding(vertical = 4.dp, horizontal = 8.dp)
-                        .height(32.dp)
-                        .clip(CircleShape)
-                )
-            },
-            actions = {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "actions icon",
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                )
-            }
-        )
-    }
-}
-
-@Composable
-fun AnimatedImage(scroll: Int) {
-    val dynamicAnimationSizeValue = (initialimageFloat - scroll).coerceIn(36f, initialimageFloat)
+fun ProfileImage() {
     Image(
         painter = painterResource(id = R.drawable.p1),
         contentDescription = "animated image",
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .padding(start = 16.dp)
-            .height(animateDpAsState(Dp(dynamicAnimationSizeValue)).value)
             .clip(CircleShape)
-    )
-}
-
-@Composable
-private fun TopBackground() {
-    Spacer(
-        modifier = Modifier
-            .height(150.dp)
-            .fillMaxWidth()
     )
 }
 

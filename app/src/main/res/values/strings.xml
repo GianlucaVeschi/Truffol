@@ -2,5 +2,5 @@
     <string name="app_name">Tartufozon</string>
     <string name="profile">profile+</string>
     <string name="about_me">I want to make a start up to sell truffles, make money and travel the world</string>
-    <string name="about_project">This is the project I found on github. I am still learning ...</string>
+    <string name="about_project">This is a demo project to showcase my Jetpack Compose skills through an ecommerce app to help Italian truffle retailers sell their products in Germany and the rest of Europe. </string>
 </resources>
