@@ -63,12 +63,16 @@ class MainActivity : AppCompatActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text(text = "tartufozon") },
+                            title = {
+                                Text(text = "Trüffol Ecommerce", color = Color.Black)
+                            },
                             actions = {
                                 IconButton(onClick = { Timber.d("Mail clicked") }) {
                                     Icon(Icons.Default.Email, contentDescription = null)
                                 }
-                            })
+                            },
+                            backgroundColor = Color.White
+                        )
                     },
                     bottomBar = {
                         BottomNavBar(navController = navController)
@@ -85,13 +89,14 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun BottomNavBar(navController: NavHostController) {
+
         val bottomNavScreens = listOf(
             Screens.TruffleListScreen,
             Screens.ShopListScreen,
             Screens.ProfileScreen
         )
         BottomNavigation(
-            backgroundColor = Color(0, 69, 89)
+            backgroundColor = Color.White
         ) {
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -121,7 +126,7 @@ class MainActivity : AppCompatActivity() {
     fun BottomNavScreensController(
         navController: NavHostController,
 
-    ) {
+        ) {
         NavHost(
             navController = navController,
             startDestination = Screens.ShopListScreen.route

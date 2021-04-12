@@ -83,7 +83,7 @@ fun ProfileScreenContent(navController: NavController) {
                     .fillMaxSize()
                     .verticalScroll(state = scrollState)
             ) {
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 TopScrollingContent(scrollState)
                 BottomScrollingContent(navController)
             }
