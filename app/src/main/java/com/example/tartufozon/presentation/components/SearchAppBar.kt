@@ -51,8 +51,7 @@ fun SearchAppBar(
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth(.9f)
-                        .padding(8.dp)
-                    ,
+                        .padding(8.dp),
                     value = query,
                     onValueChange = { onQueryChanged(it) },
                     label = { Text(text = "Search") },
@@ -64,7 +63,7 @@ fun SearchAppBar(
                         onDone = {
                             onExecuteSearch()
 //              focusManager.clearFocus(forcedClear = true) // close keyboard
-                            keyboardController?.hideSoftwareKeyboard() // another way to close keyboard
+                            keyboardController?.hide() // another way to close keyboard
                         },
                     ),
                     leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon") },

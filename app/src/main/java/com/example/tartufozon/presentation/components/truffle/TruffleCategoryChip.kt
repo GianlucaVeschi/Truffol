@@ -22,7 +22,7 @@ fun TruffleCategoryChip(
         modifier = Modifier.padding(end = 8.dp),
         elevation = 8.dp,
         shape = MaterialTheme.shapes.medium,
-        color = if(isSelected) Color.LightGray else MaterialTheme.colors.primary
+        color = if(isSelected) Color.LightGray else Color.Black
     ) {
         Row(modifier = Modifier
             .toggleable(
