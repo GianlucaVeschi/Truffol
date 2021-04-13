@@ -1,5 +1,6 @@
 package com.example.tartufozon.presentation.components
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,8 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import androidx.compose.ui.text.font.FontWeight.Companion.W700
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.util.Constants.IMAGE_HEIGHT
 import com.example.tartufozon.util.DEFAULT_FOOD_IMAGE
@@ -24,76 +32,71 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun ShopDetailView(
     shop: Shop,
 ) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .then(Modifier.padding(8.dp)),
+    ) {
         item {
-            val image = loadPicture(url = shop.image_url!!, defaultImage = DEFAULT_FOOD_IMAGE).value
-            image?.let { img ->
-                Image(
-                    bitmap = img.asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(IMAGE_HEIGHT.dp),
-                    contentScale = ContentScale.Crop,
-                )
-            }
-            Text(
-                text = shop.shopName,
-                modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.h3
-            )
-            Divider(thickness = 4.dp)
-            Text(
-                text = shop.id.toString(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.h5
-            )
-            Divider(thickness = 4.dp)
-            Text(
-                text = shop.location.toString(),
-                modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.h5
-            )
-            Divider(thickness = 4.dp)
-            Text(
-                text = shop.email.toString(),
-                modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.h5
-            )
-            Divider(thickness = 4.dp)
-            Text(
-                text = shop.phone.toString(),
-                modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.h5
-            )
-            Divider(thickness = 4.dp)
-            Text(
-                text = shop.website.toString(),
-                modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.h5
-            )
-            Divider(thickness = 4.dp)
-            Text(
-                text = shop.description.toString(),
-                modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .wrapContentWidth(Alignment.Start),
-                style = MaterialTheme.typography.h5
-            )
+            val image = loadPicture(url = shop.image_url, defaultImage = DEFAULT_FOOD_IMAGE).value
+
+            DisplayImage(image)
+            DisplayTitle(shop.shopName)
+            DisplayInfo("Location", shop.location)
+            DisplayInfo("Email", shop.email)
+            DisplayInfo("Phone", shop.phone)
+            DisplayInfo("Website", shop.website)
+            DisplayInfo("Info", shop.description)
         }
     }
+}
+
+@Composable
+fun DisplayTitle(shopName: String) {
+    Text(
+        text = shopName,
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .wrapContentWidth(Alignment.Start),
+        style = MaterialTheme.typography.h3
+    )
+}
+
+@Composable
+fun DisplayImage(image: Bitmap?) {
+    image?.let { img ->
+        Image(
+            bitmap = img.asImageBitmap(),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IMAGE_HEIGHT.dp),
+            contentScale = ContentScale.Fit,
+        )
+    }
+}
+
+@Composable
+fun DisplayInfo(infotype: String, info: String) {
+    Text(
+        buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontSize = 22.sp,
+                    fontWeight = Bold
+                )
+            ) {
+                append("$infotype: ")
+            }
+            withStyle(
+                style = SpanStyle(
+                    fontSize = 22.sp,
+                )
+            ) {
+                append(info)
+            }
+        })
+    Divider(thickness = 4.dp)
 }
 
 @ExperimentalCoroutinesApi

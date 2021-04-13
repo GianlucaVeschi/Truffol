@@ -3,10 +3,11 @@ package com.example.tartufozon.presentation.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -46,7 +47,7 @@ fun ShopCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(225.dp),
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.Fit,
                     )
                 }
             }
@@ -63,14 +64,20 @@ fun ShopCard(
                             .wrapContentWidth(Alignment.Start),
                         style = MaterialTheme.typography.h5
                     )
-                    val rank = shop.id.toString()
-                    Text(
-                        text = rank,
+                    val iconFilled = mutableStateOf(false)
+                    IconToggleButton(
+                        checked = iconFilled.value,
+                        onCheckedChange = { iconFilled.value = true }, // TODO: Add to fav list
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentWidth(Alignment.End)
                             .align(Alignment.CenterVertically),
-                        style = MaterialTheme.typography.h6
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.FavoriteBorder,
+                                contentDescription = "Add to Favorites"
+                            )
+                        }
                     )
                 }
             }

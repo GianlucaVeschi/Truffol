@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -28,7 +29,7 @@ fun TruffleDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .then(Modifier.padding(8.dp)),
+            .then(Modifier.padding(10.dp)),
         horizontalAlignment = Alignment.End
     ) {
         val truffleId = navController.previousBackStackEntry?.arguments?.getInt(TRUFFLE_KEY)

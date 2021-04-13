@@ -37,7 +37,7 @@ fun TruffleDetailView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IMAGE_HEIGHT.dp),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
             )
         }
         Divider(thickness = 4.dp)

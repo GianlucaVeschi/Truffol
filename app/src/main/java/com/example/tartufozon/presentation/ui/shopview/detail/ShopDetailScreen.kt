@@ -37,14 +37,11 @@ fun ShopDetailScreen(
             ShopDetailEvent.getShopDetailEvent(it)
         )
 
-
-
         shopDetailViewModel.shop.value?.let { shopDetail ->
             ShopDetailView(
                 shop = shopDetail
             )
         }
-
 
     }
 }

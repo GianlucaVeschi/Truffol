@@ -3,13 +3,13 @@ package com.example.tartufozon.presentation.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -49,7 +49,7 @@ fun TruffleCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(225.dp),
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.Fit,
                     )
                 }
             }
@@ -66,13 +66,21 @@ fun TruffleCard(
                             .wrapContentWidth(Alignment.Start),
                         style = MaterialTheme.typography.h5
                     )
-                    Icon(
-                        Icons.Default.Favorite,
-                        contentDescription = "Add to Favorites",
+
+                    val iconFilled = mutableStateOf(false)
+                    IconToggleButton(
+                        checked = iconFilled.value,
+                        onCheckedChange = { iconFilled.value = true }, // TODO: Add to fav list
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentWidth(Alignment.End)
-                            .align(Alignment.CenterVertically)
+                            .align(Alignment.CenterVertically),
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.FavoriteBorder,
+                                contentDescription = "Add to Favorites"
+                            )
+                        }
                     )
                 }
             }
