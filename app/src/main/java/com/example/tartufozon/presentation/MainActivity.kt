@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController: NavHostController = rememberNavController()
             val isNetworkAvailable = connectivityManager.isNetworkAvailable.value
-            Timber.d("onCreate: IS NETWORK AVAILABLE? ${isNetworkAvailable}")
+            Timber.d("onCreate: IS NETWORK AVAILABLE? $isNetworkAvailable")
 
             Surface(color = MaterialTheme.colors.background) {
                 Scaffold(
@@ -67,8 +68,8 @@ class MainActivity : AppCompatActivity() {
                                 Text(text = "Trüffol Ecommerce", color = Color.Black)
                             },
                             actions = {
-                                IconButton(onClick = { Timber.d("Mail clicked") }) {
-                                    Icon(Icons.Default.Email, contentDescription = null)
+                                IconButton(onClick = { Timber.d("Favorite clicked") }) {
+                                    Icon(Icons.Default.Favorite, contentDescription = "Favorite Icon")
                                 }
                             },
                             backgroundColor = Color.White

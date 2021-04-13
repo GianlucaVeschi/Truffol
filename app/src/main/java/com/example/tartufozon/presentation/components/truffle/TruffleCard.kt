@@ -4,8 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,14 +66,13 @@ fun TruffleCard(
                             .wrapContentWidth(Alignment.Start),
                         style = MaterialTheme.typography.h5
                     )
-                    val rank = truffle.rating.toString()
-                    Text(
-                        text = rank,
+                    Icon(
+                        Icons.Default.Favorite,
+                        contentDescription = "Add to Favorites",
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentWidth(Alignment.End)
-                            .align(Alignment.CenterVertically),
-                        style = MaterialTheme.typography.h6
+                            .align(Alignment.CenterVertically)
                     )
                 }
             }
