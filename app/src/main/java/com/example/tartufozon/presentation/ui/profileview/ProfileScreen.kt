@@ -163,14 +163,14 @@ fun MoreInfoSection(navController: NavController) {
         },
         text = {
             Text(
-                text = "Tartufozon github repository",
+                text = "Github",
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
-        secondaryText = { Text(text = "Tap to checkout the repo for the project") },
+        secondaryText = { Text(text = "Tap to visit my GitHub profile") },
         modifier = Modifier
             .clickable(onClick = {
-                launchSocialActivity(context, "repository")
+                launchSocialActivity(context, "githubUrl")
             })
     )
 
