@@ -14,7 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tartufozon.domain.model.Truffle
+import com.example.tartufozon.presentation.components.ShopDetailView
 import com.example.tartufozon.presentation.components.TruffleDetailView
+import com.example.tartufozon.presentation.ui.shopview.detail.ShopDetailEvent
+import com.example.tartufozon.util.Constants
 import com.example.tartufozon.util.Constants.TRUFFLE_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -25,34 +28,14 @@ fun TruffleDetailScreen(
     navController: NavController,
     truffleDetailViewModel: TruffleDetailViewModel
 ) {
+    val truffleId = navController.previousBackStackEntry?.arguments?.getInt(Constants.TRUFFLE_KEY)!!
+    truffleId.let {
+        truffleDetailViewModel.onTriggerEvent(
+            TruffleDetailEvent.GetTruffleDetailEvent(it)
+        )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .then(Modifier.padding(10.dp)),
-        horizontalAlignment = Alignment.End
-    ) {
-        val truffleId = navController.previousBackStackEntry?.arguments?.getInt(TRUFFLE_KEY)
-
-        truffleId?.let {
-            truffleDetailViewModel.onTriggerEvent(
-                TruffleDetailEvent.GetTruffleDetailEvent(it)
-            )
-            val scaffoldState = rememberScaffoldState()
-            Scaffold(
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    scaffoldState.snackbarHostState
-                }
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    truffleDetailViewModel.truffle.value?.let { truffleDetail ->
-                        TruffleDetailView(truffle = truffleDetail)
-                    }
-                }
-            }
+        truffleDetailViewModel.truffle.value?.let { truffleDetail ->
+            TruffleDetailView(truffle = truffleDetail)
         }
     }
 
