@@ -3,7 +3,7 @@
     <style name="Theme.Tartufozon" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor"  tools:targetApi="l">@color/blue_800</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
