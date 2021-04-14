@@ -28,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tartufozon.BaseApplication
+import com.example.tartufozon.presentation.ui.basket.BasketScreen
 import com.example.tartufozon.presentation.util.CustomConnectivityManager
 import com.example.tartufozon.presentation.util.TAG
 import kotlinx.coroutines.*
@@ -68,8 +69,17 @@ class MainActivity : AppCompatActivity() {
                                 Text(text = "Trüffol Ecommerce", color = Color.Black)
                             },
                             actions = {
-                                IconButton(onClick = { Timber.d("Favorite clicked") }) {
-                                    Icon(Icons.Default.Favorite, contentDescription = "Favorite Icon")
+                                IconButton(
+                                    onClick = {
+                                        navController.popBackStack(
+                                            navController.graph.startDestination, false
+                                        )
+                                        navController.navigate(Screens.BasketScreen.route)
+                                    }) {
+                                    Icon(
+                                        Icons.Default.Favorite,
+                                        contentDescription = "Favorite Icon"
+                                    )
                                 }
                             },
                             backgroundColor = Color.White
@@ -96,6 +106,7 @@ class MainActivity : AppCompatActivity() {
             Screens.ShopListScreen,
             Screens.ProfileScreen
         )
+
         BottomNavigation(
             backgroundColor = Color.White
         ) {
@@ -124,15 +135,11 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable
-    fun BottomNavScreensController(
-        navController: NavHostController,
-
-        ) {
+    fun BottomNavScreensController(navController: NavHostController) {
         NavHost(
             navController = navController,
             startDestination = Screens.ShopListScreen.route
         ) {
-
             composable(Screens.TruffleListScreen.route) {
                 val viewModel: TruffleListViewModel by viewModels()
                 TruffleListScreen(
@@ -152,6 +159,10 @@ class MainActivity : AppCompatActivity() {
 
             composable(Screens.ProfileScreen.route) {
                 ProfileScreen()
+            }
+
+            composable(Screens.BasketScreen.route) {
+                BasketScreen()
             }
         }
     }
