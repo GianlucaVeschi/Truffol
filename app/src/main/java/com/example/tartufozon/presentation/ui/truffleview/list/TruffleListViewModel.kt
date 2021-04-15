@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TruffleListViewModel @Inject constructor(
-    private val truffleRepositoryImpl: TruffleRepositoryImpl,
     private val searchTrufflesUseCase: SearchTrufflesUseCase
 ) : ViewModel() {
 
