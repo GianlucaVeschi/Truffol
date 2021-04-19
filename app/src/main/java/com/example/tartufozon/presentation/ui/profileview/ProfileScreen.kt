@@ -37,7 +37,7 @@ private val email = "gianluca.veschi00@gmail.com"
 const val linkedInUrl = "https://www.linkedin.com/in/gianlucaveschi/"
 const val githubUrl = "https://github.com/GianlucaVeschi"
 const val githubRepoUrl = "https://github.com/GianlucaVeschi/Tartufozon"
-const val gianlucaWebsiteUrl = "https://github.com/GianlucaVeschi/Tartufozon"
+const val gianlucaWebsiteUrl = "https://gianlucaveschi.com"
 
 //NOTE: This stuff should usually be in a parent activity/Navigator
 // We can pass callback to profileScreen to get the click.
