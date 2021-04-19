@@ -30,7 +30,7 @@ fun BasketScreen() {
                 modifier = Modifier
                     .padding(8.dp)
                     .align(Alignment.CenterHorizontally),
-                text = "But Soon you will be able to save your favorite truffles here",
+                text = "Qui non c'é niente, But Soon you will be able to save your favorite truffle recipes here",
                 style = TextStyle(fontSize = 30.sp)
             )
         }

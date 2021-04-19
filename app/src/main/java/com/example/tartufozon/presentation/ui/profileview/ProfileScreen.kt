@@ -3,8 +3,6 @@ package com.example.tartufozon.presentation.ui.profileview
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -12,13 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -28,7 +21,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -45,6 +37,7 @@ private val email = "gianluca.veschi00@gmail.com"
 const val linkedInUrl = "https://www.linkedin.com/in/gianlucaveschi/"
 const val githubUrl = "https://github.com/GianlucaVeschi"
 const val githubRepoUrl = "https://github.com/GianlucaVeschi/Tartufozon"
+const val gianlucaWebsiteUrl = "https://github.com/GianlucaVeschi/Tartufozon"
 
 //NOTE: This stuff should usually be in a parent activity/Navigator
 // We can pass callback to profileScreen to get the click.
@@ -52,6 +45,7 @@ private fun launchSocialActivity(context: Context, socialType: String) {
     val intent = when (socialType) {
         "github" -> Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl))
         "repository" -> Intent(Intent.ACTION_VIEW, Uri.parse(githubRepoUrl))
+        "mywebsite" -> Intent(Intent.ACTION_VIEW, Uri.parse(gianlucaWebsiteUrl))
         else -> Intent(Intent.ACTION_VIEW, Uri.parse(linkedInUrl))
     }
     context.startActivity(intent)
@@ -177,13 +171,13 @@ fun MoreInfoSection(navController: NavController) {
     ListItem(
         icon = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_email_24),
+                painter = painterResource(id = R.drawable.ic_baseline_email_32),
                 contentDescription = "item icon"
             )
         },
         text = {
             Text(
-                text = "Contact Me",
+                text = "Send me an email",
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
@@ -209,13 +203,31 @@ fun MoreInfoSection(navController: NavController) {
         },
         text = {
             Text(
-                text = "Contact Me",
+                text = "Contact Me on Linkedin",
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
         secondaryText = { Text(text = "Tap to visit my linkedin profile") },
         modifier = Modifier
             .clickable(onClick = { launchSocialActivity(context, "linkedin") })
+    )
+
+    ListItem(
+        icon = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_person_32),
+                "Person icon"
+            )
+        },
+        text = {
+            Text(
+                text = "Visit my website",
+                style = typography.body1.copy(fontWeight = FontWeight.Bold)
+            )
+        },
+        secondaryText = { Text(text = "Tap to visit gianlucaveschi.com") },
+        modifier = Modifier
+            .clickable(onClick = { launchSocialActivity(context, "mywebsite") })
     )
     Divider(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp))
 }
