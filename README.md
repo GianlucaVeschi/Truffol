@@ -6,6 +6,7 @@ Mobile Android App to connect truffles retailers in Italy with customers in Germ
 - MVVM
 - Jetpack Compose
 - Dagger Hilt
+- Coroutines
 - Retrofit / OkHttp
 - Room DB
 - Junit5
