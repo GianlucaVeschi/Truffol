@@ -23,10 +23,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.tartufozon.domain.model.Truffle
-import com.example.tartufozon.presentation.components.BuildDrawerContent
-import com.example.tartufozon.presentation.components.CircularIndeterminateProgressBar
-import com.example.tartufozon.presentation.components.SearchAppBar
-import com.example.tartufozon.presentation.components.TruffleCard
 import com.example.tartufozon.presentation.components.shimmer.LoadingListShimmer
 import com.example.tartufozon.presentation.ui.DetailScreens
 import com.example.tartufozon.presentation.ui.Screens
@@ -35,6 +31,7 @@ import com.example.tartufozon.presentation.ui.truffleview.detail.TruffleDetailVi
 import com.example.tartufozon.util.Constants.TRUFFLE_KEY
 import androidx.hilt.navigation.HiltViewModelFactory
 import com.example.tartufozon.BaseApplication
+import com.example.tartufozon.presentation.components.*
 import com.example.tartufozon.presentation.components.theme.AppTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -51,7 +48,7 @@ fun TruffleListScreen(
 
     NavHost(navController, startDestination = Screens.TruffleListScreen.route) {
         composable(Screens.TruffleListScreen.route) {
-            TruffleListScreenContent(truffleListViewModel, navController,isNetworkAvailable)
+            TruffleListScreenContent(truffleListViewModel, navController, isNetworkAvailable)
         }
         composable(DetailScreens.TruffleDetailScreen.route) {
 
@@ -74,7 +71,7 @@ fun TruffleListScreen(
 private fun TruffleListScreenContent(
     truffleListViewModel: TruffleListViewModel,
     navController: NavController,
-    isNetworkAvailable : Boolean
+    isNetworkAvailable: Boolean
 ) {
     val trufflesList = truffleListViewModel.trufflesList.value
     val query: String = truffleListViewModel.query.value

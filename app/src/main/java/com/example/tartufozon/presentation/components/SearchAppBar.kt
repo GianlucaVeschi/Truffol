@@ -1,6 +1,7 @@
 package com.example.tartufozon.presentation.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -14,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.viewpager2.widget.ViewPager2
 import com.example.tartufozon.presentation.ui.truffleview.list.TruffleCategory
 import timber.log.Timber
 
@@ -80,31 +81,48 @@ fun SearchAppBar(
                                 end.linkTo(parent.end)
                                 linkTo(top = parent.top, bottom = parent.bottom)
                             },
-                        onClick = { Timber.d("Icon clicked ...")},
+                        onClick = { Timber.d("Icon clicked ...") },
                     ) {
-                        Icon(Icons.Filled.MoreVert, contentDescription = "Not yet used")
+                        //Icon(Icons.Filled.MoreVert, contentDescription = "Not yet used")
                     }
                 }
             }
-            val scrollState = rememberLazyListState()
-            LazyRow(
-                modifier = Modifier
-                    .padding(start = 8.dp, bottom = 8.dp),
-                state = scrollState,
-            ) {
-                items(categories) {
-                    TruffleCategoryChip(
-                        category = it.value,
-                        isSelected = selectedCategory == it,
-                        onSelectedCategoryChanged = {
-                            onSelectedCategoryChanged(it)
-                        },
-                        onExecuteSearch = {
-                            onExecuteSearch()
-                        },
-                    )
-                }
-            }
+
+//            val scrollState = rememberLazyListState()
+            CategoryChips(
+                categories,
+                selectedCategory,
+                onSelectedCategoryChanged,
+                onExecuteSearch,
+            )
+        }
+    }
+}
+
+@Composable
+fun CategoryChips(
+    categories: List<TruffleCategory>,
+    selectedCategory: TruffleCategory?,
+    onSelectedCategoryChanged: (String) -> Unit,
+    onExecuteSearch: () -> Unit,
+) {
+    val scrollState = rememberLazyListState()
+    LazyRow(
+        modifier = Modifier
+            .padding(start = 8.dp, bottom = 8.dp),
+        state = scrollState,
+    ) {
+        items(categories) {
+            TruffleCategoryChip(
+                category = it.value,
+                isSelected = selectedCategory == it,
+                onSelectedCategoryChanged = {
+                    onSelectedCategoryChanged(it)
+                },
+                onExecuteSearch = {
+                    onExecuteSearch()
+                },
+            )
         }
     }
 }
