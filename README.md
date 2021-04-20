@@ -1,6 +1,14 @@
 # Tartufozon
 Mobile Android App to connect truffles retailers in Italy with customers in Germany and the rest of the EU.
-Built using Jetpack Compose
+
+## Tech Stack
+- Kotlin
+- MVVM
+- Jetpack Compose
+- Dagger Hilt
+- Retrofit / OkHttp
+- Room DB
+- Junit5
 
 ## Bottom Nav Screens
 
