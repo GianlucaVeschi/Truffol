@@ -1,18 +1,22 @@
 package com.example.tartufozon.presentation.components
 
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
@@ -21,11 +25,14 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.example.tartufozon.domain.model.Shop
 import com.example.tartufozon.util.Constants.IMAGE_HEIGHT
 import com.example.tartufozon.util.DEFAULT_FOOD_IMAGE
 import com.example.tartufozon.util.loadPicture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import androidx.core.content.ContextCompat.startActivity
+
 
 @ExperimentalCoroutinesApi
 @Composable
@@ -42,6 +49,7 @@ fun ShopDetailView(
 
             DisplayImage(image)
             DisplayTitle(shop.shopName)
+            ContactBar(shop.email, shop.phone)
             DisplayInfo("Location", shop.location)
             DisplayInfo("Email", shop.email)
             DisplayInfo("Phone", shop.phone)
@@ -50,6 +58,55 @@ fun ShopDetailView(
         }
     }
 }
+
+@Composable
+fun ContactBar(email: String, phone: String) {
+    Spacer(modifier = Modifier.padding(10.dp))
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        val context = LocalContext.current
+        Button(
+            modifier = Modifier.width(150.dp),
+            colors = ButtonDefaults
+                .buttonColors(backgroundColor = Color.Black, contentColor = Color.White),
+            onClick = {
+                val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse("mailto:${email}")
+                }
+                ContextCompat.startActivity(
+                    context,
+                    Intent.createChooser(emailIntent, "Send emal to merchant"),
+                    null
+                )
+            },
+        ) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = "Send Email",
+                style = TextStyle(fontSize = 15.sp)
+            )
+        }
+        Button(
+            modifier = Modifier.width(150.dp),
+            colors = ButtonDefaults
+                .buttonColors(backgroundColor = Color.Black, contentColor = Color.White),
+            onClick = {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel: $phone"))
+                startActivity(context, intent, null)
+            },
+        ) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = "Call",
+                style = TextStyle(fontSize = 15.sp)
+            )
+        }
+    }
+    Spacer(modifier = Modifier.padding(10.dp))
+}
+
 
 @Composable
 fun DisplayTitle(shopName: String) {
