@@ -79,6 +79,11 @@ class TruffleListViewModel @Inject constructor(
         onQueryChanged(category)
     }
 
+    // TODO: 21.04.21
+    fun onSearchBarClicked(query: String){
+
+    }
+
     fun onChangeCategoryScrollPosition(position: Float) {
         categoryScrollPosition = position
     }

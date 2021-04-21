@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tartufozon.domain.model.Truffle
 import com.example.tartufozon.interactors.truffle.GetTruffleUseCase
-import com.example.tartufozon.presentation.ui.truffleview.repo.TruffleRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -18,7 +17,6 @@ const val STATE_KEY_TRUFFLE = "truffle.state.truffle.key"
 
 @HiltViewModel
 class TruffleDetailViewModel @Inject constructor(
-    private val truffleRepositoryImpl: TruffleRepositoryImpl,
     private val state: SavedStateHandle,
     private val getTruffleUseCase: GetTruffleUseCase
 ) : ViewModel() {
