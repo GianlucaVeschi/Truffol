@@ -26,6 +26,9 @@ buildscript {
 
         def junit5 = "1.7.1.1"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:$junit5"
+
+        //Firebase
+        classpath 'com.google.gms:google-services:4.3.5'
     }
 }
 
