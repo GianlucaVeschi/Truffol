@@ -1,0 +1,11 @@
+package com.example.truffol.presentation.ui.shopview.repo
+
+import com.example.truffol.domain.model.Shop
+
+interface ShopRepository {
+
+    suspend fun getShopList() : List<Shop>
+
+    suspend fun getShopDetail(shopId : Int): Shop
+
+}
