@@ -1,9 +1,7 @@
-package com.example.truffol.presentation.components
+package com.example.truffol.presentation.components.truffle
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -11,21 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.truffol.domain.model.Truffle
-import com.example.truffol.util.DEFAULT_FOOD_IMAGE
-import com.example.truffol.util.loadPicture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.security.SecureRandom
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
-fun TruffleCard(
+fun TruffleCardSlim(
     truffle: Truffle,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
@@ -39,9 +33,6 @@ fun TruffleCard(
         elevation = 8.dp,
     ) {
         Column() {
-
-            DisplayCardImage(truffle.image_url)
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -50,6 +41,7 @@ fun TruffleCard(
                 Text(
                     text = truffle.tartufoName,
                     modifier = Modifier
+                        //.fillMaxWidth(0.85f)
                         .wrapContentWidth(Alignment.Start)
                         .align(Alignment.CenterVertically),
                     style = MaterialTheme.typography.h5
@@ -57,7 +49,7 @@ fun TruffleCard(
 
                 Spacer(modifier = Modifier.width(30.dp))
                 val secureRandom = SecureRandom()
-                val randomNumber = secureRandom.nextInt(100)
+                val randomNumber = SecureRandom().nextInt(100)
                 Text(
                     text = "${randomNumber}€",
                     modifier = Modifier.align(Alignment.CenterVertically),
@@ -85,30 +77,13 @@ fun TruffleCard(
 }
 
 @ExperimentalCoroutinesApi
-@Composable
-fun DisplayCardImage(imageUrl : String){
-    imageUrl.let { url ->
-        val image = loadPicture(url = url, defaultImage = DEFAULT_FOOD_IMAGE).value
-        image?.let { img ->
-            Image(
-                bitmap = img.asImageBitmap(),
-                contentDescription = "Truffle Card image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(225.dp),
-                contentScale = ContentScale.Fit,
-            )
-        }
-    }
-}
-@ExperimentalCoroutinesApi
 @Preview
 @Composable
-fun PreviewTruffleCard() {
-    TruffleCard(
+fun PreviewTruffleCardSlim() {
+    TruffleCardSlim(
         truffle = Truffle(
             1,
-            "Tartufinho",
+            "Tartufinho Slim",
             "Buonisssimo",
             "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
             9
@@ -117,4 +92,3 @@ fun PreviewTruffleCard() {
             // TODO: 08.02.21 onCLICK Truffle
         })
 }
-
