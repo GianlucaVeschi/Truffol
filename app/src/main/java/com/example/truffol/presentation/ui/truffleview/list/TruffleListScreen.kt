@@ -107,16 +107,17 @@ fun BuildSearchBar(
     query: String,
     selectedCategory: TruffleCategory?
 ) {
-    SearchAppBar(
-        query = query,
-        onQueryChanged = truffleListViewModel::onQueryChanged,
-        onExecuteSearch = {
-            truffleListViewModel.onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
-        },
-        categories = getAllTruffleCategories(),
-        selectedCategory = selectedCategory,
-        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged
-    )
+    // TODO: 22.04.21 : Complete this Api 
+//    SearchAppBar(
+//        query = query,
+//        onQueryChanged = truffleListViewModel::onQueryChanged,
+//        onExecuteSearch = {
+//            truffleListViewModel.onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
+//        },
+//        categories = getAllTruffleCategories(),
+//        selectedCategory = selectedCategory,
+//        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged
+//    )
 }
 
 @ExperimentalCoroutinesApi
