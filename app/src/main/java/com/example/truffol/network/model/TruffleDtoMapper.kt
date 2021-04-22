@@ -11,7 +11,8 @@ class TruffleDtoMapper : DomainMapper<TruffleDto, Truffle> {
             tartufoName = model.tartufoName,
             description = model.description,
             image_url = model.image_url,
-            rating = model.rating
+            rating = model.rating,
+            price = model.price
         )
     }
 
@@ -21,7 +22,8 @@ class TruffleDtoMapper : DomainMapper<TruffleDto, Truffle> {
             tartufoName = domainModel.tartufoName,
             description = domainModel.description,
             image_url = domainModel.image_url,
-            rating = domainModel.rating
+            rating = domainModel.rating,
+            price = domainModel.price
         )
     }
 

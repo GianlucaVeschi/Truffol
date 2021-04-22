@@ -21,9 +21,12 @@ data class TruffleEntity(
     val image_url: String,
 
     @ColumnInfo(name = "rating")
-    val rating: Long
+    val rating: Long,
 
-     /** NOT USED YET */
+    @ColumnInfo(name = "price")
+    val price: Long
+
+    /** NOT USED YET */
 
     //Value from API
     //@ColumnInfo(name = "date_added")

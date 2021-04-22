@@ -11,7 +11,8 @@ class TruffleEntityMapper : DomainMapper<Truffle, TruffleEntity> {
             tartufoName = model.tartufoName,
             description = model.description,
             image_url = model.image_url,
-            rating = model.rating
+            rating = model.rating,
+            price = model.price
         )
     }
 
@@ -21,7 +22,8 @@ class TruffleEntityMapper : DomainMapper<Truffle, TruffleEntity> {
             tartufoName = entityModel.tartufoName,
             description = entityModel.description,
             image_url = entityModel.image_url,
-            rating = entityModel.rating
+            rating = entityModel.rating,
+            price = entityModel.price
         )
     }
 

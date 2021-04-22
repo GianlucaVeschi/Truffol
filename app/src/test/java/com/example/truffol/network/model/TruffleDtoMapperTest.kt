@@ -13,7 +13,8 @@ class TruffleDtoMapperTest : TestCase() {
         "Tartufinho",
         "Buonisssimo",
         "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
-        9
+        9,
+        99
     )
 
     val truffleDto = TruffleDto(
@@ -21,7 +22,8 @@ class TruffleDtoMapperTest : TestCase() {
         "Tartufinho",
         "Buonisssimo",
         "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
-        9
+        9,
+        99
     )
 
     val TruffleDtoList = listOf(truffleDto, truffleDto, truffleDto)

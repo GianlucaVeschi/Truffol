@@ -59,7 +59,7 @@ fun TruffleCard(
                 val secureRandom = SecureRandom()
                 val randomNumber = secureRandom.nextInt(100)
                 Text(
-                    text = "${randomNumber}€",
+                    text = "€${truffle.price}/100g",
                     modifier = Modifier.align(Alignment.CenterVertically),
                     style = MaterialTheme.typography.h6
                 )
@@ -111,7 +111,8 @@ fun PreviewTruffleCard() {
             "Tartufinho",
             "Buonisssimo",
             "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
-            9
+            9,
+            99
         ),
         onClick = {
             // TODO: 08.02.21 onCLICK Truffle

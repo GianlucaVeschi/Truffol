@@ -97,8 +97,8 @@ class MainActivity : AppCompatActivity() {
     fun BottomNavBar(navController: NavHostController) {
 
         val bottomNavScreens = listOf(
-            Screens.TruffleListScreen,
             Screens.ShopListScreen,
+            Screens.TruffleListScreen,
             Screens.ProfileScreen
         )
 
@@ -133,22 +133,22 @@ class MainActivity : AppCompatActivity() {
     fun BottomNavScreensController(navController: NavHostController) {
         NavHost(
             navController = navController,
-            startDestination = Screens.ShopListScreen.route
+            startDestination = Screens.TruffleListScreen.route
         ) {
-            composable(Screens.TruffleListScreen.route) {
-                val viewModel: TruffleListViewModel by viewModels()
-                TruffleListScreen(
-                    viewModel,
-                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
-                )
-            }
-
             composable(Screens.ShopListScreen.route) {
                 val factory = HiltViewModelFactory(LocalContext.current, it)
                 val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
                 ShopListScreen(
                     viewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value
+                )
+            }
+
+            composable(Screens.TruffleListScreen.route) {
+                val viewModel: TruffleListViewModel by viewModels()
+                TruffleListScreen(
+                    viewModel,
+                    isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                 )
             }
 

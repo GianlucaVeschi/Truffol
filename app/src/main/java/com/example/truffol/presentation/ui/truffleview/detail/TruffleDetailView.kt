@@ -42,6 +42,7 @@ fun TruffleDetailView(
             DisplayTruffleTitle(truffle.tartufoName)
             DisplayTruffleInfo(infotype = "Rating", info = truffle.rating.toString())
             DisplayTruffleInfo(infotype = "Description", info = truffle.description)
+            DisplayTruffleInfo(infotype = "Price", info = truffle.price.toString())
         }
     }
 }
@@ -104,7 +105,8 @@ fun TruffleDetailScreenPreview() {
         "Tartufinho",
         "Buonisssimo",
         "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
-        9
+        9,
+        99
     )
     TruffleDetailView(truffle = truffle)
 }

@@ -86,7 +86,8 @@ fun PreviewTruffleCardSlim() {
             "Tartufinho Slim",
             "Buonisssimo",
             "https://www.moscatotartufi.it/wp-content/uploads/2015/03/vendita-tartufo-bianco-pregiato.jpg",
-            9
+            9,
+            99
         ),
         onClick = {
             // TODO: 08.02.21 onCLICK Truffle
