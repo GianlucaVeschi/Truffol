@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Truffol">
+        android:theme="@style/Theme.AppCompat.NoActionBar"> <!-- Error here, should be Theme.Truffol -->
         <activity android:name="com.example.truffol.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
