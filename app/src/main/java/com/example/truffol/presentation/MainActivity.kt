@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         connectivityManager.unregisterConnectionObserver(this)
     }
 
+    @ExperimentalFoundationApi
     @ExperimentalComposeUiApi
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
@@ -126,6 +128,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalFoundationApi
     @ExperimentalComposeUiApi
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi

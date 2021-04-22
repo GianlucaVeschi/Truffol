@@ -105,8 +105,7 @@ fun CategoryChips(
 ) {
     val scrollState = rememberLazyListState()
     LazyRow(
-        modifier = Modifier
-            .padding(start = 8.dp, bottom = 8.dp),
+        modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
         state = scrollState,
     ) {
         items(categories) {

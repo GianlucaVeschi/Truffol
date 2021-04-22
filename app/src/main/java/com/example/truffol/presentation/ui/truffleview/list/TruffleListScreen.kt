@@ -1,9 +1,10 @@
 package com.example.truffol.presentation.ui.truffleview.list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -33,14 +34,14 @@ import com.example.truffol.presentation.components.*
 import com.example.truffol.presentation.components.theme.AppTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun TruffleListScreen(
     truffleListViewModel: TruffleListViewModel,
-    isNetworkAvailable : Boolean
+    isNetworkAvailable: Boolean
 ) {
     val navController: NavHostController = rememberNavController()
 
@@ -62,6 +63,7 @@ fun TruffleListScreen(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
@@ -93,11 +95,26 @@ private fun TruffleListScreenContent(
                     selectedCategory
                 )
             },
-            drawerContent = { BuildDrawerContent() }
+            //drawerContent = { BuildDrawerContent() } //Not yet implemented
         ) {
-            BuildTrufflesList(truffles = trufflesList, loading, navController)
+            Column() {
+                TruffleCategoriesGrid(navController)
+                BuildTrufflesList(truffles = trufflesList, loading, navController)
+            }
         }
     }
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun TruffleCategoriesGrid(navController: NavController) {
+    val truffleBlocks = arrayOf(
+        "Salse e creme",
+        "Tartufi in Vaso",
+        "Ricette al Tartufo",
+        "Tartuficoltura"
+    )
+    TruffleCategoryBlock(truffleBlocks,navController)
 }
 
 @ExperimentalComposeUiApi
@@ -107,7 +124,7 @@ fun BuildSearchBar(
     query: String,
     selectedCategory: TruffleCategory?
 ) {
-    // TODO: 22.04.21 : Complete this Api 
+    // TODO: 22.04.21 : Complete this Api
 //    SearchAppBar(
 //        query = query,
 //        onQueryChanged = truffleListViewModel::onQueryChanged,
