@@ -77,9 +77,9 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha02"
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
-    implementation "androidx.activity:activity-compose:1.3.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
+    implementation "androidx.activity:activity-compose:1.3.0-alpha07"
 
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version" // UI Tests
 
@@ -89,7 +89,7 @@ dependencies {
     //OkHttp
     def okhttp_version = "3.14.9"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
     //Stetho network
     implementation 'com.facebook.stetho:stetho:1.5.1'
@@ -114,7 +114,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.27'
 
     //Dagger - Hilt
-    def hilt_android = "2.31.2-alpha"
+    def hilt_android = "2.33-beta"
     implementation "com.google.dagger:hilt-android:$hilt_android"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_android"
 
@@ -123,7 +123,7 @@ dependencies {
     //implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_viewmodel"
 
     //Hilt Navigation
-    def hilt_navigation = "1.0.0-alpha03"
+    def hilt_navigation = "1.0.0-beta01"
     implementation "androidx.hilt:hilt-navigation:$hilt_navigation"
 
     // LiveData /* NOT USED YET */
@@ -136,7 +136,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     //ROOM
-    def room_version = "2.2.6"
+    def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     // optional - Kotlin Extensions and Coroutines support for Room

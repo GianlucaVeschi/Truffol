@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     topBar = {
                         TopAppBar(
                             title = {
-                                Text(text = "Trüffol Ecommerce", color = Color.Black)
+                                Text(text = "Truffol Ecommerce", color = Color.Black)
                             },
                             actions = {
                                 IconButton(
