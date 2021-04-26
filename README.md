@@ -11,6 +11,7 @@ Mobile Android App to connect truffles retailers in Italy with customers in Germ
 - Room DB
 - Junit5
 - Firebase SDK
+- And more...
 
 
 ## Bottom Nav Screens
