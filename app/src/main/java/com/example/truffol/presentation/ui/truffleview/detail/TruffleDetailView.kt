@@ -41,8 +41,8 @@ fun TruffleDetailView(
             DisplayTruffleImage(image)
             DisplayTruffleTitle(truffle.tartufoName)
             DisplayTruffleInfo(infotype = "Rating", info = truffle.rating.toString())
-            DisplayTruffleInfo(infotype = "Description", info = truffle.description)
             DisplayTruffleInfo(infotype = "Price", info = truffle.price.toString())
+            DisplayTruffleInfo(infotype = "Description", info = truffle.description)
         }
     }
 }
