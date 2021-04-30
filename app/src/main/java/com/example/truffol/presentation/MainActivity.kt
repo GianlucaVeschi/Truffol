@@ -25,7 +25,9 @@ import com.example.truffol.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.truffol.presentation.ui.ChipScreens
 import com.example.truffol.presentation.ui.basket.BasketScreen
+import com.example.truffol.presentation.ui.truffleview.chips.ChipAScreen
 import com.example.truffol.presentation.util.CustomConnectivityManager
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController: NavHostController = rememberNavController()
+            val navHostController: NavHostController = rememberNavController()
             val isNetworkAvailable = connectivityManager.isNetworkAvailable.value
             Timber.d("onCreate: IS NETWORK AVAILABLE? $isNetworkAvailable")
 
@@ -68,10 +70,10 @@ class MainActivity : AppCompatActivity() {
                             actions = {
                                 IconButton(
                                     onClick = {
-                                        navController.popBackStack(
-                                            navController.graph.startDestination, false
+                                        navHostController.popBackStack(
+                                            navHostController.graph.startDestination, false
                                         )
-                                        navController.navigate(Screens.BasketScreen.route)
+                                        navHostController.navigate(Screens.BasketScreen.route)
                                     }) {
                                     Icon(
                                         Icons.Default.Favorite,
@@ -83,12 +85,12 @@ class MainActivity : AppCompatActivity() {
                         )
                     },
                     bottomBar = {
-                        BottomNavBar(navController = navController)
+                        BottomNavBar(navHostController = navHostController)
                     }
                 ) {
                     // Apply the padding globally to the whole BottomNavScreensController
                     Box(modifier = Modifier.padding(it)) {
-                        BottomNavScreensController(navController = navController)
+                        BottomNavScreensController(navHostController = navHostController)
                     }
                 }
             }
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun BottomNavBar(navController: NavHostController) {
+    fun BottomNavBar(navHostController: NavHostController) {
 
         val bottomNavScreens = listOf(
             Screens.ShopListScreen,
@@ -108,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             backgroundColor = Color.White
         ) {
 
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val navBackStackEntry by navHostController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
 
             bottomNavScreens.forEach {
@@ -117,11 +119,11 @@ class MainActivity : AppCompatActivity() {
                     selected = currentRoute == it.route,
                     label = { Text(text = it.label) },
                     onClick = {
-                        navController.popBackStack(
-                            navController.graph.startDestination, false
+                        navHostController.popBackStack(
+                            navHostController.graph.startDestination, false
                         )
                         if (currentRoute != it.route) {
-                            navController.navigate(it.route)
+                            navHostController.navigate(it.route)
                         }
                     })
             }
@@ -133,9 +135,9 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     @Composable
-    fun BottomNavScreensController(navController: NavHostController) {
+    fun BottomNavScreensController(navHostController: NavHostController) {
         NavHost(
-            navController = navController,
+            navController = navHostController,
             startDestination = Screens.TruffleListScreen.route
         ) {
             composable(Screens.ShopListScreen.route) {

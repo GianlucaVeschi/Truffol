@@ -32,6 +32,11 @@ import com.example.truffol.util.Constants.TRUFFLE_KEY
 import androidx.hilt.navigation.HiltViewModelFactory
 import com.example.truffol.presentation.components.*
 import com.example.truffol.presentation.components.theme.AppTheme
+import com.example.truffol.presentation.ui.ChipScreens
+import com.example.truffol.presentation.ui.truffleview.chips.ChipAScreen
+import com.example.truffol.presentation.ui.truffleview.chips.ChipBScreen
+import com.example.truffol.presentation.ui.truffleview.chips.ChipCScreen
+import com.example.truffol.presentation.ui.truffleview.chips.ChipDScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalFoundationApi
@@ -43,12 +48,14 @@ fun TruffleListScreen(
     truffleListViewModel: TruffleListViewModel,
     isNetworkAvailable: Boolean
 ) {
-    val navController: NavHostController = rememberNavController()
+    val navHostController: NavHostController = rememberNavController()
 
-    NavHost(navController, startDestination = Screens.TruffleListScreen.route) {
+    NavHost(navHostController, startDestination = Screens.TruffleListScreen.route) {
+
         composable(Screens.TruffleListScreen.route) {
-            TruffleListScreenContent(truffleListViewModel, navController, isNetworkAvailable)
+            TruffleListScreenContent(truffleListViewModel, navHostController, isNetworkAvailable)
         }
+
         composable(DetailScreens.TruffleDetailScreen.route) {
 
             val factory = HiltViewModelFactory(LocalContext.current, it)
@@ -56,10 +63,27 @@ fun TruffleListScreen(
                 viewModel("RecipeDetailViewModel", factory)
 
             TruffleDetailScreen(
-                navController = navController,
+                navController = navHostController,
                 truffleDetailViewModel = truffleDetailViewModel
             )
         }
+
+        composable(ChipScreens.ChipAScreen.route) {
+            ChipAScreen()
+        }
+
+        composable(ChipScreens.ChipBScreen.route) {
+            ChipBScreen()
+        }
+
+        composable(ChipScreens.ChipCScreen.route) {
+            ChipCScreen()
+        }
+
+        composable(ChipScreens.ChipDScreen.route) {
+            ChipDScreen()
+        }
+
     }
 }
 
@@ -109,12 +133,12 @@ private fun TruffleListScreenContent(
 @Composable
 fun TruffleCategoriesGrid(navController: NavController) {
     val truffleBlocks = arrayOf(
-        "Salse e creme",
-        "Tartufi in Vaso",
-        "Ricette al Tartufo",
-        "Tartuficoltura"
+        "ChipAScreen",
+        "ChipBScreen",
+        "ChipCScreen",
+        "ChipDScreen"
     )
-    TruffleCategoryBlock(truffleBlocks,navController)
+    TruffleCategoryBlock(truffleBlocks, navController)
 }
 
 @ExperimentalComposeUiApi

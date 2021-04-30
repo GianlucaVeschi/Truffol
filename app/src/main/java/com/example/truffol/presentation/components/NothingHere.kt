@@ -19,7 +19,7 @@ fun NothingHere(){
     ){
         Column(modifier = Modifier.align(Alignment.Center)){
             Text(
-                modifier = Modifier
+            modifier = Modifier
                     .padding(8.dp)
                     .align(Alignment.CenterHorizontally),
                 text = "¯\\_(ツ)_/¯",
@@ -39,6 +39,6 @@ fun NothingHere(){
 
 @Composable
 @Preview
-fun previewNothingHere(){
+fun PreviewNothingHere(){
     NothingHere()
 }

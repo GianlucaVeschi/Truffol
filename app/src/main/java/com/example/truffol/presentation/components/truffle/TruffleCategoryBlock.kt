@@ -21,13 +21,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.example.truffol.presentation.ui.ChipScreens
 import com.example.truffol.presentation.ui.Screens
 import com.example.truffol.presentation.ui.profileview.ProfileScreenContent
 
 @ExperimentalFoundationApi
 @Composable
 fun TruffleCategoryBlock(
-    truffleBlocks: Array<String>,
+    truffleBlocksNames: Array<String>,
     navController: NavController //Not used yet
 ) {
     val context = LocalContext.current
@@ -36,22 +37,28 @@ fun TruffleCategoryBlock(
         cells = GridCells.Fixed(2),
         contentPadding = PaddingValues(2.dp)
     ) {
-        items(truffleBlocks) {
+        items(truffleBlocksNames) { blockName ->
             Button(
                 modifier = Modifier.padding(all = 4.dp),
-                colors = ButtonDefaults
-                    .buttonColors(backgroundColor = Color.Black, contentColor = Color.White),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Black,
+                    contentColor = Color.White
+                ),
                 onClick = {
-                    Toast.makeText(context, "ToDo", Toast.LENGTH_SHORT).show()
-                    // TODO: 22.04.21 : Add Navigation and Destinations
-//                    navController.popBackStack(
-//                        navController.graph.startDestination, false
-//                    )
-//                    navController.navigate(Screens.BasketScreen.route)
+                    when (blockName) {
+                        "ChipAScreen" -> navController.navigate(ChipScreens.ChipAScreen.route)
+                        "ChipBScreen" -> navController.navigate(ChipScreens.ChipBScreen.route)
+                        "ChipCScreen" -> navController.navigate(ChipScreens.ChipCScreen.route)
+                        "ChipDScreen" -> navController.navigate(ChipScreens.ChipDScreen.route)
+                        else -> Toast.makeText(
+                            context, "Unknown destination",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             ) {
                 Text(
-                    text = it,
+                    text = blockName,
                     style = MaterialTheme.typography.body2,
                     color = Color.White,
                     modifier = Modifier.padding(4.dp)
@@ -66,10 +73,10 @@ fun TruffleCategoryBlock(
 @Composable
 fun PreviewTruffleCategoryBlock() {
     val truffleBlocks = arrayOf(
-        "Salse e creme",
-        "Tartufi in Vaso",
-        "Ricette al Tartufo",
-        "Tartuficoltura"
+        "ChipAScreen",
+        "ChipBScreen",
+        "ChipCScreen",
+        "ChipDScreen"
     )
     val navController: NavHostController = rememberNavController()
     TruffleCategoryBlock(truffleBlocks, navController)
