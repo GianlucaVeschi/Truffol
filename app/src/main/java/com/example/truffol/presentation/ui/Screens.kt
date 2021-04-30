@@ -14,6 +14,13 @@ sealed class Screens(val route: String, val label: String, val icon: ImageVector
     object BasketScreen : Screens("gotoBasketScreen", "Basket", Icons.Default.Favorite)
 }
 
+sealed class ChipScreens(val route: String) {
+    object ChipAScreen : ChipScreens("gotoChipAScreen")
+    object ChipBScreen : ChipScreens("gotoChipBScreen")
+    object ChipCScreen : ChipScreens("gotoChipCScreen")
+    object ChipDScreen : ChipScreens("gotoChipDScreen")
+}
+
 sealed class DetailScreens(val route: String) {
     object TruffleDetailScreen : DetailScreens("gotoTruffleDetailScreen")
     object ShopDetailScreen : DetailScreens("gotoShopDetailScreen")
