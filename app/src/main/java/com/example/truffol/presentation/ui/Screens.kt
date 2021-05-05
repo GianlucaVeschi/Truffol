@@ -15,7 +15,7 @@ sealed class Screens(val route: String, val label: String, val icon: ImageVector
 }
 
 sealed class ChipScreens(val route: String) {
-    object ChipAScreen : ChipScreens("gotoChipAScreen")
+    object RecipesScreen : ChipScreens("gotoRecipesScreen")
     object ChipBScreen : ChipScreens("gotoChipBScreen")
     object ChipCScreen : ChipScreens("gotoChipCScreen")
     object ChipDScreen : ChipScreens("gotoChipDScreen")

@@ -27,7 +27,6 @@ import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.truffol.presentation.ui.ChipScreens
 import com.example.truffol.presentation.ui.basket.BasketScreen
-import com.example.truffol.presentation.ui.truffleview.chips.ChipAScreen
 import com.example.truffol.presentation.util.CustomConnectivityManager
 import kotlinx.coroutines.*
 import timber.log.Timber

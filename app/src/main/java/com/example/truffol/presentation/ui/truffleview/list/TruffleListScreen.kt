@@ -33,10 +33,10 @@ import androidx.hilt.navigation.HiltViewModelFactory
 import com.example.truffol.presentation.components.*
 import com.example.truffol.presentation.components.theme.AppTheme
 import com.example.truffol.presentation.ui.ChipScreens
-import com.example.truffol.presentation.ui.truffleview.chips.ChipAScreen
 import com.example.truffol.presentation.ui.truffleview.chips.ChipBScreen
 import com.example.truffol.presentation.ui.truffleview.chips.ChipCScreen
 import com.example.truffol.presentation.ui.truffleview.chips.ChipDScreen
+import com.example.truffol.presentation.ui.truffleview.chips.RecipesScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalFoundationApi
@@ -68,8 +68,8 @@ fun TruffleListScreen(
             )
         }
 
-        composable(ChipScreens.ChipAScreen.route) {
-            ChipAScreen()
+        composable(ChipScreens.RecipesScreen.route) {
+            RecipesScreen()
         }
 
         composable(ChipScreens.ChipBScreen.route) {
@@ -133,7 +133,7 @@ private fun TruffleListScreenContent(
 @Composable
 fun TruffleCategoriesGrid(navController: NavController) {
     val truffleBlocks = arrayOf(
-        "ChipAScreen",
+        "RecipesScreen",
         "ChipBScreen",
         "ChipCScreen",
         "ChipDScreen"

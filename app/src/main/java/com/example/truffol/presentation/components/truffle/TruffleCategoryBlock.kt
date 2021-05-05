@@ -46,7 +46,7 @@ fun TruffleCategoryBlock(
                 ),
                 onClick = {
                     when (blockName) {
-                        "ChipAScreen" -> navController.navigate(ChipScreens.ChipAScreen.route)
+                        "RecipesScreen" -> navController.navigate(ChipScreens.RecipesScreen.route)
                         "ChipBScreen" -> navController.navigate(ChipScreens.ChipBScreen.route)
                         "ChipCScreen" -> navController.navigate(ChipScreens.ChipCScreen.route)
                         "ChipDScreen" -> navController.navigate(ChipScreens.ChipDScreen.route)
@@ -73,7 +73,7 @@ fun TruffleCategoryBlock(
 @Composable
 fun PreviewTruffleCategoryBlock() {
     val truffleBlocks = arrayOf(
-        "ChipAScreen",
+        "RecipesScreen",
         "ChipBScreen",
         "ChipCScreen",
         "ChipDScreen"

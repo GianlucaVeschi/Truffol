@@ -19,17 +19,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun ChipAScreen(
-    //navController: NavController,
-) {
+fun RecipesScreen() {
     Box(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Chip A", textAlign = TextAlign.Center)
+        Text(text = "Recipes", textAlign = TextAlign.Center)
     }
 }
 
 @ExperimentalCoroutinesApi
 @Composable
 @Preview
-fun PreviewChipAScreen() {
-    ChipAScreen()
+fun PreviewRecipesScreen() {
+    RecipesScreen()
 }

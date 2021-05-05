@@ -29,5 +29,5 @@ fun ChipDScreen(
 @Composable
 @Preview
 fun PreviewChipDScreen() {
-    ChipAScreen()
+    ChipDScreen()
 }
