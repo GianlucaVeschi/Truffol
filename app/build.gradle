@@ -53,6 +53,7 @@ android {
         correctErrorTypes = true
     }
 
+
 }
 // Add this line
 apply plugin: 'com.google.gms.google-services'
@@ -102,6 +103,7 @@ dependencies {
 
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // Dagger Core
     def dagger_version = "2.34.1"
     implementation "com.google.dagger:dagger:$dagger_version"
@@ -144,6 +146,9 @@ dependencies {
     // (Required) Writing and executing Unit Tests on the JUnit Platform
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.1"
+    testImplementation "junit:junit:4.13.2"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.3.2"
 
     //MockWebServer
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
