@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.truffol.db.model.ShopEntity
 import com.example.truffol.db.model.TruffleEntity
 
-@Database(entities = [ShopEntity::class, TruffleEntity::class], version = 3)
+@Database(entities = [ShopEntity::class, TruffleEntity::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun shopDao(): ShopDao
