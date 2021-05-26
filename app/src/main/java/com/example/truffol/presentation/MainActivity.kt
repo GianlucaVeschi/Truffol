@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                                 IconButton(
                                     onClick = {
                                         navHostController.popBackStack(
-                                            navHostController.graph.startDestination, false
+                                            navHostController.graph.startDestinationId, false
                                         )
                                         navHostController.navigate(Screens.BasketScreen.route)
                                     }) {
@@ -104,14 +104,13 @@ class MainActivity : AppCompatActivity() {
             Screens.TruffleListScreen,
             Screens.ProfileScreen
         )
+        val navController = rememberNavController()
 
         BottomNavigation(
             backgroundColor = Color.White
         ) {
-
-            val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
-
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
             bottomNavScreens.forEach {
                 BottomNavigationItem(
                     icon = { Icon(it.icon, contentDescription = null) },
@@ -119,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                     label = { Text(text = it.label) },
                     onClick = {
                         navHostController.popBackStack(
-                            navHostController.graph.startDestination, false
+                            navHostController.graph.startDestinationId, false
                         )
                         if (currentRoute != it.route) {
                             navHostController.navigate(it.route)
