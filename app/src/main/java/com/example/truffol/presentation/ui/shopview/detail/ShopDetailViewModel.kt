@@ -19,7 +19,6 @@ const val STATE_KEY_SHOP = "shop.state.shop.key"
 
 @HiltViewModel
 class ShopDetailViewModel @Inject constructor(
-    private val ShopRepositoryImpl: ShopRepositoryImpl,
     private val state: SavedStateHandle,
     private val getShopUseCase: GetShopUseCase
 ) : ViewModel() {

@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 // TODO: 28.12.20 : Write a mapper
 @Parcelize
 data class Shop(
-    @SerializedName("id")           val id: Int,
+    @SerializedName("id")           val shopId: Int,
     @SerializedName("title")        val shopName: String,
     @SerializedName("description")  val description: String,
     @SerializedName("image_url")    val image_url: String,

@@ -10,11 +10,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun TruffleDetailScreen(
-    navController: NavController,
-    truffleDetailViewModel: TruffleDetailViewModel
+    truffleDetailViewModel: TruffleDetailViewModel,
+    truffleId: Int?
 ) {
-    val truffleId = navController.previousBackStackEntry?.arguments?.getInt(Constants.TRUFFLE_KEY)!!
-    truffleId.let {
+    truffleId?.let {
         truffleDetailViewModel.onTriggerEvent(
             TruffleDetailEvent.GetTruffleDetailEvent(it)
         )
@@ -23,5 +22,4 @@ fun TruffleDetailScreen(
             TruffleDetailView(truffle = truffleDetail)
         }
     }
-
 }

@@ -7,7 +7,7 @@ class ShopDtoMapper : DomainMapper<ShopDto, Shop> {
 
     override fun mapToDomainModel(model: ShopDto): Shop {
         return Shop(
-            id = model.id,
+            shopId = model.id,
             shopName = model.shopName,
             description = model.description,
             image_url = model.image_url,
@@ -22,7 +22,7 @@ class ShopDtoMapper : DomainMapper<ShopDto, Shop> {
 
     override fun mapFromDomainModel(domainModel: Shop): ShopDto {
         return ShopDto(
-            id = domainModel.id,
+            id = domainModel.shopId,
             shopName = domainModel.shopName,
             description = domainModel.description,
             image_url = domainModel.image_url,
