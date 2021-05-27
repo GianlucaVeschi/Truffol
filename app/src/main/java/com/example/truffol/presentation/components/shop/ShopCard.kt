@@ -90,7 +90,7 @@ fun ShopCard(
 fun PreviewShopCard() {
     ShopCard(
         shop = Shop(
-            id = 1,
+            shopId = 1,
             shopName = "Acqualagna tartufi",
             description = "Molto famoso",
             image_url = "https=//www.acqualagnatartufi.com/wp-content/uploads/2020/10/acqualagna-tartufi-logo-1.png",

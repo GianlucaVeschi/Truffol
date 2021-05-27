@@ -14,8 +14,10 @@ import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.example.truffol.domain.model.Shop
 import com.example.truffol.presentation.components.ShopCard
@@ -33,22 +35,32 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun ShopListScreen(
     shopListViewModel: ShopListViewModel,
-    isNetworkAvailable: Boolean
+    isNetworkAvailable: Boolean,
 ) {
+    //Each NavController must be associated with a single NavHost composable.
+    val navHostController: NavHostController = rememberNavController()
 
-    val navController: NavHostController = rememberNavController()
-
-    NavHost(navController, startDestination = Screens.ShopListScreen.route) {
+    NavHost(navHostController, startDestination = Screens.ShopListScreen.route) {
 
         composable(Screens.ShopListScreen.route) {
-            ShopListScreenContent(shopListViewModel, navController, isNetworkAvailable)
+            ShopListScreenContent(shopListViewModel, navHostController, isNetworkAvailable)
         }
 
-        composable(DetailScreens.ShopDetailScreen.route) {
-            val factory = HiltViewModelFactory(LocalContext.current, it)
-            val shopDetailViewModel: ShopDetailViewModel = viewModel("ShopDetailViewModel", factory)
-            ShopDetailScreen(navController, shopDetailViewModel)
-        }
+        composable(
+            route = DetailScreens.ShopDetailScreen.route + "/{shopId}",
+            arguments = listOf(navArgument("shopId") {
+                type = NavType.IntType
+            })
+        ) {
+                val factory = HiltViewModelFactory(LocalContext.current, it)
+                val shopDetailViewModel: ShopDetailViewModel =
+                    viewModel("ShopDetailViewModel", factory)
+
+                ShopDetailScreen(
+                    shopDetailViewModel,
+                    it.arguments?.getInt("shopId"),
+                )
+            }
 
     }
 }
@@ -58,7 +70,7 @@ fun ShopListScreen(
 @Composable
 fun ShopListScreenContent(
     shopListViewModel: ShopListViewModel,
-    navController: NavController,
+    navHostController: NavHostController,
     isNetworkAvailable: Boolean,
 ) {
 
@@ -82,7 +94,7 @@ fun ShopListScreenContent(
                     LoadingListShimmer(imageHeight = 250.dp)
                 } else {
                     //ShopsLazyColumn(shopList, navController)
-                    ShopsGrid(shopList, navController)
+                    ShopsGrid(shopList, navHostController)
                 }
             }
         }
@@ -99,7 +111,7 @@ fun ShopsLazyColumn(shopList: List<Shop>, navController: NavController) {
             ShopCard(shop) {
                 navController.currentBackStackEntry?.arguments?.putInt(
                     SHOP_KEY,
-                    shop.id
+                    shop.shopId
                 )
                 navController.navigate(DetailScreens.ShopDetailScreen.route)
             }
@@ -111,18 +123,15 @@ fun ShopsLazyColumn(shopList: List<Shop>, navController: NavController) {
 @ExperimentalCoroutinesApi
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShopsGrid(shops: List<Shop>, navController: NavController) {
+fun ShopsGrid(shops: List<Shop>, navController: NavHostController) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(2)
     ) {
         items(shops) { shop ->
-            ShopCard(shop) {
-                navController.currentBackStackEntry?.arguments?.putInt(
-                    SHOP_KEY,
-                    shop.id
-                )
-                navController.navigate(DetailScreens.ShopDetailScreen.route)
-            }
+            ShopCard(shop, onClick = {
+                val route = DetailScreens.ShopDetailScreen.route + "/${shop.shopId}"
+                navController.navigate(route)
+            })
         }
     }
 }

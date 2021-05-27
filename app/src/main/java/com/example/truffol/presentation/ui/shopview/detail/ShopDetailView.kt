@@ -158,7 +158,7 @@ fun DisplayInfo(infotype: String, info: String) {
 @Composable
 fun ShopDetailScreenPreview() {
     val shop = Shop(
-        id = 10,
+        shopId = 10,
         shopName = "Tartufo Valmetauro Di Sartori Manuel",
         description = "La Ditta Sartori custode di questa antica tradizione, raccoglie e seleziona soltanto i frutti migliori, quelli cioè che hanno raggiunto il giusto grado di maturazione, e ne racchiude le proprietà con l’attenzione di chi ama il proprio lavoro, riuscendo così a restituirne integralmente tutta la fragranza.",
         image_url = "http://valmetauro.com/wp-content/themes/infringe/images/logo-azienda.png",

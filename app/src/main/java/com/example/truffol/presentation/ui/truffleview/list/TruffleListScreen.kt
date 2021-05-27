@@ -29,6 +29,8 @@ import com.example.truffol.presentation.ui.truffleview.detail.TruffleDetailScree
 import com.example.truffol.presentation.ui.truffleview.detail.TruffleDetailViewModel
 import com.example.truffol.util.Constants.TRUFFLE_KEY
 import androidx.hilt.navigation.HiltViewModelFactory
+import androidx.navigation.NavType
+import androidx.navigation.compose.navArgument
 import com.example.truffol.presentation.components.*
 import com.example.truffol.presentation.components.theme.AppTheme
 import com.example.truffol.presentation.ui.ChipScreens
@@ -47,6 +49,7 @@ fun TruffleListScreen(
     truffleListViewModel: TruffleListViewModel,
     isNetworkAvailable: Boolean
 ) {
+    //Each NavController must be associated with a single NavHost composable.
     val navHostController: NavHostController = rememberNavController()
 
     NavHost(navHostController, startDestination = Screens.TruffleListScreen.route) {
@@ -55,15 +58,19 @@ fun TruffleListScreen(
             TruffleListScreenContent(truffleListViewModel, navHostController, isNetworkAvailable)
         }
 
-        composable(DetailScreens.TruffleDetailScreen.route) {
-
+        composable(
+            route = DetailScreens.TruffleDetailScreen.route + "/{truffleId}",
+            arguments = listOf(navArgument("truffleId") {
+                type = NavType.IntType
+            })
+        ) {
             val factory = HiltViewModelFactory(LocalContext.current, it)
             val truffleDetailViewModel: TruffleDetailViewModel =
                 viewModel("RecipeDetailViewModel", factory)
 
             TruffleDetailScreen(
-                navController = navHostController,
-                truffleDetailViewModel = truffleDetailViewModel
+                truffleDetailViewModel = truffleDetailViewModel,
+                truffleId = it.arguments?.getInt("truffleId")
             )
         }
 
@@ -112,13 +119,8 @@ private fun TruffleListScreenContent(
     ) {
         Scaffold(
             topBar = {
-                BuildSearchBar(
-                    truffleListViewModel,
-                    query,
-                    selectedCategory
-                )
+                //BuildSearchBar(truffleListViewModel, query, selectedCategory)
             },
-            //drawerContent = { BuildDrawerContent() } //Not yet implemented
         ) {
             Column() {
                 TruffleCategoriesGrid(navController)
@@ -148,16 +150,16 @@ fun BuildSearchBar(
     selectedCategory: TruffleCategory?
 ) {
     // TODO: 22.04.21 : Complete this Api
-//    SearchAppBar(
-//        query = query,
-//        onQueryChanged = truffleListViewModel::onQueryChanged,
-//        onExecuteSearch = {
-//            truffleListViewModel.onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
-//        },
-//        categories = getAllTruffleCategories(),
-//        selectedCategory = selectedCategory,
-//        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged
-//    )
+    SearchAppBar(
+        query = query,
+        onQueryChanged = truffleListViewModel::onQueryChanged,
+        onExecuteSearch = {
+            truffleListViewModel.onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
+        },
+        categories = getAllTruffleCategories(),
+        selectedCategory = selectedCategory,
+        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged
+    )
 }
 
 @ExperimentalCoroutinesApi
@@ -174,13 +176,8 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                     items = truffles
                 ) { index, truffle ->
                     TruffleCard(truffle, onClick = {
-                        navController.currentBackStackEntry?.arguments?.putInt(
-                            TRUFFLE_KEY,
-                            truffle.id
-                        )
-                        navController.navigate(
-                            DetailScreens.TruffleDetailScreen.route
-                        )
+                        val route = DetailScreens.TruffleDetailScreen.route + "/${truffle.truffleId}"
+                        navController.navigate(route)
                     })
                 }
             }

@@ -25,7 +25,6 @@ import com.example.truffol.presentation.ui.truffleview.list.TruffleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.truffol.presentation.ui.ChipScreens
 import com.example.truffol.presentation.ui.basket.BasketScreen
 import com.example.truffol.presentation.util.CustomConnectivityManager
 import kotlinx.coroutines.*
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navHostController: NavHostController = rememberNavController()
+            val navHostController = rememberNavController()
             val isNetworkAvailable = connectivityManager.isNetworkAvailable.value
             Timber.d("onCreate: IS NETWORK AVAILABLE? $isNetworkAvailable")
 
@@ -69,9 +68,7 @@ class MainActivity : AppCompatActivity() {
                             actions = {
                                 IconButton(
                                     onClick = {
-                                        navHostController.popBackStack(
-                                            navHostController.graph.startDestinationId, false
-                                        )
+                                        navHostController.apply { popBackStack(graph.startDestinationId, false)}
                                         navHostController.navigate(Screens.BasketScreen.route)
                                     }) {
                                     Icon(
@@ -104,12 +101,11 @@ class MainActivity : AppCompatActivity() {
             Screens.TruffleListScreen,
             Screens.ProfileScreen
         )
-        val navController = rememberNavController()
 
         BottomNavigation(
             backgroundColor = Color.White
         ) {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val navBackStackEntry by navHostController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
             bottomNavScreens.forEach {
                 BottomNavigationItem(
@@ -140,17 +136,17 @@ class MainActivity : AppCompatActivity() {
         ) {
             composable(Screens.ShopListScreen.route) {
                 val factory = HiltViewModelFactory(LocalContext.current, it)
-                val viewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
+                val shopListViewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
                 ShopListScreen(
-                    viewModel,
+                    shopListViewModel = shopListViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value
                 )
             }
 
             composable(Screens.TruffleListScreen.route) {
-                val viewModel: TruffleListViewModel by viewModels()
+                val truffleListViewModel: TruffleListViewModel by viewModels()
                 TruffleListScreen(
-                    viewModel,
+                    truffleListViewModel = truffleListViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                 )
             }
@@ -159,6 +155,7 @@ class MainActivity : AppCompatActivity() {
                 ProfileScreen()
             }
 
+            //This shouldn't be here, as it is not part of the bottom navigation
             composable(Screens.BasketScreen.route) {
                 BasketScreen()
             }

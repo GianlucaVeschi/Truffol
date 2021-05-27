@@ -7,7 +7,7 @@ class TruffleDtoMapper : DomainMapper<TruffleDto, Truffle> {
 
     override fun mapToDomainModel(model: TruffleDto): Truffle {
         return Truffle(
-            id = model.id,
+            truffleId = model.id,
             tartufoName = model.tartufoName,
             description = model.description,
             image_url = model.image_url,
@@ -18,7 +18,7 @@ class TruffleDtoMapper : DomainMapper<TruffleDto, Truffle> {
 
     override fun mapFromDomainModel(domainModel: Truffle): TruffleDto {
         return TruffleDto(
-            id = domainModel.id,
+            id = domainModel.truffleId,
             tartufoName = domainModel.tartufoName,
             description = domainModel.description,
             image_url = domainModel.image_url,
