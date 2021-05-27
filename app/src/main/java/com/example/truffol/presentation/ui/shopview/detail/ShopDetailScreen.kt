@@ -11,14 +11,9 @@ import timber.log.Timber
 @ExperimentalCoroutinesApi
 @Composable
 fun ShopDetailScreen(
-    //navController: NavController,
     shopDetailViewModel: ShopDetailViewModel,
     shopId: Int?,
 ) {
-
-    //val shopDetail = navController.currentBackStackEntry?.arguments?.getInt(SHOP_KEY)
-    //Timber.d(shopDetail.toString())
-
     shopId?.let {
         shopDetailViewModel.onTriggerEvent(
             ShopDetailEvent.getShopDetailEvent(it)

@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
             composable(Screens.TruffleListScreen.route) {
                 val truffleListViewModel: TruffleListViewModel by viewModels()
                 TruffleListScreen(
-                    truffleListViewModel,
+                    truffleListViewModel = truffleListViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                 )
             }

@@ -64,7 +64,6 @@ fun TruffleListScreen(
                 type = NavType.IntType
             })
         ) {
-
             val factory = HiltViewModelFactory(LocalContext.current, it)
             val truffleDetailViewModel: TruffleDetailViewModel =
                 viewModel("RecipeDetailViewModel", factory)
