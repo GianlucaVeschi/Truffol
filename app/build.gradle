@@ -44,8 +44,9 @@ android {
         useIR = true
     }
 
+
     composeOptions {
-        def kotlin_compiler_extension_version = "1.0.0-beta02"
+        def kotlin_compiler_extension_version = "1.0.0-beta07"
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
 

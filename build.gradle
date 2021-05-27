@@ -2,7 +2,7 @@
 buildscript {
 
     ext {
-        kotlin_version = "1.4.31"
+        kotlin_version = "1.4.32"
         compose_version = '1.0.0-beta07'
     }
 
@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        def gradle = '7.0.0-alpha15'
+        def gradle = '7.0.0-beta02'
         classpath "com.android.tools.build:gradle:$gradle"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
