@@ -112,13 +112,8 @@ private fun TruffleListScreenContent(
     ) {
         Scaffold(
             topBar = {
-                BuildSearchBar(
-                    truffleListViewModel,
-                    query,
-                    selectedCategory
-                )
+                //BuildSearchBar(truffleListViewModel, query, selectedCategory)
             },
-            //drawerContent = { BuildDrawerContent() } //Not yet implemented
         ) {
             Column() {
                 TruffleCategoriesGrid(navController)
@@ -148,16 +143,16 @@ fun BuildSearchBar(
     selectedCategory: TruffleCategory?
 ) {
     // TODO: 22.04.21 : Complete this Api
-//    SearchAppBar(
-//        query = query,
-//        onQueryChanged = truffleListViewModel::onQueryChanged,
-//        onExecuteSearch = {
-//            truffleListViewModel.onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
-//        },
-//        categories = getAllTruffleCategories(),
-//        selectedCategory = selectedCategory,
-//        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged
-//    )
+    SearchAppBar(
+        query = query,
+        onQueryChanged = truffleListViewModel::onQueryChanged,
+        onExecuteSearch = {
+            truffleListViewModel.onTriggerEvent(TruffleListEvent.GetShuffledTruffleList)
+        },
+        categories = getAllTruffleCategories(),
+        selectedCategory = selectedCategory,
+        onSelectedCategoryChanged = truffleListViewModel::onSelectedCategoryChanged
+    )
 }
 
 @ExperimentalCoroutinesApi
