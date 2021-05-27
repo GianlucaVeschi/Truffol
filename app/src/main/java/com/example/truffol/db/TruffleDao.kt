@@ -13,21 +13,21 @@ interface TruffleDao {
     suspend fun insertTruffle(truffle: TruffleEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTruffles(Truffles: List<TruffleEntity>): LongArray
+    suspend fun insertTruffles(truffles: List<TruffleEntity>): LongArray
 
-    @Query("SELECT * FROM Truffles")
+    @Query("SELECT * FROM truffles")
     suspend fun getAllTruffles(): List<TruffleEntity>
 
-    @Query("SELECT * FROM Truffles WHERE id = :id")
+    @Query("SELECT * FROM truffles WHERE id = :id")
     suspend fun getTruffleById(id: Int): TruffleEntity?
 
-    @Query("DELETE FROM Truffles WHERE id IN (:ids)")
+    @Query("DELETE FROM truffles WHERE id IN (:ids)")
     suspend fun deleteTruffles(ids: List<Int>): Int
 
-    @Query("DELETE FROM Truffles")
+    @Query("DELETE FROM truffles")
     suspend fun deleteAllTruffles()
 
-    @Query("DELETE FROM Truffles WHERE id = :primaryKey")
+    @Query("DELETE FROM truffles WHERE id = :primaryKey")
     suspend fun deleteTruffle(primaryKey: Int): Int
 
 }
