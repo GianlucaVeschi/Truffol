@@ -4,6 +4,7 @@ import com.example.truffol.domain.model.Shop
 import com.example.truffol.network.RemoteDataSource
 import javax.inject.Inject
 
+//Not used, here just for reference
 class ShopRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : ShopRepository {

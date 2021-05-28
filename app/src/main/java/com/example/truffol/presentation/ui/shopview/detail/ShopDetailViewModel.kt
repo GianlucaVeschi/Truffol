@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.truffol.domain.model.Shop
 import com.example.truffol.interactors.shop.GetShopUseCase
-import com.example.truffol.presentation.ui.shopview.repo.ShopRepositoryImpl
 import com.example.truffol.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

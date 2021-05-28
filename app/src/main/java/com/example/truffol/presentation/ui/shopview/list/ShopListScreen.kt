@@ -30,6 +30,7 @@ import com.example.truffol.presentation.ui.shopview.detail.ShopDetailViewModel
 import com.example.truffol.util.Constants.SHOP_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -65,6 +66,7 @@ fun ShopListScreen(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -120,8 +122,8 @@ fun ShopsLazyColumn(shopList: List<Shop>, navController: NavController) {
 }
 
 
+@ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShopsGrid(shops: List<Shop>, navController: NavHostController) {
     LazyVerticalGrid(

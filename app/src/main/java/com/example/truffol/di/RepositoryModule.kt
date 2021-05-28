@@ -9,19 +9,23 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-object RepositoryModule {
+/**
+ * Repository currently not used, here just for reference
+ * */
 
-    @Singleton
-    @Provides
-    fun provideTruffleRepositoryImpl(remoteDataSource: RemoteDataSource) : TruffleRepositoryImpl{
-        return TruffleRepositoryImpl(remoteDataSource)
-    }
-
-    @Singleton
-    @Provides
-    fun provideShopRepositoryImpl(remoteDataSource: RemoteDataSource) : ShopRepositoryImpl {
-        return ShopRepositoryImpl(remoteDataSource)
-    }
-}
+//@Module
+//@InstallIn(SingletonComponent::class)
+//object RepositoryModule {
+//
+//    @Singleton
+//    @Provides
+//    fun provideTruffleRepositoryImpl(remoteDataSource: RemoteDataSource) : TruffleRepositoryImpl{
+//        return TruffleRepositoryImpl(remoteDataSource)
+//    }
+//
+//    @Singleton
+//    @Provides
+//    fun provideShopRepositoryImpl(remoteDataSource: RemoteDataSource) : ShopRepositoryImpl {
+//        return ShopRepositoryImpl(remoteDataSource)
+//    }
+//}

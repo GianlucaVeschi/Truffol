@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.truffol.domain.model.Shop
 import com.example.truffol.interactors.shop.SearchShopsUseCase
-import com.example.truffol.presentation.ui.shopview.repo.ShopRepositoryImpl
 import com.example.truffol.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -17,8 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShopListViewModel @Inject constructor(
-    private val searchShopsUseCase: SearchShopsUseCase,
-    private val shopRepositoryImpl: ShopRepositoryImpl
+    private val searchShopsUseCase: SearchShopsUseCase
 ) : ViewModel() {
 
     val shopList: MutableState<List<Shop>> = mutableStateOf(ArrayList())

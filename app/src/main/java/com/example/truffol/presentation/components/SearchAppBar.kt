@@ -33,7 +33,7 @@ fun SearchAppBar(
     selectedCategory: TruffleCategory?,
     onSelectedCategoryChanged: (String) -> Unit
 ) {
-    val focusManager = LocalFocusManager.current
+    //val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     Surface(
         modifier = Modifier

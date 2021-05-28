@@ -55,9 +55,6 @@ fun TruffleCard(
                     style = MaterialTheme.typography.h5
                 )
 
-                Spacer(modifier = Modifier.width(30.dp))
-                val secureRandom = SecureRandom()
-                val randomNumber = secureRandom.nextInt(100)
                 Text(
                     text = "€${truffle.price}/100g",
                     modifier = Modifier.align(Alignment.CenterVertically),

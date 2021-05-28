@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.truffol.domain.model.Shop
 import com.example.truffol.util.DEFAULT_SHOP_IMAGE
 import com.example.truffol.util.loadPicture
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
@@ -85,6 +86,7 @@ fun ShopCard(
     }
 }
 
+@ExperimentalCoroutinesApi
 @Preview
 @Composable
 fun PreviewShopCard() {

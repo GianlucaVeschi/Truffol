@@ -48,7 +48,6 @@ fun TruffleCardSlim(
                 )
 
                 Spacer(modifier = Modifier.width(30.dp))
-                val secureRandom = SecureRandom()
                 val randomNumber = SecureRandom().nextInt(100)
                 Text(
                     text = "${randomNumber}€",
