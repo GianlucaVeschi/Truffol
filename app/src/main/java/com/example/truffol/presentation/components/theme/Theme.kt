@@ -45,7 +45,7 @@ private val DarkThemeColors = darkColors(
 @ExperimentalMaterialApi
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = false,
+    darkTheme: Boolean,
     isNetworkAvailable: Boolean,
     displayProgressBar: Boolean,
     scaffoldState: ScaffoldState,

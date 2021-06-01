@@ -113,6 +113,7 @@ private fun TruffleListScreenContent(
 
     AppTheme(
         displayProgressBar = loading,
+        darkTheme = false, //TODO(Add Toggle)
         scaffoldState = scaffoldState,
         dialogQueue = dialogQueue.queue.value,
         isNetworkAvailable = isNetworkAvailable

@@ -55,15 +55,15 @@ fun ShopListScreen(
                 type = NavType.IntType
             })
         ) {
-                val factory = HiltViewModelFactory(LocalContext.current, it)
-                val shopDetailViewModel: ShopDetailViewModel =
-                    viewModel("ShopDetailViewModel", factory)
+            val factory = HiltViewModelFactory(LocalContext.current, it)
+            val shopDetailViewModel: ShopDetailViewModel =
+                viewModel("ShopDetailViewModel", factory)
 
-                ShopDetailScreen(
-                    shopDetailViewModel,
-                    it.arguments?.getInt("shopId"),
-                )
-            }
+            ShopDetailScreen(
+                shopDetailViewModel,
+                it.arguments?.getInt("shopId"),
+            )
+        }
 
     }
 }
@@ -87,6 +87,7 @@ fun ShopListScreenContent(
 
     AppTheme(
         displayProgressBar = loading,
+        darkTheme = false, //TODO(Add Toggle)
         scaffoldState = scaffoldState,
         isNetworkAvailable = isNetworkAvailable,
         dialogQueue = dialogQueue.queue.value,
