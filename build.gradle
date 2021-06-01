@@ -27,10 +27,6 @@ buildscript {
     }
 }
 
-plugins {
-    id "org.jetbrains.kotlin.android" version "1.4.21" apply false
-}
-
 allprojects {
     repositories {
         google()

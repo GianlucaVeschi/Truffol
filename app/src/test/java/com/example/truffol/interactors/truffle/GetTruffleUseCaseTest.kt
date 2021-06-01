@@ -17,10 +17,10 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test;
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
@@ -32,11 +32,10 @@ class GetTruffleUseCaseTest {
     private lateinit var baseUrl: HttpUrl
     private val DUMMY_TOKEN = "gg335v5453453" // can be anything
     private val DUMMY_QUERY = "This doesn't matter" // can be anything
-
-    // system in test
-
-    private lateinit var getTruffleUseCase: GetTruffleUseCase
     private val Truffle_ID = 1
+
+    // system under test
+    private lateinit var getTruffleUseCase: GetTruffleUseCase
 
     // Dependencies
     private lateinit var searchTrufflesUseCase: SearchTrufflesUseCase
@@ -49,7 +48,7 @@ class GetTruffleUseCaseTest {
     fun setup() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
-        baseUrl = mockWebServer.url("/api/recipe/")
+        baseUrl = mockWebServer.url("/api/tartufi/")
         truffleService = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
@@ -76,22 +75,22 @@ class GetTruffleUseCaseTest {
 
     /**
      * 1. Get some truffles from the network and insert into cache
-     * 2. Try to retrieve recipes by their specific recipe id
+     * 2. Try to retrieve truffles by their specific truffle id
      */
     @Test
-    fun getTrufflesFromNetwork_getTruffleById(): Unit = runBlocking {
+    fun `Correct behaviour of the UseCase`(): Unit = runBlocking {
         // condition the response
-        //mockWebServer.enqueue(
-        //    MockResponse()
-        //        .setResponseCode(HttpURLConnection.HTTP_OK)
-        //        .setBody(MockWebServerResponses.truffleResponse)
-        //)
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody(MockWebServerResponses.truffleResponse)
+        )
 
         // confirm the cache is empty to start
         assert(truffleDao.getAllTruffles().isEmpty())
 
-        // get recipes from network and insert into cache
-        //val searchResult = searchTrufflesUseCase.run().toList()
+        // get truffles from network and insert into cache
+        val searchResult = searchTrufflesUseCase.run().toList()
 
         // confirm the cache is no longer empty
         //assert(truffleDao.getAllTruffles().isNotEmpty())
@@ -102,11 +101,11 @@ class GetTruffleUseCaseTest {
         // first emission should be `loading`
         //assert(truffleAsFlow[0].loading)
 
-        // second emission should be the recipe
+        // second emission should be the truffle
         //val truffle = truffleAsFlow[1].data
         //assert(truffle?.id == Truffle_ID)
 
-        // confirm it is actually a Recipe object
+        // confirm it is actually a truffle object
         //assert(truffle is Truffle)
 
         // 'loading' should be false now
@@ -115,10 +114,10 @@ class GetTruffleUseCaseTest {
 
 
     /**
-     * 1. Try to get a recipe that does not exist in the cache
+     * 1. Try to get a truffle that does not exist in the cache
      * Result should be:
-     * 1. Recipe is retrieved from network and inserted into cache
-     * 2. Recipe is returned as flow from cache
+     * 1. truffle is retrieved from network and inserted into cache
+     * 2. truffle is returned as flow from cache
      */
     @Test
     fun attemptGetNullTruffleFromCache_getTruffleById(): Unit = runBlocking {
@@ -130,26 +129,26 @@ class GetTruffleUseCaseTest {
         )
 
         // confirm the cache is empty to start
-        //assert(recipeDao.getAllRecipes(1, 30).isEmpty())
+        //assert(truffleDao.getAlltruffles(1, 30).isEmpty())
 
         // run use case
-        //val recipeAsFlow = getRecipe.execute(RECIPE_ID, DUMMY_TOKEN, true).toList()
+        //val truffleAsFlow = gettruffle.execute(truffle_ID, DUMMY_TOKEN, true).toList()
 
         // first emission should be `loading`
-        //assert(recipeAsFlow[0].loading)
+        //assert(truffleAsFlow[0].loading)
 
-        // second emission should be the recipe
-        //val recipe = recipeAsFlow[1].data
-        //assert(recipe?.id == RECIPE_ID)
+        // second emission should be the truffle
+        //val truffle = truffleAsFlow[1].data
+        //assert(truffle?.id == truffle_ID)
 
-        // confirm the recipe is in the cache now
-        //assert(recipeDao.getRecipeById(RECIPE_ID)?.id == RECIPE_ID)
+        // confirm the truffle is in the cache now
+        //assert(truffleDao.gettruffleById(Truffle_ID)?.id == Truffle_ID)
 
-        // confirm it is actually a Recipe object
-        //assert(recipe is Recipe)
+        // confirm it is actually a truffle object
+        //assert(truffle is truffle)
 
         // 'loading' should be false now
-        //assert(!recipeAsFlow[1].loading)
+        //assert(!truffleAsFlow[1].loading)
     }
 
     @AfterEach
