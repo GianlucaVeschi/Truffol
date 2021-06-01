@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import com.example.truffol.presentation.ui.shopview.detail.ShopDetailViewModel
 import com.example.truffol.util.Constants.SHOP_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
@@ -66,6 +68,7 @@ fun ShopListScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
