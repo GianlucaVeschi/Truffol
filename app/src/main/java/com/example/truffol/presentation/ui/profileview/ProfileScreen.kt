@@ -24,20 +24,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.truffol.R
 import com.example.truffol.presentation.ui.Screens
 
-private val name = "Gianluca Veschi"
-private val email = "gianluca.veschi00@gmail.com"
-const val linkedInUrl = "https://www.linkedin.com/in/gianlucaveschi/"
-const val githubUrl = "https://github.com/GianlucaVeschi"
-const val githubRepoUrl = "https://github.com/GianlucaVeschi/Truffol"
-const val gianlucaWebsiteUrl = "https://gianlucaveschi.com"
+private const val name  = "Gianluca Veschi"
+private const val email = "gianluca.veschi00@gmail.com"
+private const val linkedInUrl   = "https://www.linkedin.com/in/gianlucaveschi/"
+private const val githubUrl     = "https://github.com/GianlucaVeschi"
+private const val githubRepoUrl = "https://github.com/GianlucaVeschi/Truffol"
+private const val gianlucaWebsiteUrl = "https://gianlucaveschi.com"
 
 //NOTE: This stuff should usually be in a parent activity/Navigator
 // We can pass callback to profileScreen to get the click.
@@ -55,16 +53,16 @@ private fun launchSocialActivity(context: Context, socialType: String) {
 @Composable
 fun ProfileScreen() {
 
-    val navController: NavHostController = rememberNavController()
+    val navController = rememberNavController()
 
     NavHost(navController, startDestination = Screens.ProfileScreen.route) {
-        composable(Screens.ProfileScreen.route) { ProfileScreenContent(navController) }
+        composable(Screens.ProfileScreen.route) { ProfileScreenContent() }
     }
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun ProfileScreenContent(navController: NavController) {
+fun ProfileScreenContent() {
     Scaffold {
         Box(
             modifier = Modifier
@@ -79,7 +77,7 @@ fun ProfileScreenContent(navController: NavController) {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
                 TopScrollingContent(scrollState)
-                BottomScrollingContent(navController)
+                BottomScrollingContent()
             }
         }
     }
@@ -99,7 +97,11 @@ fun TopScrollingContent(scrollState: ScrollState) {
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
-                text = "Android Developer based in Berlin.",
+                text = "Android Developer",
+                style = typography.subtitle2
+            )
+            Text(
+                text = "Berlin, Germany.",
                 style = typography.subtitle2
             )
         }
@@ -108,7 +110,7 @@ fun TopScrollingContent(scrollState: ScrollState) {
 
 @ExperimentalMaterialApi
 @Composable
-fun BottomScrollingContent(navController: NavController) {
+fun BottomScrollingContent() {
 
     Column(
         modifier = Modifier
@@ -116,7 +118,7 @@ fun BottomScrollingContent(navController: NavController) {
             .padding(8.dp)
     ) {
         AboutProjectSection()
-        MoreInfoSection(navController)
+        MoreInfoSection()
     }
 }
 
@@ -139,7 +141,7 @@ fun AboutProjectSection() {
 
 @ExperimentalMaterialApi
 @Composable
-fun MoreInfoSection(navController: NavController) {
+fun MoreInfoSection() {
     val context = LocalContext.current
     Text(
         text = "More Info",
