@@ -3,7 +3,6 @@ package com.example.truffol.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.example.truffol.network.RemoteDataSource
 import com.example.truffol.network.ShopService
 import com.example.truffol.network.TruffleService
 import com.example.truffol.network.model.ShopDtoMapper
@@ -22,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-//Not Used Anymore, Here only for ref
+//Not Used Anymore, Here just for ref
 const val POSTMAN_DB = "https://761b9ae7-1a9c-4756-ace0-1bae12bfbead.mock.pstmn.io/"
 const val HEROKU_DB = "https://my-tartufo-api.herokuapp.com/"
 
@@ -94,15 +93,16 @@ object NetworkModule {
             .create(TruffleService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideNetworkDataSource(
-        truffleService: TruffleService,
-        shopService: ShopService,
-        shopDtoMapper: ShopDtoMapper,
-        truffleDtoMapper: TruffleDtoMapper
-    ): RemoteDataSource {
-        return RemoteDataSource(truffleService, shopService,shopDtoMapper,truffleDtoMapper)
-    }
+/** Not used anymore, here just for reference */
+//    @Singleton
+//    @Provides
+//    fun provideNetworkDataSource(
+//        truffleService: TruffleService,
+//        shopService: ShopService,
+//        shopDtoMapper: ShopDtoMapper,
+//        truffleDtoMapper: TruffleDtoMapper
+//    ): RemoteDataSource {
+//        return RemoteDataSource(truffleService, shopService,shopDtoMapper,truffleDtoMapper)
+//    }
 
 }

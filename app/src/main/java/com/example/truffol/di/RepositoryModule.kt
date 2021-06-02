@@ -1,14 +1,5 @@
 package com.example.truffol.di
 
-import com.example.truffol.network.RemoteDataSource
-import com.example.truffol.presentation.ui.shopview.repo.ShopRepositoryImpl
-import com.example.truffol.presentation.ui.truffleview.repo.TruffleRepositoryImpl
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
-
 /**
  * Repository currently not used, here just for reference
  * */
