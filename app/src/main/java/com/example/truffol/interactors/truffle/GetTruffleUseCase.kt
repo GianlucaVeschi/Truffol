@@ -8,6 +8,7 @@ import com.example.truffol.network.TruffleService
 import com.example.truffol.network.model.TruffleDtoMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 /**
  * Retrieve a Truffle from the cache given it's unique id.
@@ -19,34 +20,22 @@ class GetTruffleUseCase(
     private val truffleDtoMapper: TruffleDtoMapper,
 ) {
 
-    fun run(
-        truffleId: Int,
-    ): Flow<DataState<Truffle>> = flow {
+    fun run(truffleId: Int): Flow<DataState<Truffle>> = flow {
         try {
             emit(DataState.loading())
 
-            var truffle = getTruffleFromCache(truffleId = truffleId)
-
+            var truffle = getTruffleFromCache(truffleId)
             if (truffle != null) {
+                Timber.d("Get Truffle $truffleId from the cache")
                 emit(DataState.success(truffle))
             }
-            // if the Truffle is null, it means it was not in the cache for some reason. So get from network.
             else {
+                // if null, it means Truffle was not in the cache for some reason. So get from network.
+                val networkTruffle = getTruffleFromNetwork(truffleId)
 
-                // TODO("Check if there is an internet connection")
-                // get Truffle from network
-                val networkTruffle = getTruffleFromNetwork(truffleId) // dto -> domain
+                insertTruffleIntoCache(networkTruffle)
+                truffle = getTruffleFromCache(truffleId)
 
-                // insert into cache
-                truffleDao.insertTruffle(
-                    // map domain -> entity
-                    entityMapper.mapToDomainModel(networkTruffle)
-                )
-
-                // get from cache
-                truffle = getTruffleFromCache(truffleId = truffleId)
-
-                // emit and finish
                 if (truffle != null) {
                     emit(DataState.success(truffle))
                 } else {
@@ -59,6 +48,12 @@ class GetTruffleUseCase(
         }
     }
 
+    private suspend fun insertTruffleIntoCache(networkTruffle: Truffle) {
+        truffleDao.insertTruffle(
+            entityMapper.mapToDomainModel(networkTruffle)
+        )
+    }
+
     private suspend fun getTruffleFromCache(truffleId: Int): Truffle? {
         return truffleDao.getTruffleById(truffleId)?.let { TruffleEntity ->
             entityMapper.mapFromDomainModel(TruffleEntity)
@@ -66,6 +61,7 @@ class GetTruffleUseCase(
     }
 
     private suspend fun getTruffleFromNetwork(truffleId: Int): Truffle {
+        // TODO("Check if there is an internet connection")
         return truffleDtoMapper.mapToDomainModel(
             truffleService.getTruffleDetail(truffleId).body()!!
         )

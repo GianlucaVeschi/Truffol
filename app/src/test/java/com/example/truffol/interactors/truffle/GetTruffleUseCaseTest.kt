@@ -30,8 +30,6 @@ class GetTruffleUseCaseTest {
     private val appDatabase = AppDatabaseFake()
     private lateinit var mockWebServer: MockWebServer
     private lateinit var baseUrl: HttpUrl
-    private val DUMMY_TOKEN = "gg335v5453453" // can be anything
-    private val DUMMY_QUERY = "This doesn't matter" // can be anything
     private val Truffle_ID = 1
 
     // system under test
@@ -48,7 +46,7 @@ class GetTruffleUseCaseTest {
     fun setup() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
-        baseUrl = mockWebServer.url("/api/tartufi/")
+        baseUrl = mockWebServer.url("/")
         truffleService = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
@@ -64,7 +62,7 @@ class GetTruffleUseCaseTest {
             dtoMapper = dtoMapper
         )
 
-        // instantiate the system in test
+        // instantiate the system under test
         getTruffleUseCase = GetTruffleUseCase(
             truffleDao = truffleDao,
             entityMapper = entityMapper,
@@ -89,27 +87,9 @@ class GetTruffleUseCaseTest {
         // confirm the cache is empty to start
         assert(truffleDao.getAllTruffles().isEmpty())
 
-        // get truffles from network and insert into cache
-        val searchResult = searchTrufflesUseCase.run().toList()
+        // get truffle from network and insert into cache
+        val searchResult = getTruffleUseCase.run(Truffle_ID)
 
-        // confirm the cache is no longer empty
-        //assert(truffleDao.getAllTruffles().isNotEmpty())
-
-        // run use case
-        //val truffleAsFlow = getTruffleUseCase.run(Truffle_ID).toList()
-
-        // first emission should be `loading`
-        //assert(truffleAsFlow[0].loading)
-
-        // second emission should be the truffle
-        //val truffle = truffleAsFlow[1].data
-        //assert(truffle?.id == Truffle_ID)
-
-        // confirm it is actually a truffle object
-        //assert(truffle is Truffle)
-
-        // 'loading' should be false now
-        //assert(!truffleAsFlow[1].loading)
     }
 
 
@@ -128,27 +108,7 @@ class GetTruffleUseCaseTest {
                 .setBody(MockWebServerResponses.truffleResponse)
         )
 
-        // confirm the cache is empty to start
-        //assert(truffleDao.getAlltruffles(1, 30).isEmpty())
 
-        // run use case
-        //val truffleAsFlow = gettruffle.execute(truffle_ID, DUMMY_TOKEN, true).toList()
-
-        // first emission should be `loading`
-        //assert(truffleAsFlow[0].loading)
-
-        // second emission should be the truffle
-        //val truffle = truffleAsFlow[1].data
-        //assert(truffle?.id == truffle_ID)
-
-        // confirm the truffle is in the cache now
-        //assert(truffleDao.gettruffleById(Truffle_ID)?.id == Truffle_ID)
-
-        // confirm it is actually a truffle object
-        //assert(truffle is truffle)
-
-        // 'loading' should be false now
-        //assert(!truffleAsFlow[1].loading)
     }
 
     @AfterEach
