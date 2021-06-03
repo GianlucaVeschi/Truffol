@@ -8,6 +8,7 @@ import com.example.truffol.network.ShopService
 import com.example.truffol.network.model.ShopDtoMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 class SearchShopsUseCase(
     private val shopDao: ShopDao,
@@ -20,17 +21,16 @@ class SearchShopsUseCase(
         try {
             emit(DataState.loading())
 
-            val shops = getShopsFromNetwork()
+            //Improve readability, remove when cache - network - cache logic works
+//            val shopsFromNetwork = getShopsFromNetwork()
+//            val shopsEntities = entityMapper.toEntityList(shopsFromNetwork)
+//            shopDao.insertShops(shopsEntities)
+//            val shops = getShopsFromCache()
+//            emit(DataState.success(shops))
 
-            // insert into cache
-            shopDao.insertShops(entityMapper.toEntityList(shops))
+            shopDao.insertShops(entityMapper.toEntityList(getShopsFromNetwork()))
+            emit(DataState.success(getShopsFromCache()))
 
-            // TODO: 08.03.21 : query the cache
-            val cacheResult = shopDao.getAllShops()
-
-            val list = entityMapper.fromEntityList(cacheResult)
-
-            emit(DataState.success(list))
         } catch (e: Exception) {
             emit(DataState.error<List<Shop>>(e.message ?: "Unknown Error"))
         }
@@ -38,8 +38,15 @@ class SearchShopsUseCase(
 
     // WARNING: This will throw exception if there is no network connection
     private suspend fun getShopsFromNetwork(): List<Shop> {
-        return dtoMapper.toDomainList(
-            shopService.getShopList().body()!!
+        Timber.d("Get Shops from the network")
+        val shopsFromNetwork = shopService.getShopList().body()!! //Might fail
+        return dtoMapper.toDomainList(shopsFromNetwork)
+    }
+
+    private suspend fun getShopsFromCache(): List<Shop> {
+        Timber.d("Get Shops from the cache")
+        return entityMapper.fromEntityList(
+            shopDao.getAllShops()
         )
     }
 }
