@@ -4,6 +4,8 @@ import com.example.truffol.cache.AppDatabaseFake
 import com.example.truffol.cache.TruffleDaoFake
 import com.example.truffol.db.model.TruffleEntityMapper
 import com.example.truffol.domain.model.Truffle
+import com.example.truffol.domain.util.DataState
+import com.example.truffol.interactors.responses.MockWebServerResponses
 import com.example.truffol.interactors.responses.MockWebServerResponses.truffleListResponse
 import com.example.truffol.network.TruffleService
 import com.example.truffol.network.model.TruffleDtoMapper
@@ -48,7 +50,7 @@ class SearchTrufflesUseCaseTest {
 
         truffleDao = TruffleDaoFake(appDatabaseFake = appDatabase)
 
-        // instantiate the system in test
+        // instantiate the system under test
         searchTrufflesUseCase = SearchTrufflesUseCase(
             truffleDao = truffleDao,
             truffleService = truffleService,
@@ -81,11 +83,7 @@ class SearchTrufflesUseCaseTest {
     fun getTrufflesFromNetwork_emitTrufflesFromCache(): Unit = runBlocking {
 
         // condition the response
-        mockWebServer.enqueue(
-            MockResponse()
-                .setResponseCode(HttpURLConnection.HTTP_OK)
-                .setBody(truffleListResponse)
-        )
+        setMockWebServerSuccessfulResponse()
 
         // confirm the cache is empty to start
         assert(truffleDao.getAllTruffles().isEmpty())
@@ -100,10 +98,80 @@ class SearchTrufflesUseCaseTest {
 
         // Second emission should be the list of truffles
         val truffles = flowItems[1].data
-        assert(truffles?.size?: 0 > 0)
+        assert(truffles?.size ?: 0 > 0)
 
         // confirm they are actually truffle objects
         assert(truffles?.get(index = 0) is Truffle)
+
+        assert(!flowItems[1].loading) // loading should be false now
+    }
+
+    @Test
+    fun `Confirm the cache is empty to start`(): Unit = runBlocking {
+        // condition the response
+        setMockWebServerSuccessfulResponse()
+
+        // confirm the cache is empty to start
+        assert(truffleDao.getAllTruffles().isEmpty())
+    }
+
+    @Test
+    fun `Confirm the cache is no longer empty`(): Unit = runBlocking {
+        // condition the response
+        setMockWebServerSuccessfulResponse()
+
+        val outputFlow = searchTrufflesUseCase.run().toList()
+
+        // confirm the cache is no longer empty
+        assert(truffleDao.getAllTruffles().isNotEmpty())
+    }
+
+    @Test
+    fun `Confirm first emission is loading`(): Unit = runBlocking {
+        // condition the response
+        setMockWebServerSuccessfulResponse()
+
+        val flowItems = searchTrufflesUseCase.run().toList()
+
+        // first emission should be `loading`
+        assert(flowItems[0].loading)
+    }
+
+    //Fails : Second Item = Expected Array but was Object
+    @Test
+    fun `Second emission should be the list of truffles`(): Unit = runBlocking {
+        // condition the response
+        setMockWebServerSuccessfulResponse()
+
+        val flowItems = searchTrufflesUseCase.run().toList()
+
+        // Second emission should be the list of truffles
+        val trufflesList = flowItems[1].data
+        assert(trufflesList?.size ?: 0 > 0)
+    }
+
+    //Fails : Second Item = Expected Array but was Object
+    @Test
+    fun `Confirm emitted items are actually truffle objects`(): Unit = runBlocking {
+        // condition the response
+        setMockWebServerSuccessfulResponse()
+
+        val flowItems = searchTrufflesUseCase.run().toList()
+
+        // confirm they are actually truffle objects
+        val trufflesList = flowItems.drop(1).first()
+        assert(trufflesList.data is List<Truffle>)
+    }
+
+    @Test
+    fun `Confirm loading is false`(): Unit = runBlocking {
+        // condition the response
+        setMockWebServerSuccessfulResponse()
+
+        // confirm the cache is empty to start
+        assert(truffleDao.getAllTruffles().isEmpty())
+
+        val flowItems = searchTrufflesUseCase.run().toList()
 
         assert(!flowItems[1].loading) // loading should be false now
     }
@@ -115,11 +183,7 @@ class SearchTrufflesUseCaseTest {
     fun getTrufflesFromNetwork_emitHttpError(): Unit = runBlocking {
 
         // condition the response
-        mockWebServer.enqueue(
-            MockResponse()
-                .setResponseCode(HttpURLConnection.HTTP_BAD_REQUEST)
-                .setBody("{}")
-        )
+        setMockWebServerFailedResponse()
 
         val flowItems = searchTrufflesUseCase.run().toList()
 
@@ -131,5 +195,25 @@ class SearchTrufflesUseCaseTest {
         assert(error != null)
 
         assert(!flowItems[1].loading) // loading should be false now
+    }
+
+    private fun runSystemUnderTest() = runBlocking {
+        searchTrufflesUseCase.run().toList()
+    }
+
+    private fun setMockWebServerSuccessfulResponse() {
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody(MockWebServerResponses.truffleResponse)
+        )
+    }
+
+    private fun setMockWebServerFailedResponse() {
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_BAD_REQUEST)
+                .setBody("{}")
+        )
     }
 }

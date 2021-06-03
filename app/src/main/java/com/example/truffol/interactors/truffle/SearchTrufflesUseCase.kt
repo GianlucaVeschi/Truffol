@@ -1,6 +1,7 @@
 package com.example.truffol.interactors.truffle
 
 import com.example.truffol.db.TruffleDao
+import com.example.truffol.db.model.TruffleEntity
 import com.example.truffol.db.model.TruffleEntityMapper
 import com.example.truffol.domain.model.Truffle
 import com.example.truffol.domain.util.DataState
@@ -8,8 +9,9 @@ import com.example.truffol.network.TruffleService
 import com.example.truffol.network.model.TruffleDtoMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
-class SearchTrufflesUseCase (
+class SearchTrufflesUseCase(
     private val truffleDao: TruffleDao,
     private val truffleService: TruffleService,
     private val entityMapper: TruffleEntityMapper,
@@ -17,27 +19,41 @@ class SearchTrufflesUseCase (
 ) {
 
     fun run(): Flow<DataState<List<Truffle>>> = flow {
-        try {
-            emit(DataState.loading())
+        emit(DataState.loading())
 
-            val truffles = getTrufflesFromNetwork()
+        //Try to get data from the cache
+        val truffleListFromCache = getTrufflesListFromCache()
 
-            truffleDao.insertTruffles(entityMapper.toEntityList(truffles))
-
-            val cacheResult = truffleDao.getAllTruffles()
-
-            val list = entityMapper.fromEntityList(cacheResult)
-
-            emit(DataState.success(list))
-        } catch (e: Exception) {
-            emit(DataState.error<List<Truffle>>(e.message ?: "Unknown Error"))
+        //If Data is not in the cache then get it from the network
+        if (truffleListFromCache.data.isNullOrEmpty()) {
+            emit(getTrufflesListFromNetwork())
+            val trufflesListFromNetwork: DataState<List<Truffle>> = getTrufflesListFromNetwork()
+            trufflesListFromNetwork.data?.let {
+                truffleDao.insertTruffles(entityMapper.toEntityList(it))
+            }
+            emit(getTrufflesListFromCache())
+        } else {
+            emit(truffleListFromCache)
         }
     }
 
-    // WARNING: This will throw exception if there is no network connection
-    private suspend fun getTrufflesFromNetwork(): List<Truffle> {
-        return dtoMapper.toDomainList(
-            truffleService.getTruffleList().body()!!
-        )
+    private suspend fun getTrufflesListFromCache(): DataState<List<Truffle>> = try {
+        Timber.d("Get Truffles from the cache")
+        val truffles = truffleDao.getAllTruffles()
+        DataState(entityMapper.fromEntityList(truffles))
+    } catch (exception: Exception) {
+        DataState.error(exception.message ?: "Unknown Error")
     }
+
+    // WARNING: This will throw exception if there is no network connection
+    private suspend fun getTrufflesListFromNetwork(): DataState<List<Truffle>> = try {
+        Timber.d("Get Truffles from the network")
+        val response = truffleService.getTruffleList()
+        response.takeIf { it.isSuccessful }?.body()?.let {
+            DataState(dtoMapper.toDomainList(it))
+        } ?: DataState.error(response.message() ?: "Unknown Error")
+    } catch (exception: Exception) {
+        DataState.error(exception.message ?: "Unknown Error")
+    }
+
 }

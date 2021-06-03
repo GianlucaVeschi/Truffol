@@ -18,35 +18,40 @@ class SearchShopsUseCase(
 ) {
 
     fun run(): Flow<DataState<List<Shop>>> = flow {
-        try {
-            emit(DataState.loading())
+        emit(DataState.loading())
 
-            //Improve readability, remove when cache - network - cache logic works
-//            val shopsFromNetwork = getShopsFromNetwork()
-//            val shopsEntities = entityMapper.toEntityList(shopsFromNetwork)
-//            shopDao.insertShops(shopsEntities)
-//            val shops = getShopsFromCache()
-//            emit(DataState.success(shops))
+        //Try to get data from the cache
+        val shopListFromCache = getShopsListFromCache()
 
-            shopDao.insertShops(entityMapper.toEntityList(getShopsFromNetwork()))
-            emit(DataState.success(getShopsFromCache()))
-
-        } catch (e: Exception) {
-            emit(DataState.error<List<Shop>>(e.message ?: "Unknown Error"))
+        //If Data is not in the cache then get it from the network
+        if (shopListFromCache.data.isNullOrEmpty()) {
+            emit(getShopsListFromNetwork())
+            val shopsListFromNetwork: DataState<List<Shop>> = getShopsListFromNetwork()
+            shopsListFromNetwork.data?.let {
+                shopDao.insertShops(entityMapper.toEntityList(it))
+            }
+            emit(getShopsListFromCache())
+        } else {
+            emit(shopListFromCache)
         }
     }
 
-    // WARNING: This will throw exception if there is no network connection
-    private suspend fun getShopsFromNetwork(): List<Shop> {
-        Timber.d("Get Shops from the network")
-        val shopsFromNetwork = shopService.getShopList().body()!! //Might fail
-        return dtoMapper.toDomainList(shopsFromNetwork)
+    private suspend fun getShopsListFromCache(): DataState<List<Shop>> = try {
+        Timber.d("Get Shops from the cache")
+        val shops = shopDao.getAllShops()
+        DataState(entityMapper.fromEntityList(shops))
+    } catch (exception: Exception) {
+        DataState.error(exception.message ?: "Unknown Error")
     }
 
-    private suspend fun getShopsFromCache(): List<Shop> {
-        Timber.d("Get Shops from the cache")
-        return entityMapper.fromEntityList(
-            shopDao.getAllShops()
-        )
+    // WARNING: This will throw exception if there is no network connection
+    private suspend fun getShopsListFromNetwork(): DataState<List<Shop>> = try {
+        Timber.d("Get Shops from the network")
+        val response = shopService.getShopList()
+        response.takeIf { it.isSuccessful }?.body()?.let {
+            DataState(dtoMapper.toDomainList(it))
+        } ?: DataState.error(response.message() ?: "Unknown Error")
+    } catch (exception: Exception) {
+        DataState.error(exception.message ?: "Unknown Error")
     }
 }
