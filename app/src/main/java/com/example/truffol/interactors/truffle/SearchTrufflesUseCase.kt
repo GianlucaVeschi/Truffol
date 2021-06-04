@@ -1,5 +1,6 @@
 package com.example.truffol.interactors.truffle
 
+import android.net.Network
 import com.example.truffol.db.TruffleDao
 import com.example.truffol.db.model.TruffleEntity
 import com.example.truffol.db.model.TruffleEntityMapper
@@ -30,6 +31,7 @@ class SearchTrufflesUseCase(
             trufflesListFromNetwork.data?.let {
                 truffleDao.insertTruffles(entityMapper.toEntityList(it))
             }
+            //todo: Handle unsuccessful case
         }
 
         //Finally emit data from the cache
@@ -51,6 +53,15 @@ class SearchTrufflesUseCase(
         response.takeIf { it.isSuccessful }?.body()?.let {
             DataState(dtoMapper.toDomainList(it))
         } ?: DataState.error(response.message() ?: "Unknown Error")
+    } catch (exception: Exception) {
+        DataState.error(exception.message ?: "Unknown Error")
+    }
+
+    private suspend fun handleTruffleListFromNetwork(dataFromNetwork: DataState<List<Truffle>?>): DataState<List<Truffle>> = try {
+        dataFromNetwork.data.takeIf { it != null }.let { truffleList ->
+            truffleDao.insertTruffles(entityMapper.toEntityList(truffleList!!))
+            DataState.success(truffleList)
+        }
     } catch (exception: Exception) {
         DataState.error(exception.message ?: "Unknown Error")
     }
