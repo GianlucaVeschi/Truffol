@@ -25,15 +25,14 @@ class SearchShopsUseCase(
 
         //If Data is not in the cache then get it from the network
         if (shopListFromCache.data.isNullOrEmpty()) {
-            emit(getShopsListFromNetwork())
             val shopsListFromNetwork: DataState<List<Shop>> = getShopsListFromNetwork()
             shopsListFromNetwork.data?.let {
                 shopDao.insertShops(entityMapper.toEntityList(it))
             }
-            emit(getShopsListFromCache())
-        } else {
-            emit(shopListFromCache)
         }
+
+        //Finally emit data from the cache
+        emit(getShopsListFromCache())
     }
 
     private suspend fun getShopsListFromCache(): DataState<List<Shop>> = try {
@@ -54,4 +53,6 @@ class SearchShopsUseCase(
     } catch (exception: Exception) {
         DataState.error(exception.message ?: "Unknown Error")
     }
+
+
 }

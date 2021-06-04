@@ -24,17 +24,16 @@ class SearchTrufflesUseCase(
         //Try to get data from the cache
         val truffleListFromCache = getTrufflesListFromCache()
 
-        //If Data is not in the cache then get it from the network
+        //If Data is not in the cache then get it from the network and save it in the cache
         if (truffleListFromCache.data.isNullOrEmpty()) {
-            emit(getTrufflesListFromNetwork())
             val trufflesListFromNetwork: DataState<List<Truffle>> = getTrufflesListFromNetwork()
             trufflesListFromNetwork.data?.let {
                 truffleDao.insertTruffles(entityMapper.toEntityList(it))
             }
-            emit(getTrufflesListFromCache())
-        } else {
-            emit(truffleListFromCache)
         }
+
+        //Finally emit data from the cache
+        emit(getTrufflesListFromCache())
     }
 
     private suspend fun getTrufflesListFromCache(): DataState<List<Truffle>> = try {
