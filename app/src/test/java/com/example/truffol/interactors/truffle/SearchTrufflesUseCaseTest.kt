@@ -70,7 +70,7 @@ class SearchTrufflesUseCaseTest {
      * 3. Are the truffles then emitted as a flow from the cache?
      */
     @Test
-    fun getTrufflesFromNetwork_emitTrufflesFromCache(): Unit = runBlocking {
+    fun `Simulate a full successful case`(): Unit = runBlocking {
 
         // condition the response
         setMockWebServerSuccessfulResponse()
@@ -92,6 +92,30 @@ class SearchTrufflesUseCaseTest {
 
         // confirm they are actually truffle objects
         assert(truffles?.get(index = 0) is Truffle)
+
+        assert(!flowItems[1].loading) // loading should be false now
+    }
+
+    @Test
+    fun `Simulate a full failure case`(): Unit = runBlocking {
+
+        // condition the response
+        setMockWebServerFailedResponse()
+
+        // confirm the cache is empty to start
+        assert(truffleDao.getAllTruffles().isEmpty())
+
+        val flowItems = runSystemUnderTest()
+
+        // confirm the cache is still empty
+        assert(truffleDao.getAllTruffles().isEmpty())
+
+        // first emission should be `loading`
+        assert(flowItems[0].loading)
+
+        // Second emission should be the a null list of truffles
+        val truffles = flowItems[1].data
+        assert(truffles == null)
 
         assert(!flowItems[1].loading) // loading should be false now
     }
