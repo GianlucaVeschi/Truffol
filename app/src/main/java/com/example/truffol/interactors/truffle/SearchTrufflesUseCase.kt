@@ -28,42 +28,56 @@ class SearchTrufflesUseCase(
         //If Data is not in the cache then get it from the network and save it in the cache
         if (truffleListFromCache.data.isNullOrEmpty()) {
             val trufflesListFromNetwork: DataState<List<Truffle>> = getTrufflesListFromNetwork()
-            trufflesListFromNetwork.data?.let {
-                truffleDao.insertTruffles(entityMapper.toEntityList(it))
-            }
-            //todo: Handle unsuccessful case
-        }
 
-        //Finally emit data from the cache
-        emit(getTrufflesListFromCache())
+            //If Data cannot be retrieved from network then emit error
+            if (trufflesListFromNetwork.data.isNullOrEmpty()) {
+                emit(trufflesListFromNetwork) //Will return error
+            } else {
+                truffleDao.insertTruffles(entityMapper.toEntityList(trufflesListFromNetwork.data))
+                emit(getTrufflesListFromCache())
+            }
+        } else {
+            emit(getTrufflesListFromCache())
+        }
     }
 
     private suspend fun getTrufflesListFromCache(): DataState<List<Truffle>> = try {
-        Timber.d("Get Truffles from the cache")
+        Timber.d("Trying to get Truffles from the $CACHE...")
         val truffles = truffleDao.getAllTruffles()
         DataState(entityMapper.fromEntityList(truffles))
     } catch (exception: Exception) {
-        DataState.error(exception.message ?: "Unknown Error")
+        handleError(exception.message, CACHE)
     }
 
     // WARNING: This will throw exception if there is no network connection
     private suspend fun getTrufflesListFromNetwork(): DataState<List<Truffle>> = try {
-        Timber.d("Get Truffles from the network")
+        Timber.d("Trying to get Truffles from the $NETWORK...")
         val response = truffleService.getTruffleList()
         response.takeIf { it.isSuccessful }?.body()?.let {
             DataState(dtoMapper.toDomainList(it))
-        } ?: DataState.error(response.message() ?: "Unknown Error")
+        } ?: handleError(response.message(), NETWORK)
     } catch (exception: Exception) {
-        DataState.error(exception.message ?: "Unknown Error")
+        handleError(exception.message , NETWORK)
     }
 
-    private suspend fun handleTruffleListFromNetwork(dataFromNetwork: DataState<List<Truffle>?>): DataState<List<Truffle>> = try {
-        dataFromNetwork.data.takeIf { it != null }.let { truffleList ->
-            truffleDao.insertTruffles(entityMapper.toEntityList(truffleList!!))
-            DataState.success(truffleList)
+    private suspend fun handleTruffleListFromNetwork(dataFromNetwork: DataState<List<Truffle>>): DataState<List<Truffle>> =
+        try {
+            dataFromNetwork.data.takeIf { !it.isNullOrEmpty() }?.let {
+                truffleDao.insertTruffles(entityMapper.toEntityList(it))
+                dataFromNetwork
+            } ?: handleError(dataFromNetwork.error, NETWORK)
+        } catch (exception: Exception) {
+            handleError(exception.message, NETWORK)
         }
-    } catch (exception: Exception) {
-        DataState.error(exception.message ?: "Unknown Error")
+
+    private fun handleError(exceptionMessage: String?, source: String): DataState<List<Truffle>> {
+        Timber.d("$source retrieval failed.")
+        return DataState.error(exceptionMessage ?: "Unknown Error")
     }
 
+    companion object {
+        const val NETWORK = "network"
+        const val CACHE = "cache"
+    }
 }
+

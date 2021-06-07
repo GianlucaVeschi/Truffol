@@ -34,7 +34,6 @@ class TruffleListViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 when (event) {
-                    //Pseudo use cases go here...
                     is TruffleListEvent.GetShuffledTruffleList -> {
                         getShuffledTruffleList()
                     }
@@ -90,16 +89,16 @@ class TruffleListViewModel @Inject constructor(
     private fun getTruffleListUseCase() {
         resetSearchState()
         searchTrufflesUseCase.run().onEach { dataState ->
-            Timber.d("getTruffleListUseCase: onLoading")
+            Timber.d("SearchTrufflesUseCase: onLoading")
             loading.value = dataState.loading
 
             dataState.data?.let { list ->
                 trufflesList.value = list
-                Timber.d("getTruffleListUseCase: onSuccess")
+                Timber.d("SearchTrufflesUseCase: onSuccess")
             }
 
             dataState.error?.let { error ->
-                Timber.e("getTruffleListUseCase: $error")
+                Timber.e("SearchTrufflesUseCase: $error")
                 dialogQueue.appendErrorMessage("An error appeared",error)
             }
         }.launchIn(viewModelScope)
