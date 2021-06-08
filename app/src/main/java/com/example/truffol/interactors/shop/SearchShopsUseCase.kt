@@ -19,7 +19,7 @@ class SearchShopsUseCase(
 ) {
 
     fun run(): Flow<DataState<List<Shop>>> = flow {
-        emit(DataState.loading())
+        //emit(DataState.loading())
 
         //Try to get data from the cache
         val shopsListFromCache = getShopsListFromCache()

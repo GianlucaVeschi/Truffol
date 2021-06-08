@@ -14,8 +14,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.truffol.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import com.bumptech.glide.request.RequestOptions
-
-
+import com.example.truffol.di.GlideApp
+import com.example.truffol.di.GlideModule
 
 
 const val DEFAULT_FOOD_IMAGE = R.drawable.empty_plate
@@ -29,7 +29,7 @@ fun loadPicture(url: String, @DrawableRes defaultImage: Int): MutableState<Bitma
     val options = RequestOptions().centerCrop()
 
     // show default image while image loads
-    Glide.with(LocalContext.current)
+    GlideApp.with(LocalContext.current)
         .asBitmap()
         .load(defaultImage)
         .apply(options)
@@ -44,7 +44,7 @@ fun loadPicture(url: String, @DrawableRes defaultImage: Int): MutableState<Bitma
         })
 
     // get network image
-    Glide.with(LocalContext.current)
+    GlideApp.with(LocalContext.current)
         .asBitmap()
         .load(url)
         .apply(options)

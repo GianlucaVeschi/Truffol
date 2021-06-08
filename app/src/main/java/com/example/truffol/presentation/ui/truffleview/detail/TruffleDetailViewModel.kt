@@ -49,21 +49,22 @@ class TruffleDetailViewModel @Inject constructor(
         loading.value = true
 
         getTruffleUseCase.run(truffleId).onEach { dataState ->
-            loading.value = dataState.loading
+
+            dataState.loading.let {
+                loading.value = dataState.loading
+                Timber.d("onLoading...")
+            }
 
             dataState.data?.let {
-                Timber.d(it.toString())
+                Timber.d("onSuccess ${it.tartufoName}")
                 truffle.value = it
             }
 
             dataState.error?.let { error ->
-                Timber.e("newSearch: ${error}")
+                Timber.d("GetTruffleUseCase onError $error")
                 // TODO("Handle error")
             }
         }.launchIn(viewModelScope)
-
-
-        Timber.d(truffle.toString())
 
         loading.value = false
     }

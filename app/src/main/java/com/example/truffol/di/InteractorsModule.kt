@@ -66,7 +66,7 @@ object InteractorsModule {
             truffleDao = truffleDao,
             truffleService = truffleService,
             entityMapper = entityMapper,
-            truffleDtoMapper = dtoMapper
+            dtoMapper = dtoMapper
         )
     }
 

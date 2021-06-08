@@ -17,30 +17,22 @@ class GetTruffleUseCase(
     private val truffleDao: TruffleDao,
     private val entityMapper: TruffleEntityMapper,
     private val truffleService: TruffleService,
-    private val truffleDtoMapper: TruffleDtoMapper,
+    private val dtoMapper: TruffleDtoMapper,
 ) {
 
     fun run(truffleId: Int): Flow<DataState<Truffle>> = flow {
         try {
-            emit(DataState.loading())
+            //Try to get data from the cache
+            val truffleFromCache : DataState<Truffle> = getTruffleFromCache(truffleId)
 
-            var truffle = getTruffleFromCache(truffleId)
-            if (truffle != null) {
-                Timber.d("Get Truffle $truffleId from the cache")
-                emit(DataState.success(truffle))
-            }
-            else {
-                // if null, it means Truffle was not in the cache for some reason. So get from network.
-                val networkTruffle = getTruffleFromNetwork(truffleId)
-
-                insertTruffleIntoCache(networkTruffle)
-                truffle = getTruffleFromCache(truffleId)
-
-                if (truffle != null) {
-                    emit(DataState.success(truffle))
-                } else {
-                    throw Exception("Unable to get Truffle from the cache.")
-                }
+            //If Data is not in the cache then get it from the network and save it in the cache
+            if (truffleFromCache.data == null) {
+                val truffleFromNetwork = getTruffleFromNetwork(truffleId)
+                truffleFromNetwork.data?.let { insertTruffleIntoCache(it) }
+                emit(truffleFromNetwork)
+                //emit(handleTruffleFromNetwork(truffleFromNetwork))
+            } else {
+                emit(truffleFromCache)
             }
 
         } catch (e: Exception) {
@@ -54,16 +46,45 @@ class GetTruffleUseCase(
         )
     }
 
-    private suspend fun getTruffleFromCache(truffleId: Int): Truffle? {
+    private suspend fun getTruffleFromCache2(truffleId: Int): Truffle? {
         return truffleDao.getTruffleById(truffleId)?.let { TruffleEntity ->
             entityMapper.mapFromDomainModel(TruffleEntity)
         }
     }
 
-    private suspend fun getTruffleFromNetwork(truffleId: Int): Truffle {
+    private suspend fun getTruffleFromNetwork2(truffleId: Int): Truffle {
         // TODO("Check if there is an internet connection")
-        return truffleDtoMapper.mapToDomainModel(
+        return dtoMapper.mapToDomainModel(
             truffleService.getTruffleDetail(truffleId).body()!!
         )
+    }
+
+    private suspend fun getTruffleFromCache(truffleId: Int): DataState<Truffle> = try {
+        Timber.d("Trying to get Truffle from the $CACHE...")
+        val truffleEntity = truffleDao.getTruffleById(truffleId)
+        val truffle = truffleEntity?.let { entityMapper.mapFromDomainModel(it) }
+        DataState(truffle)
+    } catch (exception: Exception) {
+        handleError(exception.message, CACHE)
+    }
+
+    private suspend fun getTruffleFromNetwork(truffleId: Int): DataState<Truffle> = try {
+        Timber.d("Trying to get Truffle from the $NETWORK...")
+        val response = truffleService.getTruffleDetail(truffleId)
+        response.takeIf { it.isSuccessful }?.body()?.let {
+            DataState(dtoMapper.mapToDomainModel(it))
+        } ?: handleError(response.message(), SearchTrufflesUseCase.NETWORK)
+    } catch (exception: Exception) {
+        handleError(exception.message, SearchTrufflesUseCase.NETWORK)
+    }
+
+    private fun handleError(exceptionMessage: String?, source: String): DataState<Truffle> {
+        Timber.d("$source retrieval failed.")
+        return DataState.error(exceptionMessage ?: "Unknown Error")
+    }
+
+    companion object {
+        const val NETWORK = "network"
+        const val CACHE = "cache"
     }
 }

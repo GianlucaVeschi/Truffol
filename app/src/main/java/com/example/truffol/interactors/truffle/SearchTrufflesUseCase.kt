@@ -20,8 +20,6 @@ class SearchTrufflesUseCase(
 ) {
 
     fun run(): Flow<DataState<List<Truffle>>> = flow {
-        emit(DataState.loading())
-
         //Try to get data from the cache
         val truffleListFromCache = getTrufflesListFromCache()
 
