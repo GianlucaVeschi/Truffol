@@ -47,14 +47,18 @@ class ShopListViewModel @Inject constructor(
 
     private fun getShopListUseCase() {
         searchShopsUseCase.run().onEach { dataState ->
-            loading.value = dataState.loading
+            dataState.loading.let {
+                Timber.d("SearchShopsUseCase: onLoading")
+                loading.value = it
+            }
 
             dataState.data?.let { list ->
+                Timber.d("SearchShopsUseCase: onSuccess")
                 shopList.value = list
             }
 
             dataState.error?.let { error ->
-                Timber.e("newSearch: ${error}")
+                Timber.e("SearchShopsUseCase onError: $error")
                 dialogQueue.appendErrorMessage("An Error Occurred", error)
             }
         }.launchIn(viewModelScope)
