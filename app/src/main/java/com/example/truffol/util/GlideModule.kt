@@ -1,4 +1,4 @@
-package com.example.truffol.di
+package com.example.truffol.util
 
 import android.content.Context
 import com.bumptech.glide.GlideBuilder
@@ -8,7 +8,7 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 
-
+//Not a HILT module, not relevant to DI
 @GlideModule
 class GlideModule : AppGlideModule() {
 

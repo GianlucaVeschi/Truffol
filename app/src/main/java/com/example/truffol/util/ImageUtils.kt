@@ -8,14 +8,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.truffol.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import com.bumptech.glide.request.RequestOptions
-import com.example.truffol.di.GlideApp
-import com.example.truffol.di.GlideModule
 
 
 const val DEFAULT_FOOD_IMAGE = R.drawable.empty_plate

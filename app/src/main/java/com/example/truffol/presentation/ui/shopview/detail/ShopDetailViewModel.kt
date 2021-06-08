@@ -36,7 +36,6 @@ class ShopDetailViewModel @Inject constructor(
     fun onTriggerEvent(detailEvent: ShopDetailEvent) {
         try {
             when (detailEvent) {
-                //UseCase #1
                 is ShopDetailEvent.getShopDetailEvent -> {
                     getShopDetailUseCase(detailEvent.id)
                 }
@@ -51,21 +50,20 @@ class ShopDetailViewModel @Inject constructor(
         loading.value = true
 
         getShopUseCase.run(shopId).onEach { dataState ->
-            loading.value = dataState.loading
 
+            dataState.loading.let {
+                loading.value = dataState.loading
+                Timber.d("onLoading...")
+            }
             dataState.data?.let {
-                Timber.d(it.toString())
+                Timber.d("onSuccess ${it.shopName}")
                 shop.value = it
             }
-
             dataState.error?.let { error ->
-                Timber.e("newSearch: ${error}")
-                dialogQueue.appendErrorMessage("An Error Occurred", error)
+                Timber.d("onError $error")
+                // TODO("Handle error")
             }
         }.launchIn(viewModelScope)
-
-
-        Timber.d(shop.toString())
 
         loading.value = false
     }
