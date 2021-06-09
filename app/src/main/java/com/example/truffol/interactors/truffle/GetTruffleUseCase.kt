@@ -10,9 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
-/**
- * Retrieve a Truffle from the cache given it's unique id.
- */
 class GetTruffleUseCase(
     private val truffleDao: TruffleDao,
     private val entityMapper: TruffleEntityMapper,
@@ -30,7 +27,7 @@ class GetTruffleUseCase(
                 val truffleFromNetwork = getTruffleFromNetwork(truffleId)
                 truffleFromNetwork.data?.let { insertTruffleIntoCache(it) }
                 emit(truffleFromNetwork)
-                //emit(handleTruffleFromNetwork(truffleFromNetwork))
+                //emit(handleTruffleFromNetwork(truffleFromNetwork)) //Might add later
             } else {
                 emit(truffleFromCache)
             }
@@ -43,19 +40,6 @@ class GetTruffleUseCase(
     private suspend fun insertTruffleIntoCache(networkTruffle: Truffle) {
         truffleDao.insertTruffle(
             entityMapper.mapToDomainModel(networkTruffle)
-        )
-    }
-
-    private suspend fun getTruffleFromCache2(truffleId: Int): Truffle? {
-        return truffleDao.getTruffleById(truffleId)?.let { TruffleEntity ->
-            entityMapper.mapFromDomainModel(TruffleEntity)
-        }
-    }
-
-    private suspend fun getTruffleFromNetwork2(truffleId: Int): Truffle {
-        // TODO("Check if there is an internet connection")
-        return dtoMapper.mapToDomainModel(
-            truffleService.getTruffleDetail(truffleId).body()!!
         )
     }
 

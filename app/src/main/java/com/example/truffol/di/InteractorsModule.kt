@@ -82,7 +82,7 @@ object InteractorsModule {
             shopDao = shopDao,
             shopService = shopService,
             entityMapper = entityMapper,
-            shopDtoMapper = dtoMapper
+            dtoMapper = dtoMapper
         )
     }
 }

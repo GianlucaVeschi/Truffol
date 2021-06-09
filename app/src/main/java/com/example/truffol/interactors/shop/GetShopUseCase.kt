@@ -8,6 +8,7 @@ import com.example.truffol.network.ShopService
 import com.example.truffol.network.model.ShopDtoMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 /**
  * Retrieve a shop from the cache given it's unique id.
@@ -16,58 +17,58 @@ class GetShopUseCase(
     private val shopDao: ShopDao,
     private val entityMapper: ShopEntityMapper,
     private val shopService: ShopService,
-    private val shopDtoMapper: ShopDtoMapper,
+    private val dtoMapper: ShopDtoMapper,
 ) {
 
-    fun run(
-        shopId: Int,
-    ): Flow<DataState<Shop>> = flow {
+    fun run(shopId: Int): Flow<DataState<Shop>> = flow {
         try {
-            emit(DataState.loading())
+            //Try to get data from the cache
+            val shopFromCache: DataState<Shop> = getShopFromCache(shopId)
 
-            var shop = getShopFromCache(shopId = shopId)
-
-            if (shop != null) {
-                emit(DataState.success(shop))
+            //If Data is not in the cache then get it from the network and save it in the cache
+            if (shopFromCache.data == null) {
+                val shopFromNetwork = getShopFromNetwork(shopId)
+                shopFromNetwork.data?.let { insertShopIntoCache(it) }
+                emit(shopFromNetwork)
+                //emit(handleShopFromNetwork(shopFromNetwork)) //Might add later
+            } else {
+                emit(shopFromCache)
             }
-            // if the Shop is null, it means it was not in the cache for some reason. So get from network.
-            else {
-
-                // TODO("Check if there is an internet connection")
-                // get Shop from network
-                val networkShop = getShopFromNetwork(shopId) // dto -> domain
-
-                // insert into cache
-                shopDao.insertShop(
-                    // map domain -> entity
-                    entityMapper.mapToDomainModel(networkShop)
-                )
-
-                // get from cache
-                shop = getShopFromCache(shopId = shopId)
-
-                // emit and finish
-                if (shop != null) {
-                    emit(DataState.success(shop))
-                } else {
-                    throw Exception("Unable to get Shop from the cache.")
-                }
-            }
-
         } catch (e: Exception) {
             emit(DataState.error<Shop>(e.message ?: "Unknown Error"))
         }
     }
 
-    private suspend fun getShopFromCache(shopId: Int): Shop? {
-        return shopDao.getShopById(shopId)?.let { ShopEntity ->
-            entityMapper.mapFromDomainModel(ShopEntity)
-        }
+    private suspend fun insertShopIntoCache(networkShop: Shop) {
+        shopDao.insertShop(entityMapper.mapToDomainModel(networkShop))
     }
 
-    private suspend fun getShopFromNetwork(shopId: Int): Shop {
-        return shopDtoMapper.mapToDomainModel(
-            shopService.getShopDetail(shopId).body()!!
-        )
+    private suspend fun getShopFromCache(shopId: Int): DataState<Shop> = try {
+        Timber.d("Trying to get Shop from the $CACHE...")
+        val shopEntity = shopDao.getShopById(shopId)
+        val shop = shopEntity?.let { entityMapper.mapFromDomainModel(it) }
+        DataState(shop)
+    } catch (exception: Exception) {
+        handleError(exception.message, CACHE)
+    }
+
+    private suspend fun getShopFromNetwork(shopId: Int): DataState<Shop> = try {
+        Timber.d("Trying to get shop from the $NETWORK...")
+        val response = shopService.getShopDetail(shopId)
+        response.takeIf { it.isSuccessful }?.body()?.let {
+            DataState(dtoMapper.mapToDomainModel(it))
+        } ?: handleError(response.message(), NETWORK)
+    } catch (exception: Exception) {
+        handleError(exception.message, NETWORK)
+    }
+
+    private fun handleError(exceptionMessage: String?, source: String): DataState<Shop> {
+        Timber.d("$source retrieval failed.")
+        return DataState.error(exceptionMessage ?: "Unknown Error")
+    }
+
+    companion object {
+        const val NETWORK = "network"
+        const val CACHE = "cache"
     }
 }

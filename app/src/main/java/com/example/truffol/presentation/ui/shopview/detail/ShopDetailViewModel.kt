@@ -50,7 +50,6 @@ class ShopDetailViewModel @Inject constructor(
         loading.value = true
 
         getShopUseCase.run(shopId).onEach { dataState ->
-
             dataState.loading.let {
                 loading.value = dataState.loading
                 Timber.d("onLoading...")
