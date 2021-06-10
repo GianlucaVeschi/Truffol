@@ -99,7 +99,7 @@ fun ShopListScreenContent(
                 if (loading) {
                     LoadingListShimmer(imageHeight = 250.dp)
                 } else {
-                    //ShopsLazyColumn(shopList, navController)
+                    //ShopsLazyColumn(shopList, navHostController)
                     ShopsGrid(shopList, navHostController)
                 }
             }
@@ -109,18 +109,15 @@ fun ShopListScreenContent(
 
 @ExperimentalCoroutinesApi
 @Composable
-fun ShopsLazyColumn(shopList: List<Shop>, navController: NavController) {
+fun ShopsLazyColumn(shopList: List<Shop>, navController: NavHostController) {
     LazyColumn {
         itemsIndexed(
             items = shopList,
         ) { index, shop ->
-            ShopCard(shop) {
-                navController.currentBackStackEntry?.arguments?.putInt(
-                    SHOP_KEY,
-                    shop.shopId
-                )
-                navController.navigate(DetailScreens.ShopDetailScreen.route)
-            }
+            ShopCard(shop, onClick = {
+                val route = DetailScreens.ShopDetailScreen.route + "/${shop.shopId}"
+                navController.navigate(route)
+            })
         }
     }
 }
