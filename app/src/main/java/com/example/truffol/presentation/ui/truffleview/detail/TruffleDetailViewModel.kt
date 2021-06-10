@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.truffol.domain.model.Truffle
 import com.example.truffol.interactors.truffle.GetTruffleUseCase
+import com.example.truffol.presentation.ui.util.DialogQueue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,6 +24,7 @@ class TruffleDetailViewModel @Inject constructor(
 
     val truffle: MutableState<Truffle?> = mutableStateOf(null)
     val loading = mutableStateOf(false)
+    val dialogQueue = DialogQueue()
 
     init {
         // restore if process dies
@@ -59,7 +61,7 @@ class TruffleDetailViewModel @Inject constructor(
             }
             dataState.error?.let { error ->
                 Timber.d("GetTruffleUseCase onError $error")
-                // TODO("Handle error")
+                dialogQueue.appendErrorMessage("An error appeared", error)
             }
         }.launchIn(viewModelScope)
 

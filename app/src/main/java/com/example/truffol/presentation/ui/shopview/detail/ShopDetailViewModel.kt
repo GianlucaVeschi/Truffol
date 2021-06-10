@@ -60,7 +60,7 @@ class ShopDetailViewModel @Inject constructor(
             }
             dataState.error?.let { error ->
                 Timber.d("onError $error")
-                // TODO("Handle error")
+                dialogQueue.appendErrorMessage("An error appeared", error)
             }
         }.launchIn(viewModelScope)
 

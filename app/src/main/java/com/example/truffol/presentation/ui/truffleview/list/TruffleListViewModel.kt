@@ -19,7 +19,7 @@ class TruffleListViewModel @Inject constructor(
     private val searchTrufflesUseCase: SearchTrufflesUseCase
 ) : ViewModel() {
 
-    val trufflesList: MutableState<List<Truffle>> = mutableStateOf(ArrayList())
+    val trufflesList: MutableState<List<Truffle>> = mutableStateOf(listOf())
     val query = mutableStateOf("")
     val selectedCategory: MutableState<TruffleCategory?> = mutableStateOf(null)
     var categoryScrollPosition: Float = 0f
@@ -61,7 +61,7 @@ class TruffleListViewModel @Inject constructor(
 
             dataState.error?.let { error ->
                 Timber.e("newSearch: ${error}")
-                dialogQueue.appendErrorMessage("An error appeared",error)
+                dialogQueue.appendErrorMessage("An error appeared", error)
             }
         }.launchIn(viewModelScope)
     }
@@ -78,7 +78,7 @@ class TruffleListViewModel @Inject constructor(
     }
 
     // TODO: 21.04.21
-    fun onSearchBarClicked(query: String){
+    fun onSearchBarClicked(query: String) {
 
     }
 
@@ -99,7 +99,7 @@ class TruffleListViewModel @Inject constructor(
 
             dataState.error?.let { error ->
                 Timber.e("SearchTrufflesUseCase: $error")
-                dialogQueue.appendErrorMessage("An error appeared",error)
+                dialogQueue.appendErrorMessage("An error appeared", error)
             }
         }.launchIn(viewModelScope)
     }
@@ -116,7 +116,7 @@ class TruffleListViewModel @Inject constructor(
         selectedCategory.value = null
     }
 
-    companion object{
+    companion object {
         private const val TAG = "TruffleListViewModel"
     }
 }

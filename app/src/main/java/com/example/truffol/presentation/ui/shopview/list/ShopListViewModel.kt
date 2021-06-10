@@ -20,7 +20,6 @@ class ShopListViewModel @Inject constructor(
 ) : ViewModel() {
 
     val shopList: MutableState<List<Shop>> = mutableStateOf(ArrayList())
-    //var categoryScrollPosition: Float = 0f
     val loading = mutableStateOf(false)
     val dialogQueue = DialogQueue()
 
