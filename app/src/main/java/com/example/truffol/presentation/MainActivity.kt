@@ -135,8 +135,8 @@ class MainActivity : AppCompatActivity() {
             startDestination = Screens.TruffleListScreen.route
         ) {
             composable(Screens.ShopListScreen.route) {
-                val factory = HiltViewModelFactory(LocalContext.current, it)
-                val shopListViewModel: ShopListViewModel = viewModel("ShopListViewModel", factory)
+                //val factory = HiltViewModelFactory(LocalContext.current, it)
+                val shopListViewModel: ShopListViewModel by viewModels()
                 ShopListScreen(
                     shopListViewModel = shopListViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value
