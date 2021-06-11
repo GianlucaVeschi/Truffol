@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var connectivityManager: CustomConnectivityManager
 
+    val shopListViewModel: ShopListViewModel by viewModels()
+    val truffleListViewModel: TruffleListViewModel by viewModels()
+
     override fun onStart() {
         super.onStart()
         connectivityManager.registerConnectionObserver(this)
@@ -135,8 +138,6 @@ class MainActivity : AppCompatActivity() {
             startDestination = Screens.TruffleListScreen.route
         ) {
             composable(Screens.ShopListScreen.route) {
-                //val factory = HiltViewModelFactory(LocalContext.current, it)
-                val shopListViewModel: ShopListViewModel by viewModels()
                 ShopListScreen(
                     shopListViewModel = shopListViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value
@@ -144,7 +145,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             composable(Screens.TruffleListScreen.route) {
-                val truffleListViewModel: TruffleListViewModel by viewModels()
                 TruffleListScreen(
                     truffleListViewModel = truffleListViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
