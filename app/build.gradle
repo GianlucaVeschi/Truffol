@@ -5,7 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id "de.mannodermaus.android-junit5"
-    id  "com.google.gms.google-services"
+    id "com.google.gms.google-services"
 }
 
 android {
@@ -112,21 +112,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     //Dagger - Hilt
-    def hilt_android = "2.33-beta"
-    implementation "com.google.dagger:hilt-android:$hilt_android"
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_android"
-
-    //Hilt ViewModel /* NOT USED YET */
-    //def hilt_lifecycle_viewmodel = "1.0.0-alpha03"
-    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_viewmodel"
-
-    //Hilt Navigation
-    def hilt_navigation = "1.0.0-beta01"
-    implementation "androidx.hilt:hilt-navigation:$hilt_navigation"
-
-    // LiveData /* NOT USED YET */
-    //def lifecycle_version = "2.3.0"
-    //implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation:$hilt_navigation_version"
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -140,11 +128,12 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     // (Required) Writing and executing Unit Tests on the JUnit Platform
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.7.1"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.1"
     testImplementation "junit:junit:4.13.2"
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.7.1"
+
 
     //MockWebServer
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
