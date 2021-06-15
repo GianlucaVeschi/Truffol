@@ -16,7 +16,7 @@ Mobile Android App to connect truffles retailers in Italy with customers in Germ
 ## ToDo
 - Junit Tests
 - Make sure State Hoisting is applied
-- Fix Recomposition error
+- Fix Navigation error
 
 ## Bottom Nav Screens
 ![Screenshot 2021-04-20 at 11 01 34](https://user-images.githubusercontent.com/19254758/115368985-ec4d8800-a1c7-11eb-82e9-5ec7c93282e4.png)
