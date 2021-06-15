@@ -30,6 +30,7 @@ import com.example.truffol.presentation.ui.shopview.detail.ShopDetailScreen
 import com.example.truffol.presentation.ui.shopview.detail.ShopDetailViewModel
 import com.example.truffol.util.Constants.SHOP_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
@@ -38,6 +39,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun ShopListScreen(
     shopListViewModel: ShopListViewModel,
+    shopDetailViewModel: ShopDetailViewModel,
     isNetworkAvailable: Boolean,
 ) {
     //Each NavController must be associated with a single NavHost composable.
@@ -55,10 +57,6 @@ fun ShopListScreen(
                 type = NavType.IntType
             })
         ) {
-            val factory = HiltViewModelFactory(LocalContext.current, it)
-            val shopDetailViewModel: ShopDetailViewModel =
-                viewModel("ShopDetailViewModel", factory)
-
             ShopDetailScreen(
                 shopDetailViewModel,
                 it.arguments?.getInt("shopId"),
@@ -132,6 +130,7 @@ fun ShopsGrid(shops: List<Shop>, navController: NavHostController) {
     ) {
         items(shops) { shop ->
             ShopCard(shop, onClick = {
+                Timber.d("onClick")
                 val route = DetailScreens.ShopDetailScreen.route + "/${shop.shopId}"
                 navController.navigate(route)
             })
