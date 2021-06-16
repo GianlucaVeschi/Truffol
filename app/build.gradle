@@ -44,16 +44,14 @@ android {
         useIR = true
     }
 
-
     composeOptions {
-        def kotlin_compiler_extension_version = "1.0.0-beta07"
+        def kotlin_compiler_extension_version = "1.0.0-beta08"
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
 
     kapt {
         correctErrorTypes = true
     }
-
 
 }
 // Add this line
@@ -112,11 +110,11 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     //Dagger - Hilt
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-navigation:$hilt_navigation_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
