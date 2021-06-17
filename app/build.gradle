@@ -85,19 +85,17 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
     // OkHttp
-    def okhttp_version = "3.14.9"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
     // Stetho network
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation "com.facebook.stetho:stetho:$stetho_version"
+    implementation "com.facebook.stetho:stetho-okhttp3:$stetho_version"
 
     // Gson
     implementation "com.google.code.gson:gson:$gson_version"
 
     // Retrofit2
-    def retrofit2_version = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
 
@@ -121,7 +119,6 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     //ROOM
-    def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     // optional - Kotlin Extensions and Coroutines support for Room
@@ -148,7 +145,7 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
 
     //Chucker interceptor
-    debugImplementation "com.github.chuckerteam.chucker:library:3.4.0"
-    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.4.0"
+    debugImplementation "com.github.chuckerteam.chucker:library:$chucker_version"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chucker_version"
 
 }
