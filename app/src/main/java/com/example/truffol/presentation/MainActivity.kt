@@ -26,6 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.truffol.presentation.ui.basket.BasketScreen
+import com.example.truffol.presentation.ui.shopview.detail.ShopDetailViewModel
+import com.example.truffol.presentation.ui.truffleview.detail.TruffleDetailViewModel
 import com.example.truffol.presentation.util.CustomConnectivityManager
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -37,8 +39,12 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var connectivityManager: CustomConnectivityManager
 
-    val shopListViewModel: ShopListViewModel by viewModels()
-    val truffleListViewModel: TruffleListViewModel by viewModels()
+    private val shopListViewModel: ShopListViewModel by viewModels()
+    private val truffleListViewModel: TruffleListViewModel by viewModels()
+
+    private val truffleDetailViewModel : TruffleDetailViewModel by viewModels()
+    private val shopDetailViewModel : ShopDetailViewModel by viewModels()
+
 
     override fun onStart() {
         super.onStart()
@@ -140,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             composable(Screens.ShopListScreen.route) {
                 ShopListScreen(
                     shopListViewModel = shopListViewModel,
+                    shopDetailViewModel = shopDetailViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value
                 )
             }
@@ -147,6 +154,7 @@ class MainActivity : AppCompatActivity() {
             composable(Screens.TruffleListScreen.route) {
                 TruffleListScreen(
                     truffleListViewModel = truffleListViewModel,
+                    truffleDetailViewModel = truffleDetailViewModel,
                     isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                 )
             }

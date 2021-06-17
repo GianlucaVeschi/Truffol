@@ -27,7 +27,6 @@ import com.example.truffol.presentation.ui.DetailScreens
 import com.example.truffol.presentation.ui.Screens
 import com.example.truffol.presentation.ui.truffleview.detail.TruffleDetailScreen
 import com.example.truffol.presentation.ui.truffleview.detail.TruffleDetailViewModel
-import com.example.truffol.util.Constants.TRUFFLE_KEY
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.navigation.NavType
 import androidx.navigation.compose.navArgument
@@ -47,6 +46,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun TruffleListScreen(
     truffleListViewModel: TruffleListViewModel,
+    truffleDetailViewModel: TruffleDetailViewModel,
     isNetworkAvailable: Boolean
 ) {
     //Each NavController must be associated with a single NavHost composable.
@@ -64,10 +64,6 @@ fun TruffleListScreen(
                 type = NavType.IntType
             })
         ) {
-            val factory = HiltViewModelFactory(LocalContext.current, it)
-            val truffleDetailViewModel: TruffleDetailViewModel =
-                viewModel("RecipeDetailViewModel", factory)
-
             TruffleDetailScreen(
                 truffleDetailViewModel = truffleDetailViewModel,
                 truffleId = it.arguments?.getInt("truffleId")
@@ -163,6 +159,7 @@ fun BuildSearchBar(
     )
 }
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
 fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController: NavController) {
@@ -176,8 +173,9 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                 itemsIndexed(
                     items = truffles
                 ) { index, truffle ->
-                    TruffleCard(truffle, onClick = {
-                        val route = DetailScreens.TruffleDetailScreen.route + "/${truffle.truffleId}"
+                    TruffleCard(truffle, onClickCard = {
+                        val route =
+                            DetailScreens.TruffleDetailScreen.route + "/${truffle.truffleId}"
                         navController.navigate(route)
                     })
                 }
