@@ -19,13 +19,15 @@ import com.example.truffol.util.DEFAULT_SHOP_IMAGE
 import com.example.truffol.util.loadPicture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalMaterialApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun ShopCard(
     shop: Shop,
-    onClick: () -> Unit,
+    onClickCard: () -> Unit,
 ) {
     Card(
+        onClick = onClickCard,
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
             .padding(
@@ -34,8 +36,7 @@ fun ShopCard(
                 top = 6.dp,
                 end = 8.dp
             )
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .fillMaxWidth(),
         elevation = 8.dp,
     ) {
         Column() {
@@ -86,6 +87,7 @@ fun ShopCard(
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Preview
 @Composable
@@ -101,7 +103,7 @@ fun PreviewShopCard() {
             email = "info@acqualagnatartufi.com",
             phone = "0721799310"
         ),
-        onClick = {
+        onClickCard = {
             // TODO: 08.02.21 onCLICK SHOP
         })
 }

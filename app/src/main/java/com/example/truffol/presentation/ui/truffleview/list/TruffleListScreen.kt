@@ -159,6 +159,7 @@ fun BuildSearchBar(
     )
 }
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
 fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController: NavController) {
@@ -172,7 +173,7 @@ fun BuildTrufflesList(truffles: List<Truffle>, isLoading: Boolean, navController
                 itemsIndexed(
                     items = truffles
                 ) { index, truffle ->
-                    TruffleCard(truffle, onClick = {
+                    TruffleCard(truffle, onClickCard = {
                         val route =
                             DetailScreens.TruffleDetailScreen.route + "/${truffle.truffleId}"
                         navController.navigate(route)

@@ -105,6 +105,7 @@ fun ShopListScreenContent(
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
 fun ShopsLazyColumn(shopList: List<Shop>, navController: NavHostController) {
@@ -112,7 +113,7 @@ fun ShopsLazyColumn(shopList: List<Shop>, navController: NavHostController) {
         itemsIndexed(
             items = shopList,
         ) { index, shop ->
-            ShopCard(shop, onClick = {
+            ShopCard(shop, onClickCard = {
                 val route = DetailScreens.ShopDetailScreen.route + "/${shop.shopId}"
                 navController.navigate(route)
             })
@@ -121,6 +122,7 @@ fun ShopsLazyColumn(shopList: List<Shop>, navController: NavHostController) {
 }
 
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -129,8 +131,7 @@ fun ShopsGrid(shops: List<Shop>, navController: NavHostController) {
         cells = GridCells.Fixed(2)
     ) {
         items(shops) { shop ->
-            ShopCard(shop, onClick = {
-                Timber.d("onClick")
+            ShopCard(shop, onClickCard = {
                 val route = DetailScreens.ShopDetailScreen.route + "/${shop.shopId}"
                 navController.navigate(route)
             })

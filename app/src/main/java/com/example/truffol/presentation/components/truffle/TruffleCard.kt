@@ -21,21 +21,22 @@ import com.example.truffol.util.loadPicture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.security.SecureRandom
 
+@ExperimentalMaterialApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun TruffleCard(
     truffle: Truffle,
-    onClick: () -> Unit,
+    onClickCard: () -> Unit,
 ) {
     Card(
+        onClick = onClickCard,
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
             .padding(
                 bottom = 6.dp,
                 top = 6.dp,
             )
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .fillMaxWidth(),
         elevation = 8.dp,
     ) {
         Column() {
@@ -98,6 +99,7 @@ fun DisplayCardImage(imageUrl : String){
         }
     }
 }
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Preview
 @Composable
@@ -111,7 +113,7 @@ fun PreviewTruffleCard() {
             9,
             99
         ),
-        onClick = {
+        onClickCard = {
             // TODO: 08.02.21 onCLICK Truffle
         })
 }
