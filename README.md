@@ -25,6 +25,6 @@ Mobile Android App to connect truffles retailers in Italy with customers in Germ
 ![Screenshot 2021-04-20 at 11 01 20](https://user-images.githubusercontent.com/19254758/115369012-f2dbff80-a1c7-11eb-9bfd-de6e1a2fee65.png)
 
 ## MAD Scoreboard
-summary.png![image](https://user-images.githubusercontent.com/19254758/134641335-71596345-3cd2-42ea-b8b2-1c519c050578.png)
+![image](https://user-images.githubusercontent.com/19254758/134641335-71596345-3cd2-42ea-b8b2-1c519c050578.png)
 
 
