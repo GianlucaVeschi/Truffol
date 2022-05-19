@@ -1,4 +1,4 @@
-name : Android Build
+name: Android Build
 
 on: push
 
@@ -14,6 +14,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
+      # Decode Google services configuration file
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > shoppingList/app/google-services.json
 
       - name: Run Tests
         run: ./gradlew test
