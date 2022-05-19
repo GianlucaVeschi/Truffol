@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "516707924951",
+    "project_id": "trufol-app",
+    "storage_bucket": "trufol-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516707924951:android:774f520926bfd0d221e992",
+        "android_client_info": {
+          "package_name": "com.example.truffol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516707924951-tpv77bml7be8914icqerob3ptbsjdrf8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDamZrIytpI_rXZJMyvwtpvXZWKEKO18iU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516707924951-tpv77bml7be8914icqerob3ptbsjdrf8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
